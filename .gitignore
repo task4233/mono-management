@@ -1,0 +1,35 @@
+*~
+
+# backend
+backend/repos
+backend/docker
+backend/vendor
+backend/test
+backend/.*
+
+# frontend
+frontend/public/
+frontend/html/
+frontend/node_modules
+frontend/npm-debug.log
+frontend/yarn-error.log
+frontend/.DS_Store
+frontend/.env.local
+frontend/.env.*.local
+frontend/src/assets/fonts
+
+sample/
+gh-pages/
+
+#vscode?
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# docker
+.docker-sync
+docker/db/data
