@@ -1,4 +1,6 @@
 *~
-/repos
-/.docker-sync
-/docker/db/data
+
+# backend
+/backend/repos
+/backend/.docker-sync
+/backend/docker/db/data
