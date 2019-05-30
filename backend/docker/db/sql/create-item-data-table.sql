@@ -3,8 +3,8 @@ drop table if exists `ItemData`;
 
 create table if not exists `ItemData`
 (
-  `dataId`         INT(8) AUTO_INCREMENT primary key,
-  `itemId`         INT(8) primary key,
+  `dataId`         INT(8) AUTO_INCREMENT,
+  `itemId`         INT(8),
   `num`            double,
   `str`            VARCHAR(64),
   `timestamp`      Date,
@@ -14,7 +14,8 @@ create table if not exists `ItemData`
     on delete restrict on update restrict,
   constraint fk_dataId
     foreign key (`dataId`)
-    references (`Data`)
-    on delete restrict on update restrict
+    references `Data` (`id`)
+    on delete restrict on update restrict,
+  primary key(`dataId`, `itemId`)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
