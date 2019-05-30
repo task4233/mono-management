@@ -1,0 +1,4 @@
+*~
+/repos
+/.docker-sync
+/docker/db/data
