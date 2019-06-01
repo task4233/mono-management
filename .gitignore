@@ -2,5 +2,5 @@
 
 # backend
 /backend/repos
-/backend/.docker-sync
-/backend/docker/db/data
+.docker-sync
+docker/db/data
