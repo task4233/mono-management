@@ -1,4 +1,9 @@
 -- Tag Table
+/*
+  Depending on User Table & Tag Table
+  Necessary to exist User Table & Tag Table
+*/
+
 drop table if exists `Tag`;
 
 create table if not exists `Tag`
@@ -7,11 +12,11 @@ create table if not exists `Tag`
   `name`           VARCHAR(64) NOT NULL,
   `parentId`       INT(8),
   `userId`         INT(8),
-  constraint fk_parentId
+  constraint foreignKey_parentId_from_Tag_to_Tag
     foreign key (`parentId`)
     references `Tag` (`id`)
     on delete restrict on update restrict,
-  constraint fk_userId
+  constraint foreignKey_userId_from_Tag_to_User
     foreign key (`userId`)
     references `User` (`id`)
     on delete restrict on update restrict

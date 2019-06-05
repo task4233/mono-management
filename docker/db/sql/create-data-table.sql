@@ -1,4 +1,5 @@
 -- Data Table
+
 drop table if exists `Data`;
 
 create table if not exists `Data`
