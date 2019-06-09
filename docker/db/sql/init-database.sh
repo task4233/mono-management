@@ -6,7 +6,7 @@ mysql --defaults-extra-file=/etc/mysql/my.cnf monoDB < "/docker-entrypoint-initd
 mysql --defaults-extra-file=/etc/mysql/my.cnf monoDB < "/docker-entrypoint-initdb.d/create-user-table.sql"
 mysql --defaults-extra-file=/etc/mysql/my.cnf monoDB < "/docker-entrypoint-initdb.d/create-tag-table.sql"
 mysql --defaults-extra-file=/etc/mysql/my.cnf monoDB < "/docker-entrypoint-initdb.d/create-data-table.sql"
-mysql --defaults-extra-file=/etc/mysql/my.cnf monoDB < "/docker-entrypoint-initdb.d/create-item-table.sql"
-mysql --defaults-extra-file=/etc/mysql/my.cnf monoDB < "/docker-entrypoint-initdb.d/create-item-data-table.sql"
-mysql --defaults-extra-file=/etc/mysql/my.cnf monoDB < "/docker-entrypoint-initdb.d/create-token-table.sql"
+# mysql --defaults-extra-file=/etc/mysql/my.cnf monoDB < "/docker-entrypoint-initdb.d/create-item-table.sql"
+# mysql --defaults-extra-file=/etc/mysql/my.cnf monoDB < "/docker-entrypoint-initdb.d/create-item-data-table.sql"
+# mysql --defaults-extra-file=/etc/mysql/my.cnf monoDB < "/docker-entrypoint-initdb.d/create-token-table.sql"
 

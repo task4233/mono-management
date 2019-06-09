@@ -1,6 +1,10 @@
 *~
 
 # backend
-/backend/repos
+backend/repos
+backend/docker
+backend/vendor
+
+# docker
 .docker-sync
 docker/db/data
