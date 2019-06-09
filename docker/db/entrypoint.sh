@@ -122,7 +122,8 @@ if [ "$1" = 'mysqld' -a -z "$wantHelp" ]; then
 		"$@" --skip-networking --socket="${SOCKET}" &
 		pid="$!"
 
-		mysql=( mysql --protocol=socket -uroot -hlocalhost --password="" --socket="${SOCKET}" )
+		mysql_wo_psw=( mysql --protocol=socket -uroot -hlocalhost --socket="${SOCKET}" )
+		mysql=( ${mysql_wo_psw[@]} --password="" )
 
 		for i in {30..0}; do
 			if echo 'SELECT 1' | "${mysql[@]}" &> /dev/null; then
@@ -171,6 +172,7 @@ if [ "$1" = 'mysqld' -a -z "$wantHelp" ]; then
 		EOSQL
 
 		if [ ! -z "$MYSQL_ROOT_PASSWORD" ]; then
+			mysql=( ${mysql_wo_psw[@]} )
 			mysql+=( -p"${MYSQL_ROOT_PASSWORD}" )
 		fi
 
