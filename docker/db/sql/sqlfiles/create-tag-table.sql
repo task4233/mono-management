@@ -11,7 +11,7 @@ create table if not exists `Tag`
   `id`             INT(8) AUTO_INCREMENT primary key,
   `name`           VARCHAR(64) NOT NULL,
   `parentId`       INT(8),
-  `userId`         INT(8),
+  `userId`         INT(8) NOT NULL,
   constraint foreignKey_parentId_from_Tag_to_Tag
     foreign key (`parentId`)
     references `Tag` (`id`)

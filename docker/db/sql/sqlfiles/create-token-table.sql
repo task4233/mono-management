@@ -9,7 +9,7 @@ drop table if exists `Token`;
 create table if not exists `Token`
 (
   `token`          VARCHAR(64) primary key,
-  `userId`         INT(8),
+  `userId`         INT(8) NOT NULL,
   constraint foreignKey_userId_from_Token_to_User
     foreign key (`userId`)
     references `User` (`id`)
