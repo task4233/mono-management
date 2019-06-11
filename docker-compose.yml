@@ -5,12 +5,8 @@ services:
   db:
     image: mysql:8.0
     container_name: mysql_host
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: monoDB
-      MYSQL_USER: docker
-      MYSQL_PASSWORD: docker
-      TZ: 'Asia/Tokyo'
+    env_file:
+    - ./docker/mysql.env
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
     - ./docker/db/data:/var/lib/mysql
