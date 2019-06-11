@@ -1,6 +1,6 @@
 package main
 
-import(
+import (
 	"context"
 	"log"
 	"net/http"
@@ -8,44 +8,18 @@ import(
 	"os/signal"
 	"syscall"
 	"time"
-
 	// routes
 	// relative path from ./vender
 	//"github.com/task4233/mono-management/backend/router"
-	
-	"github.com/gin-gonic/gin"
-)
-
-type(
-	User struct{
-		Name string `db: "name" json: "name"`
-		Pass string `db: "pass" json: "pass"`
-	}
+	"./router"
 )
 
 func main() {
-	router := gin.Default()
 
-	// Routes
-	// grouping
-	api := router.Group("api")
-	{
-		v1 := api.Group("v1")
-		{
-			// mono
-			mono := v1.Group("mono")
-			{
-				// CRUD
-				mono.GET("/", getMonos)
-				mono.POST("/new", createMono)
-				mono.PUT("/:monoId", updateMonos)
-				mono.DELETE("/:monoId", deleteMono)
-			}
-		}
-	}
+	router := router.Create()
 
 	srv := &http.Server{
-	  Addr: ":8080",
+		Addr:    ":8080",
 		Handler: router,
 	}
 
@@ -71,40 +45,5 @@ func main() {
 		log.Println("timeout of 5 seconds.")
 	}
 	log.Println("Server exiting")
-	
-}
 
-func getMonos(c *gin.Context) {
-	// samp
-	c.JSON(http.StatusOK, "get")
-}
-
-func createMono(c *gin.Context) {
-	// samp
-	var user User
-	c.Bind(&user)
-
-	log.Println(user)
-	
-	c.JSON(http.StatusOK, "create")
-}
-
-func updateMonos(c *gin.Context) {
-	// samp
-	var user User
-	c.Bind(&user)
-
-	log.Println(user)
-	
-	c.JSON(http.StatusOK, "update")
-}
-
-func deleteMono(c *gin.Context) {
-	// samp
-	var user User
-	c.Bind(&user)
-
-	log.Println(user)
-	
-	c.JSON(http.StatusOK, "delete")
 }
