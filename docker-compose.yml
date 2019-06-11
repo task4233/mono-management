@@ -1,23 +1,43 @@
 version: '3'
 
 services:
+  # Golang
+  api:
+    image: golang:1.12.5
+    container_name: goapi_host
+    env_file:
+    - ./docker/mysql.env
+    command: /bin/bash -c "go get -u github.com/golang/dep/cmd/dep && cd /go/src/app && dep ensure && go run ./main.go"
+    volumes:
+    - ./backend:/go/src/app:ro
+    links:
+    - db
+    expose:
+    - 8080
   # MySQL
   db:
     image: mysql:8.0
     container_name: mysql_host
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: monoDB
-      MYSQL_USER: docker
-      MYSQL_PASSWORD: docker
-      TZ: 'Asia/Tokyo'
+    env_file:
+    - ./docker/mysql.env
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
     - ./docker/db/data:/var/lib/mysql
     - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
     - ./docker/db/sql:/docker-entrypoint-initdb.d
     - ./docker/db/entrypoint.sh:/entrypoint.sh
+    expose:
+    - 3306
+  # nginx
+  nginx_host:
+    image: nginx:1.17.0
+    container_name: nginx_host
+    volumes:
+    - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+    - ./frontend/html:/usr/share/nginx/html:ro
+    links:
+    - api
     ports:
-    - 3306:3306
+    - 80:80
 
-    
