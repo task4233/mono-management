@@ -5,6 +5,29 @@ backend/repos
 backend/docker
 backend/vendor
 
+# frontend
+frontend/node_modules
+frontend/dist/
+frontend/npm-debug.log
+frontend/yarn-error.log
+
+frontend/html/.DS_Store
+frontend/html/node_modules
+
+frontend/html/.env.local
+frontend/html/.env.*.local
+frontend/html/npm-debug.log*
+frontend/html/yarn-debug.log*
+frontend/html/yarn-error.log*
+
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
 # docker
 .docker-sync
 docker/db/data
