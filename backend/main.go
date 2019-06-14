@@ -8,10 +8,13 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
 	// routes
 	// relative path from ./vender
 	//"github.com/task4233/mono-management/backend/router"
-	"./router"
+
+    // router
+	"github.com/task4233/mono-management/backend/router"
 )
 
 func main() {

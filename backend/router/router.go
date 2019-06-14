@@ -1,8 +1,10 @@
 package router
 
 import (
-	"../internal"
 	"github.com/gin-gonic/gin"
+
+    // internal
+    "github.com/task4233/mono-management/backend/internal"
 )
 
 // Create return router
