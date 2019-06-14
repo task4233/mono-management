@@ -4,7 +4,7 @@ import "github.com/gin-gonic/gin"
 
 func main() {
 	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
+	r.GET("/api/ping", func(c *gin.Context) {
         c.Header("Access-Control-Allow-Origin", "*")
         c.Header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
         c.Header("Access-Control-Max-Age", "86400")
