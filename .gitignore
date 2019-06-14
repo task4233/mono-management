@@ -19,7 +19,6 @@ frontend/html/.env.*.local
 frontend/html/npm-debug.log*
 frontend/html/yarn-debug.log*
 frontend/html/yarn-error.log*
-
 frontend/public
 sample/
 
