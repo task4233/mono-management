@@ -4,6 +4,7 @@
 backend/repos
 backend/docker
 backend/vendor
+backend/test
 
 # frontend
 frontend/node_modules
