@@ -10,7 +10,8 @@ services:
     command: >
       /bin/bash -c "go get -u github.com/golang/dep/cmd/dep &&
       cd /go/src/app &&
-      dep init ||
+      rm -rf ./vender Gopkg.* && 
+      dep init &&
       dep ensure &&
       go run ./main.go"
     volumes:
@@ -31,8 +32,8 @@ services:
     - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
     - ./docker/db/sql:/docker-entrypoint-initdb.d
     - ./docker/db/entrypoint.sh:/entrypoint.sh
-    ports:
-    - 3306:3306
+    expose:
+    - 3306
   # nginx
   nginx_host:
     image: nginx:1.17.0
@@ -45,7 +46,3 @@ services:
     - api
     ports:
     - 80:80
-
-networks:
-  test-network:
-    external: true
