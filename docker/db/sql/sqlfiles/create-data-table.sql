@@ -1,8 +1,8 @@
--- Data Table
+-- datas Table
 
-drop table if exists `Data`;
+drop table if exists `datas`;
 
-create table if not exists `Data`
+create table if not exists `datas`
 (
   `id`             INT(8) AUTO_INCREMENT primary key,
   `name`           VARCHAR(64) NOT NULL,
