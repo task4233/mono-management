@@ -10,11 +10,16 @@ services:
     command: >
       /bin/bash -c "go get -u github.com/golang/dep/cmd/dep &&
       cd /go/src/app &&
+<<<<<<< HEAD
       dep init ||
+=======
+      rm -rf ./vender Gopkg.* && 
+      dep init &&
+>>>>>>> cc9ca9b... [CHANGE] directory structures
       dep ensure &&
       go run ./main.go"
     volumes:
-    - ./backend:/go/src/app
+    - ./connection-test/goapi2mysql-connection:/go/src/app
     links:
     - db
     expose:
@@ -40,7 +45,7 @@ services:
     volumes:
     - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
-    - ./sample/public:/usr/share/nginx/html:ro
+    - ./connection-test/nginx2goapi-connection/public:/usr/share/nginx/html:ro
     links:
     - api
     ports:
