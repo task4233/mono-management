@@ -10,13 +10,8 @@ services:
     command: >
       /bin/bash -c "go get -u github.com/golang/dep/cmd/dep &&
       cd /go/src/app &&
-<<<<<<< HEAD
       rm -rf ./vendor Gopkg.* && 
       dep init &&
-=======
-      rm -rf ./vender
-      dep init ||
->>>>>>> 4a15b40... confirmed from goapi_host to mysql_host
       dep ensure &&
       go run ./main.go"
     volumes:
