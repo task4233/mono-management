@@ -20,9 +20,7 @@ frontend/html/npm-debug.log*
 frontend/html/yarn-debug.log*
 frontend/html/yarn-error.log*
 
-sample/
-
-
+# connection-test
 connection-test/goapi2mysql-connection/vendor/
 connection-test/goapi2mysql-connection/Gopkg.*
 
