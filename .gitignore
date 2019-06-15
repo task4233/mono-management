@@ -22,7 +22,9 @@ frontend/html/yarn-error.log*
 
 sample/
 
-connection-test/goapi2mysql-connection/vendor
+
+connection-test/goapi2mysql-connection/vendor/
+connection-test/goapi2mysql-connection/Gopkg.*
 
 .idea
 .vscode
