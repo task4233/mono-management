@@ -22,6 +22,8 @@ frontend/html/yarn-error.log*
 
 sample/
 
+connection-test/goapi2mysql-connection/vendor
+
 .idea
 .vscode
 *.suo
