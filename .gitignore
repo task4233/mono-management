@@ -4,6 +4,7 @@
 backend/repos
 backend/docker
 backend/vendor
+backend/test
 
 # frontend
 frontend/node_modules
@@ -19,6 +20,8 @@ frontend/html/.env.*.local
 frontend/html/npm-debug.log*
 frontend/html/yarn-debug.log*
 frontend/html/yarn-error.log*
+frontend/public
+sample/
 
 .idea
 .vscode
