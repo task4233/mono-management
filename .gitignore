@@ -22,8 +22,8 @@ frontend/html/yarn-debug.log*
 frontend/html/yarn-error.log*
 
 # connection-test
-connection-test/goapi2mysql-connection/vendor/
-connection-test/goapi2mysql-connection/Gopkg.*
+test/connection-test/goapi2mysql-connection/vendor/
+test/connection-test/goapi2mysql-connection/Gopkg.*
 
 .idea
 .vscode
