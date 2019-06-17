@@ -1,5 +1,9 @@
 *~
 
+# frontend
+frontend/node_modules
+frontend/public
+
 # backend
 backend/repos
 backend/docker
