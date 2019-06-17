@@ -15,7 +15,7 @@ services:
       dep ensure &&
       go run ./main.go"
     volumes:
-    - ./connection-test/goapi2mysql-connection:/go/src/app
+    - ./backend:/go/src/app
     links:
     - db
     expose:
@@ -41,7 +41,7 @@ services:
     volumes:
     - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
-    - ./connection-test/nginx2goapi-connection/public:/usr/share/nginx/html:ro
+    - ./frontend/public:/usr/share/nginx/html:ro
     links:
     - api
     ports:
