@@ -8,3 +8,17 @@ backend/vendor
 # docker
 .docker-sync
 docker/db/data
+
+#frontend
+frontend/.DS_Store
+frontend/node_modules
+dist
+
+# local env files
+frontend/.env.local
+frontend/.env.*.local
+
+# Log files
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
