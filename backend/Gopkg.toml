@@ -29,10 +29,13 @@
   name = "github.com/gin-gonic/gin"
   version = "1.4.0"
 
+<<<<<<< HEAD
 [[constraint]]
   name = "github.com/jinzhu/gorm"
   version = "1.9.9"
 
+=======
+>>>>>>> 6a7c5db036811f1a7394958cb9329d4440bcb852
 [prune]
   go-tests = true
   unused-packages = true

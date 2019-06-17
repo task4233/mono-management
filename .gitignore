@@ -3,6 +3,7 @@
 frontend/node_modules
 
 # backend
+backend/Gopkg.*
 backend/repos
 backend/docker
 backend/vendor
@@ -22,6 +23,8 @@ frontend/html/.env.*.local
 frontend/html/npm-debug.log*
 frontend/html/yarn-debug.log*
 frontend/html/yarn-error.log*
+frontend/public
+sample/
 
 # connection-test
 test/connection-test/goapi2mysql-connection/vendor/

@@ -22,6 +22,7 @@
   version = "v1.4.0"
 
 [[projects]]
+<<<<<<< HEAD
   digest = "1:ec6f9bf5e274c833c911923c9193867f3f18788c461f76f05f62bb1510e0ae65"
   name = "github.com/go-sql-driver/mysql"
   packages = ["."]
@@ -30,6 +31,8 @@
   version = "v1.4.1"
 
 [[projects]]
+=======
+>>>>>>> 6a7c5db036811f1a7394958cb9329d4440bcb852
   digest = "1:318f1c959a8a740366fce4b1e1eb2fd914036b4af58fbd0a003349b305f118ad"
   name = "github.com/golang/protobuf"
   packages = ["proto"]
@@ -38,6 +41,7 @@
   version = "v1.3.0"
 
 [[projects]]
+<<<<<<< HEAD
   digest = "1:cef043bd5b80782d55de321d4ffc86af97b8382794c31d0119c139b258e37ea7"
   name = "github.com/jinzhu/gorm"
   packages = [
@@ -57,6 +61,8 @@
   version = "v1.0.0"
 
 [[projects]]
+=======
+>>>>>>> 6a7c5db036811f1a7394958cb9329d4440bcb852
   digest = "1:f5a2051c55d05548d2d4fd23d244027b59fbd943217df8aa3b5e170ac2fd6e1b"
   name = "github.com/json-iterator/go"
   packages = ["."]
@@ -98,6 +104,7 @@
 
 [[projects]]
   branch = "master"
+<<<<<<< HEAD
   digest = "1:f928471955a5e8c1d148de46c6660e9fc4d08fa0ed065f90d9adba8fe1fe6101"
   name = "golang.org/x/sys"
   packages = ["unix"]
@@ -111,6 +118,13 @@
   pruneopts = "UT"
   revision = "b2f4a3cf3c67576a2ee09e1fe62656a5086ce880"
   version = "v1.6.1"
+=======
+  digest = "1:010311506e3917b54487c35a4277e2709678a40c1587d82492c40b78b6a0a01d"
+  name = "golang.org/x/sys"
+  packages = ["unix"]
+  pruneopts = "UT"
+  revision = "5ed2794edfdc1c54dfb61d619c5944285f35d444"
+>>>>>>> 6a7c5db036811f1a7394958cb9329d4440bcb852
 
 [[projects]]
   digest = "1:cbc72c4c4886a918d6ab4b95e347ffe259846260f99ebdd8a198c2331cf2b2e9"
@@ -131,10 +145,14 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
+<<<<<<< HEAD
   input-imports = [
     "github.com/gin-gonic/gin",
     "github.com/jinzhu/gorm",
     "github.com/jinzhu/gorm/dialects/mysql",
   ]
+=======
+  input-imports = ["github.com/gin-gonic/gin"]
+>>>>>>> 6a7c5db036811f1a7394958cb9329d4440bcb852
   solver-name = "gps-cdcl"
   solver-version = 1
