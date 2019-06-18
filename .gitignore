@@ -4,6 +4,7 @@
 backend/repos
 backend/docker
 backend/vendor
+backend/test
 
 # docker
 .docker-sync
@@ -14,11 +15,11 @@ frontend/.DS_Store
 frontend/node_modules
 dist
 
-# local env files
+## local env files
 frontend/.env.local
 frontend/.env.*.local
 
-# Log files
+## Log files
 frontend/npm-debug.log*
 frontend/yarn-debug.log*
 frontend/yarn-error.log*
