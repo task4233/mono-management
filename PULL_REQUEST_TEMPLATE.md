@@ -1,18 +1,18 @@
 <!-- このPullRequestの概要を1,2行で書く -->
 
-# Changed
-## Created
+## Changed
+### Created
 <!-- 新しく生成したファイル群を列挙する -->
  - 
 
-## Modified
+### Modified
 <!-- 編集したファイル群を列挙する -->
  - 
 
-## Removed
+### Removed
 <!-- 削除したファイル群を列挙する -->
  - 
 
-# Note
+## Note
 <!-- コメント等, 伝えたいこと, 書きたいことがあれば書く -->
  - 
