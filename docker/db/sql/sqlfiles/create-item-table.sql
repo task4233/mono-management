@@ -1,24 +1,24 @@
--- Item Table
+-- items Table
 /*
-  Depending on User Table & Tag Table
-  Necessary to exist User Table & Tag Table
+  Depending on users Table & tags Table
+  Necessary to exist users Table & tags Table
 */
 
-drop table if exists `Item`;
+drop table if exists `items`;
 
-create table if not exists `Item`
+create table if not exists `items`
 (
   `id`             INT(8) AUTO_INCREMENT,
   `name`           VARCHAR(64) NOT NULL,
   `userId`         INT(8) NOT NULL,
   `tagId`          INT(8) NOT NULL,
-  constraint foreignKey_userId_from_Item_to_User
+  constraint foreignKey_userId_from_items_to_users
     foreign key (`userId`)
-    references `User` (`id`)
+    references `users` (`id`)
     on delete restrict on update restrict,
-  constraint foreignKey_tagId_from_Item_to_Tag
+  constraint foreignKey_tagId_from_items_to_tags
     foreign key (`tagId`)
-    references `Tag` (`id`)
+    references `tags` (`id`)
     on delete restrict on update restrict,
     primary key(`id`)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
