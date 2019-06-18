@@ -2,6 +2,10 @@
 # frontend
 frontend/node_modules
 
+# frontend
+frontend/node_modules
+frontend/public
+
 # backend
 backend/Gopkg.*
 backend/repos
