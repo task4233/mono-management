@@ -9,6 +9,75 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
+type (
+	// users
+	User struct {
+		// id
+		Id int `json:id`
+		// name
+		Name string `json:name`
+		// hashed_pass
+		HashedPass string `json:hashedPass`
+	}
+
+    // items
+    Item struct {
+        // id
+        Id int `json:id`
+        // name
+        Name string `json:name`
+        // userId
+        UserId int `json:userId`
+        // tagId
+        TagId int`json:tagId`
+    }
+
+    // itemdatas
+    ItemData struct {
+        // dataId
+        DataId int `json:dataId`
+        // itemId
+        ItemId int `json:itemId`
+        // num
+        Num double `json:num`
+        // str
+        Str string `json:str`
+        // timestamp
+        Timestamp time `json:timestamp`
+    }
+
+    // tags
+    Tag struct {
+        // id
+        Id int `json:id`
+        // name
+        Name string `json:name`
+        // parentId
+        ParentId int `json:parentId`
+        // userId
+        UserId int `json:userId`
+    }
+
+    // datas
+    Data struct {
+        // id
+        Id int `json:id`
+        // name
+        Name string `json:name`
+        // type
+        Type string `json:type`
+    }
+
+    // tokens
+    Token struct {
+        // token
+        Token string `json:token`
+        // userId
+        UserId int `json:userId`
+    }
+    
+)
+
 // HTTP funcs
 func SendDefaultHeader(c *gin.Context, methods string) {
 	c.Header("Access-Control-Allow-Origin", "*")
