@@ -1,13 +1,25 @@
+/*
+Package router は, Routesの設定をするパッケージです。
+
+docker-composeの環境下では
+	import app/router
+でimportできます。
+*/
 package router
 
 import (
 	"github.com/gin-gonic/gin"
 
-    // internal
-    "github.com/task4233/mono-management/backend/internal"
+	// internal
+	"github.com/task4233/mono-management/backend/internal"
 )
 
-// Create return router
+/*
+Create funcは, APIのエンドポイント(Routes)を設定するメソッドです。
+
+	internal.Create()
+で使用できます。
+*/
 func Create() *gin.Engine {
 	router := gin.Default()
 	// Routes
