@@ -13,8 +13,8 @@ import (
 	// relative path from ./vender
 	//"github.com/task4233/mono-management/backend/router"
 
-    // router
-	"github.com/task4233/mono-management/backend/router"
+	// router
+	"app/router"
 )
 
 func main() {
