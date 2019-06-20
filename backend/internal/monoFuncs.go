@@ -7,14 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// User comment...
-type (
-	User struct {
-		Name string `db:"name" json:"name"`
-		Pass string `db:"pass" json:"pass"`
-	}
-)
-
 // GetMonos get
 func GetMonos(c *gin.Context) {
 	// samp
