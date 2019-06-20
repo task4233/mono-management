@@ -31,7 +31,7 @@ type (
 		Id int `json:id`
 		// name
 		Name string `json:name`
-		// hashed_pass
+		// hashedPass
 		HashedPass string `json:hashedPass`
 	}
 
