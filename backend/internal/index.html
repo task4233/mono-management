@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>internal - The Go Programming Language</title>
+
+<link type="text/css" rel="stylesheet" href="/lib/godoc/style.css">
+
+<link rel="search" type="application/opensearchdescription+xml" title="godoc" href="/opensearch.xml" />
+
+
+<script>window.initFuncs = [];</script>
+
+<script src="/lib/godoc/jquery.js" defer></script>
+
+
+
+<script>var goVersion = "go1.12.5";</script>
+<script src="/lib/godoc/godocs.js" defer></script>
+</head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="/">The Go Programming Language</a></div>
+<div class="top-heading" id="heading-narrow"><a href="/">Go</a></div>
+<a href="#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+<form method="GET" action="/search">
+<div id="menu">
+<a href="/doc/">Documents</a>
+<a href="/pkg/">Packages</a>
+<a href="/project/">The Project</a>
+<a href="/help/">Help</a>
+
+<a href="/blog/">Blog</a>
+
+
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required><button type="submit"><span><!-- magnifying glass: --><svg width="24" height="24" viewBox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Package internal
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "app/internal"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>
+Package internal は, Ginフレームワークのハンドラの設定等をするパッケージです.
+</p>
+<p>
+docker-composeの環境下では
+</p>
+<pre>import app/internal
+</pre>
+<p>
+でimportできます.
+</p>
+
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+				<dd><a href="#pkg-variables">Variables</a></dd>
+			
+			
+				
+				<dd><a href="#CreateAccount">func CreateAccount(c *gin.Context)</a></dd>
+			
+				
+				<dd><a href="#CreateMono">func CreateMono(c *gin.Context)</a></dd>
+			
+				
+				<dd><a href="#CreateTag">func CreateTag(c *gin.Context)</a></dd>
+			
+				
+				<dd><a href="#DeleteAccount">func DeleteAccount(c *gin.Context)</a></dd>
+			
+				
+				<dd><a href="#DeleteMono">func DeleteMono(c *gin.Context)</a></dd>
+			
+				
+				<dd><a href="#DeleteTag">func DeleteTag(c *gin.Context)</a></dd>
+			
+				
+				<dd><a href="#GetCookie">func GetCookie(c *gin.Context, name string) (string, error)</a></dd>
+			
+				
+				<dd><a href="#GetDB">func GetDB() *gorm.DB</a></dd>
+			
+				
+				<dd><a href="#GetInfo">func GetInfo(c *gin.Context)</a></dd>
+			
+				
+				<dd><a href="#GetMonos">func GetMonos(c *gin.Context)</a></dd>
+			
+				
+				<dd><a href="#GetTags">func GetTags(c *gin.Context)</a></dd>
+			
+				
+				<dd><a href="#InitDB">func InitDB()</a></dd>
+			
+				
+				<dd><a href="#Login">func Login(c *gin.Context)</a></dd>
+			
+				
+				<dd><a href="#Logout">func Logout(c *gin.Context)</a></dd>
+			
+				
+				<dd><a href="#SearchMonos">func SearchMonos(c *gin.Context)</a></dd>
+			
+				
+				<dd><a href="#SendDefaultHeader">func SendDefaultHeader(c *gin.Context, methods string)</a></dd>
+			
+				
+				<dd><a href="#SetCookie">func SetCookie(c *gin.Context, name string, val string)</a></dd>
+			
+				
+				<dd><a href="#UpdateAccount">func UpdateAccount(c *gin.Context)</a></dd>
+			
+				
+				<dd><a href="#UpdateMonos">func UpdateMonos(c *gin.Context)</a></dd>
+			
+				
+				<dd><a href="#UpdateTag">func UpdateTag(c *gin.Context)</a></dd>
+			
+			
+				
+				<dd><a href="#Data">type Data</a></dd>
+				
+				
+			
+				
+				<dd><a href="#Item">type Item</a></dd>
+				
+				
+			
+				
+				<dd><a href="#ItemData">type ItemData</a></dd>
+				
+				
+			
+				
+				<dd><a href="#Tag">type Tag</a></dd>
+				
+				
+			
+				
+				<dd><a href="#Token">type Token</a></dd>
+				
+				
+			
+				
+				<dd><a href="#User">type User</a></dd>
+				
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="/src/app/internal/monoFuncs.go">monoFuncs.go</a>
+			
+				<a href="/src/app/internal/searchFunc.go">searchFunc.go</a>
+			
+				<a href="/src/app/internal/tagFunc.go">tagFunc.go</a>
+			
+				<a href="/src/app/internal/tools.go">tools.go</a>
+			
+				<a href="/src/app/internal/userFuncs.go">userFuncs.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+		
+			<h2 id="pkg-variables">Variables</h2>
+			
+				<p>
+DB funcs
+</p>
+
+				<pre>var (
+    <span id="db">db</span>  *<a href="/pkg/github.com/jinzhu/gorm/">gorm</a>.<a href="/pkg/github.com/jinzhu/gorm/#DB">DB</a>
+    <span id="err">err</span> <a href="/pkg/builtin/#error">error</a>
+)</pre>
+			
+		
+		
+			
+			
+			<h2 id="CreateAccount">func <a href="/src/app/internal/userFuncs.go?s=1729:1763#L61">CreateAccount</a>
+				<a class="permalink" href="#CreateAccount">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func CreateAccount(c *<a href="/pkg/github.com/gin-gonic/gin/">gin</a>.<a href="/pkg/github.com/gin-gonic/gin/#Context">Context</a>)</pre>
+			<p>
+CreateAccount はリクエストのデータでユーザを新たに作成するメソッドです.
+途中でエラーが発生した場合の挙動はwikiを参照してください.
+</p>
+<p>
+Endpoints
+</p>
+<pre>[POST]   /api/v1/user/new
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="CreateMono">func <a href="/src/app/internal/monoFuncs.go?s=836:867#L30">CreateMono</a>
+				<a class="permalink" href="#CreateMono">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func CreateMono(c *<a href="/pkg/github.com/gin-gonic/gin/">gin</a>.<a href="/pkg/github.com/gin-gonic/gin/#Context">Context</a>)</pre>
+			<p>
+CreateMono は, リクエストに含まれる情報をitemsテーブルに追加するメソッドです.
+途中でエラーが発生した場合の挙動はwikiを参照してください.
+</p>
+<p>
+Endpoints
+</p>
+<pre>[POST]   /api/v1/mono/new
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="CreateTag">func <a href="/src/app/internal/tagFunc.go?s=555:585#L24">CreateTag</a>
+				<a class="permalink" href="#CreateTag">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func CreateTag(c *<a href="/pkg/github.com/gin-gonic/gin/">gin</a>.<a href="/pkg/github.com/gin-gonic/gin/#Context">Context</a>)</pre>
+			<p>
+CreateTag はuserIdを付加したTagを全て取得するメソッドです.
+途中でエラーが発生した場合の挙動はwikiを参照してください.
+</p>
+<p>
+Endpoints
+</p>
+<pre>[POST]   /api/v1/tag/new
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="DeleteAccount">func <a href="/src/app/internal/userFuncs.go?s=2542:2576#L95">DeleteAccount</a>
+				<a class="permalink" href="#DeleteAccount">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func DeleteAccount(c *<a href="/pkg/github.com/gin-gonic/gin/">gin</a>.<a href="/pkg/github.com/gin-gonic/gin/#Context">Context</a>)</pre>
+			<p>
+DeleteAccount は該当アカウントを削除するメソッドです.
+途中でエラーが発生した場合の挙動はwikiを参照してください.
+</p>
+<p>
+Endpoints
+</p>
+<pre>[DELETE]   /api/v1/user/
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="DeleteMono">func <a href="/src/app/internal/monoFuncs.go?s=2263:2294#L69">DeleteMono</a>
+				<a class="permalink" href="#DeleteMono">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func DeleteMono(c *<a href="/pkg/github.com/gin-gonic/gin/">gin</a>.<a href="/pkg/github.com/gin-gonic/gin/#Context">Context</a>)</pre>
+			<p>
+DeleteMono は, リクエストに含まれるuserIdを持つデータをitemsテーブルから削除するメソッドです.
+途中でエラーが発生した場合の挙動はwikiを参照してください.
+</p>
+<p>
+Endpoints
+</p>
+<pre>[DELETE] /api/v1/mono/:monoId
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="DeleteTag">func <a href="/src/app/internal/tagFunc.go?s=1115:1145#L53">DeleteTag</a>
+				<a class="permalink" href="#DeleteTag">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func DeleteTag(c *<a href="/pkg/github.com/gin-gonic/gin/">gin</a>.<a href="/pkg/github.com/gin-gonic/gin/#Context">Context</a>)</pre>
+			<p>
+DeleteTag tagIdを元にデータを削除するメソッドです.
+途中でエラーが発生した場合の挙動はwikiを参照してください.
+</p>
+<p>
+Endpoints
+</p>
+<pre>[DELETE] /api/v1/tag/:tagId
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="GetCookie">func <a href="/src/app/internal/tools.go?s=3994:4053#L178">GetCookie</a>
+				<a class="permalink" href="#GetCookie">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GetCookie(c *<a href="/pkg/github.com/gin-gonic/gin/">gin</a>.<a href="/pkg/github.com/gin-gonic/gin/#Context">Context</a>, name <a href="/pkg/builtin/#string">string</a>) (<a href="/pkg/builtin/#string">string</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+GetCookie は, Cookie情報を読み取るメソッドです.
+</p>
+<p>
+第2引数にCookie名を渡します.
+</p>
+<p>
+第1返り値に読み取ったCookie情報を, 第2返り値にエラーを返します.
+</p>
+<p>
+以下がサンプルです.
+</p>
+<pre>// HogeというCookie名の情報を読み取る.
+// 返り値としてcookie_valueというCookie情報と, errというエラーを受け取る.
+cookie_value, err := GetCookie(c, &#34;Hoge&#34;)
+
+// エラーハンドリング
+if err != nil {
+	log.Fatal(err.Error)
+}
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="GetDB">func <a href="/src/app/internal/tools.go?s=2287:2308#L117">GetDB</a>
+				<a class="permalink" href="#GetDB">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GetDB() *<a href="/pkg/github.com/jinzhu/gorm/">gorm</a>.<a href="/pkg/github.com/jinzhu/gorm/#DB">DB</a></pre>
+			<p>
+GetDB は, InitDB()でGorm.Open()したdbのデータのみを受け取るメソッドです.
+</p>
+<p>
+このメソッドを使用する際はInitDB()を必ず呼び出してください.
+</p>
+<p>
+以下がサンプルです.
+</p>
+<pre>db := GetDB()
+
+var users []User
+if err := db.Find(&amp;users).Error; err != nil {
+	log.Fatal(err.Error)
+}
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="GetInfo">func <a href="/src/app/internal/userFuncs.go?s=348:376#L9">GetInfo</a>
+				<a class="permalink" href="#GetInfo">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GetInfo(c *<a href="/pkg/github.com/gin-gonic/gin/">gin</a>.<a href="/pkg/github.com/gin-gonic/gin/#Context">Context</a>)</pre>
+			<p>
+GetInfo は, ログイン時に保存されるCookieのtoken情報を元にusersテーブルから該当の情報を返却するメソッドです.
+途中でエラーが発生した場合の挙動はwikiを参照してください.
+</p>
+<p>
+Endpoints
+</p>
+<pre>[GET]	/api/v1/user/info
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="GetMonos">func <a href="/src/app/internal/monoFuncs.go?s=289:318#L9">GetMonos</a>
+				<a class="permalink" href="#GetMonos">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GetMonos(c *<a href="/pkg/github.com/gin-gonic/gin/">gin</a>.<a href="/pkg/github.com/gin-gonic/gin/#Context">Context</a>)</pre>
+			<p>
+GetMonos は, itemsテーブルからMonoの情報を集めて返却するメソッドです.
+途中でエラーが発生した場合の挙動はwikiを参照してください.
+</p>
+<p>
+Endpoints
+</p>
+<pre>[GET]	/api/v1/mono
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="GetTags">func <a href="/src/app/internal/tagFunc.go?s=274:302#L9">GetTags</a>
+				<a class="permalink" href="#GetTags">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GetTags(c *<a href="/pkg/github.com/gin-gonic/gin/">gin</a>.<a href="/pkg/github.com/gin-gonic/gin/#Context">Context</a>)</pre>
+			<p>
+GetTags はuserIdが一致するTagを全て取得するメソッドです.
+途中でエラーが発生した場合の挙動はwikiを参照してください.
+</p>
+<p>
+Endpoints
+</p>
+<pre>[GET]    /api/v1/tag/
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="InitDB">func <a href="/src/app/internal/tools.go?s=1605:1618#L90">InitDB</a>
+				<a class="permalink" href="#InitDB">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func InitDB()</pre>
+			<p>
+InitDB は, 内部でGorm.Open()を行うメソッドです.
+</p>
+<p>
+このメソッドはmain関数で一度呼び, Gormの機能を使用したい場合はGetDB()でdbを受け取ってから処理することを推奨しています.
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="Login">func <a href="/src/app/internal/userFuncs.go?s=851:877#L26">Login</a>
+				<a class="permalink" href="#Login">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Login(c *<a href="/pkg/github.com/gin-gonic/gin/">gin</a>.<a href="/pkg/github.com/gin-gonic/gin/#Context">Context</a>)</pre>
+			<p>
+Login は, userIdとパスワードの正当性が確かめられた時にCookieにtokenをセットして返すメソッドです.
+途中でエラーが発生した場合の挙動はwikiを参照してください.
+</p>
+<p>
+Endpoints
+</p>
+<pre>POST   /api/v1/user/login
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="Logout">func <a href="/src/app/internal/userFuncs.go?s=1362:1389#L45">Logout</a>
+				<a class="permalink" href="#Logout">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func Logout(c *<a href="/pkg/github.com/gin-gonic/gin/">gin</a>.<a href="/pkg/github.com/gin-gonic/gin/#Context">Context</a>)</pre>
+			<p>
+Logout はユーザが保持しているCookieを削除するメソッドです.
+途中でエラーが発生した場合の挙動はwikiを参照してください.
+</p>
+<p>
+Endpoints
+</p>
+<pre>[DELETE]   /api/v1/user/logout
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="SearchMonos">func <a href="/src/app/internal/searchFunc.go?s=238:270#L9">SearchMonos</a>
+				<a class="permalink" href="#SearchMonos">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func SearchMonos(c *<a href="/pkg/github.com/gin-gonic/gin/">gin</a>.<a href="/pkg/github.com/gin-gonic/gin/#Context">Context</a>)</pre>
+			<p>
+SearchMonos は, メソッドです.
+途中でエラーが発生した場合の挙動はwikiを参照してください.
+</p>
+<p>
+Endpoints
+</p>
+<pre>[POST]   /api/v1/search/
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="SendDefaultHeader">func <a href="/src/app/internal/tools.go?s=2638:2692#L132">SendDefaultHeader</a>
+				<a class="permalink" href="#SendDefaultHeader">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func SendDefaultHeader(c *<a href="/pkg/github.com/gin-gonic/gin/">gin</a>.<a href="/pkg/github.com/gin-gonic/gin/#Context">Context</a>, methods <a href="/pkg/builtin/#string">string</a>)</pre>
+			<p>
+SendDefaultHeader は, JSON Headerに情報を付加するメソッドです.
+</p>
+<p>
+第2引数に許可するHTTPメソッドを渡します.
+</p>
+<p>
+以下がサンプルです.
+</p>
+<pre>// GETメソッドのみを許可
+SendDefaultHeader(c, &#34;GET&#34;)
+// GETおよびPOSTメソッドを許可
+SendDefaultHeader(c, &#34;GET/POST&#34;)
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="SetCookie">func <a href="/src/app/internal/tools.go?s=3260:3315#L149">SetCookie</a>
+				<a class="permalink" href="#SetCookie">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func SetCookie(c *<a href="/pkg/github.com/gin-gonic/gin/">gin</a>.<a href="/pkg/github.com/gin-gonic/gin/#Context">Context</a>, name <a href="/pkg/builtin/#string">string</a>, val <a href="/pkg/builtin/#string">string</a>)</pre>
+			<p>
+SetCookie は, Cookie情報を付加するメソッドです.
+</p>
+<p>
+第2引数にCookie名を, 第三引数にCookieに付加する値を渡します.
+</p>
+<p>
+以下がサンプルです.
+</p>
+<pre>// HogeというCookie名で, Fugaという値を保持
+SetCookie(c, &#34;Hoge&#34;, &#34;Fuga&#34;)
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="UpdateAccount">func <a href="/src/app/internal/userFuncs.go?s=2190:2224#L79">UpdateAccount</a>
+				<a class="permalink" href="#UpdateAccount">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func UpdateAccount(c *<a href="/pkg/github.com/gin-gonic/gin/">gin</a>.<a href="/pkg/github.com/gin-gonic/gin/#Context">Context</a>)</pre>
+			<p>
+UpdateAccount はリクエストのデータでユーザ情報を更新するメソッドです.
+途中でエラーが発生した場合の挙動はwikiを参照してください.
+</p>
+<p>
+Endpoints
+</p>
+<pre>[PUT]   /api/v1/user/
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="UpdateMonos">func <a href="/src/app/internal/monoFuncs.go?s=1569:1601#L49">UpdateMonos</a>
+				<a class="permalink" href="#UpdateMonos">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func UpdateMonos(c *<a href="/pkg/github.com/gin-gonic/gin/">gin</a>.<a href="/pkg/github.com/gin-gonic/gin/#Context">Context</a>)</pre>
+			<p>
+UpdateMonos は, リクエストに該当するitemsテーブルの情報をまとめて更新するメソッドです.
+途中でエラーが発生した場合の挙動はwikiを参照してください.
+</p>
+<p>
+Endpoints
+</p>
+<pre>[PUT]    /api/v1/mono/:monoId
+</pre>
+
+			
+			
+
+		
+			
+			
+			<h2 id="UpdateTag">func <a href="/src/app/internal/tagFunc.go?s=832:862#L38">UpdateTag</a>
+				<a class="permalink" href="#UpdateTag">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func UpdateTag(c *<a href="/pkg/github.com/gin-gonic/gin/">gin</a>.<a href="/pkg/github.com/gin-gonic/gin/#Context">Context</a>)</pre>
+			<p>
+UpdateTag はuserIdを付加したTagを更新するメソッドです.
+途中でエラーが発生した場合の挙動はwikiを参照してください.
+</p>
+<p>
+Endpoints
+</p>
+<pre>[PUT]    /api/v1/tag/:tagId
+</pre>
+
+			
+			
+
+		
+		
+			
+			
+			<h2 id="Data">type <a href="/src/app/internal/tools.go?s=1141:1256#L67">Data</a>
+				<a class="permalink" href="#Data">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+datas
+</p>
+
+			<pre>type Data struct {
+    <span class="comment">// id</span>
+<span id="Data.Id"></span>    Id <a href="/pkg/builtin/#int">int</a> `json:id`
+    <span class="comment">// name</span>
+<span id="Data.Name"></span>    Name <a href="/pkg/builtin/#string">string</a> `json:name`
+    <span class="comment">// type</span>
+<span id="Data.Type"></span>    Type <a href="/pkg/builtin/#string">string</a> `json:type`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Item">type <a href="/src/app/internal/tools.go?s=564:718#L29">Item</a>
+				<a class="permalink" href="#Item">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+items
+</p>
+
+			<pre>type Item struct {
+    <span class="comment">// id</span>
+<span id="Item.Id"></span>    Id <a href="/pkg/builtin/#int">int</a> `json:id`
+    <span class="comment">// name</span>
+<span id="Item.Name"></span>    Name <a href="/pkg/builtin/#string">string</a> `json:name`
+    <span class="comment">// userId</span>
+<span id="Item.UserId"></span>    UserId <a href="/pkg/builtin/#int">int</a> `json:userId`
+    <span class="comment">// tagId</span>
+<span id="Item.TagId"></span>    TagId <a href="/pkg/builtin/#int">int</a> `json:tagId`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="ItemData">type <a href="/src/app/internal/tools.go?s=735:954#L41">ItemData</a>
+				<a class="permalink" href="#ItemData">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+itemdatas
+</p>
+
+			<pre>type ItemData struct {
+    <span class="comment">// dataId</span>
+<span id="ItemData.DataId"></span>    DataId <a href="/pkg/builtin/#int">int</a> `json:dataId`
+    <span class="comment">// itemId</span>
+<span id="ItemData.ItemId"></span>    ItemId <a href="/pkg/builtin/#int">int</a> `json:itemId`
+    <span class="comment">// num</span>
+<span id="ItemData.Num"></span>    Num <a href="/pkg/builtin/#float64">float64</a> `json:num`
+    <span class="comment">// str</span>
+<span id="ItemData.Str"></span>    Str <a href="/pkg/builtin/#string">string</a> `json:str`
+    <span class="comment">// timestamp</span>
+<span id="ItemData.Timestamp"></span>    Timestamp <a href="/pkg/time/">time</a>.<a href="/pkg/time/#Time">Time</a> `json:timestamp`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Tag">type <a href="/src/app/internal/tools.go?s=966:1128#L55">Tag</a>
+				<a class="permalink" href="#Tag">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+tags
+</p>
+
+			<pre>type Tag struct {
+    <span class="comment">// id</span>
+<span id="Tag.Id"></span>    Id <a href="/pkg/builtin/#int">int</a> `json:id`
+    <span class="comment">// name</span>
+<span id="Tag.Name"></span>    Name <a href="/pkg/builtin/#string">string</a> `json:name`
+    <span class="comment">// parentId</span>
+<span id="Tag.ParentId"></span>    ParentId <a href="/pkg/builtin/#int">int</a> `json:parentId`
+    <span class="comment">// userId</span>
+<span id="Tag.UserId"></span>    UserId <a href="/pkg/builtin/#int">int</a> `json:userId`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Token">type <a href="/src/app/internal/tools.go?s=1270:1365#L77">Token</a>
+				<a class="permalink" href="#Token">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+tokens
+</p>
+
+			<pre>type Token struct {
+    <span class="comment">// token</span>
+<span id="Token.Token"></span>    Token <a href="/pkg/builtin/#string">string</a> `json:token`
+    <span class="comment">// userId</span>
+<span id="Token.UserId"></span>    UserId <a href="/pkg/builtin/#int">int</a> `json:userId`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="User">type <a href="/src/app/internal/tools.go?s=418:551#L19">User</a>
+				<a class="permalink" href="#User">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+users
+</p>
+
+			<pre>type User struct {
+    <span class="comment">// id</span>
+<span id="User.Id"></span>    Id <a href="/pkg/builtin/#int">int</a> `json:id`
+    <span class="comment">// name</span>
+<span id="User.Name"></span>    Name <a href="/pkg/builtin/#string">string</a> `json:name`
+    <span class="comment">// hashedPass</span>
+<span id="User.HashedPass"></span>    HashedPass <a href="/pkg/builtin/#string">string</a> `json:hashedPass`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.12.5.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="/LICENSE">BSD license</a>.<br>
+<a href="/doc/tos.html">Terms of Service</a> |
+<a href="http://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+
+</body>
+</html>
+
