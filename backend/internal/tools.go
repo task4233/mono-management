@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -21,6 +22,74 @@ import (
 var (
 	db  *gorm.DB
 	err error
+)
+
+type (
+	// users
+	User struct {
+		// id
+		Id int `json:id`
+		// name
+		Name string `json:name`
+		// hashed_pass
+		HashedPass string `json:hashedPass`
+	}
+
+	// items
+	Item struct {
+		// id
+		Id int `json:id`
+		// name
+		Name string `json:name`
+		// userId
+		UserId int `json:userId`
+		// tagId
+		TagId int `json:tagId`
+	}
+
+	// itemdatas
+	ItemData struct {
+		// dataId
+		DataId int `json:dataId`
+		// itemId
+		ItemId int `json:itemId`
+		// num
+		Num float64 `json:num`
+		// str
+		Str string `json:str`
+		// timestamp
+		Timestamp time.Time `json:timestamp`
+	}
+
+	// tags
+	Tag struct {
+		// id
+		Id int `json:id`
+		// name
+		Name string `json:name`
+		// parentId
+		ParentId int `json:parentId`
+		// userId
+		UserId int `json:userId`
+	}
+
+	// datas
+	Data struct {
+		// id
+		Id int `json:id`
+		// name
+		Name string `json:name`
+		// type
+		Type string `json:type`
+	}
+
+	// tokens
+	Token struct {
+		// token
+		Token string `json:token`
+		// userId
+		UserId int `json:userId`
+	}
 )
 
 /*
