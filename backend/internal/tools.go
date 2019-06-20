@@ -112,6 +112,15 @@ func InitDB() {
 }
 
 /*
+CloseDB はGORMの接続を閉じる為のメソッドです。
+
+このメソッドはInitDB()と一緒にdeferで呼び出されることが推奨されます。
+*/
+func CloseDB() {
+	GetDB().Close()
+}
+
+/*
 GetDB は, InitDB()でGorm.Open()したdbのデータのみを受け取るメソッドです.
 
 このメソッドを使用する際はInitDB()を必ず呼び出してください.
