@@ -10,7 +10,9 @@ import (
 GetMonos は, itemsテーブルからMonoの情報を集めて返却するメソッドです.
 途中でエラーが発生した場合の挙動はwikiを参照してください.
 
+
 Endpoints
+
 
 	[GET]	/api/v1/mono
 */
@@ -19,6 +21,7 @@ func GetMonos(c *gin.Context) {
 
 	// itemsテーブルの全てのデータを持ってくる
 
+	// これ無し
 	// itemsテーブルのidごとに, itemdatasテーブルで該当するデータをくっつける
 
 	c.JSON(http.StatusOK, "get monos")
@@ -28,7 +31,9 @@ func GetMonos(c *gin.Context) {
 CreateMono は, リクエストに含まれる情報をitemsテーブルに追加するメソッドです.
 途中でエラーが発生した場合の挙動はwikiを参照してください.
 
+
 Endpoints
+
 
 	[POST]   /api/v1/mono/new
 */
@@ -45,7 +50,9 @@ func CreateMono(c *gin.Context) {
 UpdateMonos は, リクエストに該当するitemsテーブルの情報をまとめて更新するメソッドです.
 途中でエラーが発生した場合の挙動はwikiを参照してください.
 
+
 Endpoints
+
 
 	[PUT]    /api/v1/mono/:monoId
 */
@@ -63,7 +70,9 @@ func UpdateMonos(c *gin.Context) {
 DeleteMono は, リクエストに含まれるuserIdを持つデータをitemsテーブルから削除するメソッドです.
 途中でエラーが発生した場合の挙動はwikiを参照してください.
 
+
 Endpoints
+
 
 	[DELETE] /api/v1/mono/:monoId
 */
