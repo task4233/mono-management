@@ -3,7 +3,7 @@ jobs:
   buildGodoc:
     branches:
       only:
-        - develop
+        - add-ghpages-scripts
     working_directory: /tmp
     docker:
       - image: golang:1.12.5
@@ -25,7 +25,7 @@ jobs:
   deployGhpages:
     branches:
       only:
-        - develop
+        - add-ghpages-scripts
     docker:
       - image: node:11
     steps:
