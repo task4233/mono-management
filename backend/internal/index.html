@@ -7,19 +7,19 @@
 
   <title>internal - The Go Programming Language</title>
 
-<link type="text/css" rel="stylesheet" href="/lib/godoc/style.css">
+<link type="text/css" rel="stylesheet" href="/mono-management/backend/style.css">
 
 <link rel="search" type="application/opensearchdescription+xml" title="godoc" href="/opensearch.xml" />
 
 
 <script>window.initFuncs = [];</script>
 
-<script src="/lib/godoc/jquery.js" defer></script>
+<script src="/mono-management/backend/jquery.js" defer></script>
 
 
 
 <script>var goVersion = "go1.12.5";</script>
-<script src="/lib/godoc/godocs.js" defer></script>
+<script src="/mono-management/backend/godocs.js" defer></script>
 </head>
 <body>
 
@@ -134,6 +134,9 @@ docker-composeの環境下では
 			
 				<dd><a href="#pkg-variables">Variables</a></dd>
 			
+			
+				
+				<dd><a href="#CloseDB">func CloseDB()</a></dd>
 			
 				
 				<dd><a href="#CreateAccount">func CreateAccount(c *gin.Context)</a></dd>
@@ -272,6 +275,25 @@ DB funcs
 		
 			
 			
+			<h2 id="CloseDB">func <a href="/src/app/internal/tools.go?s=2133:2147#L109">CloseDB</a>
+				<a class="permalink" href="#CloseDB">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func CloseDB()</pre>
+			<p>
+CloseDB はGORMの接続を閉じる為のメソッドです。
+</p>
+<p>
+このメソッドはInitDB()と一緒にdeferで呼び出されることが推奨されます。
+</p>
+
+			
+			
+
+		
+			
+			
 			<h2 id="CreateAccount">func <a href="/src/app/internal/userFuncs.go?s=1729:1763#L61">CreateAccount</a>
 				<a class="permalink" href="#CreateAccount">&#xb6;</a>
 				
@@ -404,7 +426,7 @@ Endpoints
 		
 			
 			
-			<h2 id="GetCookie">func <a href="/src/app/internal/tools.go?s=3994:4053#L178">GetCookie</a>
+			<h2 id="GetCookie">func <a href="/src/app/internal/tools.go?s=4200:4259#L187">GetCookie</a>
 				<a class="permalink" href="#GetCookie">&#xb6;</a>
 				
 				
@@ -438,7 +460,7 @@ if err != nil {
 		
 			
 			
-			<h2 id="GetDB">func <a href="/src/app/internal/tools.go?s=2287:2308#L117">GetDB</a>
+			<h2 id="GetDB">func <a href="/src/app/internal/tools.go?s=2493:2514#L126">GetDB</a>
 				<a class="permalink" href="#GetDB">&#xb6;</a>
 				
 				
@@ -618,7 +640,7 @@ Endpoints
 		
 			
 			
-			<h2 id="SendDefaultHeader">func <a href="/src/app/internal/tools.go?s=2638:2692#L132">SendDefaultHeader</a>
+			<h2 id="SendDefaultHeader">func <a href="/src/app/internal/tools.go?s=2844:2898#L141">SendDefaultHeader</a>
 				<a class="permalink" href="#SendDefaultHeader">&#xb6;</a>
 				
 				
@@ -645,7 +667,7 @@ SendDefaultHeader(c, &#34;GET/POST&#34;)
 		
 			
 			
-			<h2 id="SetCookie">func <a href="/src/app/internal/tools.go?s=3260:3315#L149">SetCookie</a>
+			<h2 id="SetCookie">func <a href="/src/app/internal/tools.go?s=3466:3521#L158">SetCookie</a>
 				<a class="permalink" href="#SetCookie">&#xb6;</a>
 				
 				
