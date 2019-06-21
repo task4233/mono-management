@@ -39,3 +39,6 @@ sample/
 .docker-sync
 docker/db/data
 
+# gh-pages
+gh-pages/node_modules
+gh-pages/dist/backend
