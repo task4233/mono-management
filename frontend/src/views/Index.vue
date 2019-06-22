@@ -16,10 +16,10 @@ export default {
     isModal:false
   }
   mounted:funciton(){
-    BASE_URL = '/api/v1/'
-    axios.get(BASE_URL + 'tag/')
+    api_base = '/api/v1/'
+    axios.get(api_base + 'tag/')
       .then(funtion(response){
-        axios.get(BASE_URL + 'mono/')
+        axios.get(api_base + 'mono/')
       })
       .catch(function(error){
         if()
