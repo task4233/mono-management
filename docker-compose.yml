@@ -7,7 +7,11 @@ services:
     container_name: goapi_host
     env_file:
     - ./docker/mysql.env
-    command: /bin/bash -c "go get -u github.com/golang/dep/cmd/dep && cd /go/src/app && dep ensure && go run ./main.go"
+    command: >
+      /bin/bash -c "go get -u github.com/golang/dep/cmd/dep &&
+      cd /go/src/app &&
+      dep ensure &&
+      go run ./main.go"
     volumes:
     - ./backend:/go/src/app
     links:

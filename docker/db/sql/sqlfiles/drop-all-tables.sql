@@ -1,19 +1,19 @@
--- Token Table
-drop table if exists `Token`;
+-- tokens Table
+drop table if exists `tokens`;
 
--- ItemData Table
-drop table if exists `ItemData`;
+-- itemdatas Table
+drop table if exists `itemdatas`;
 
--- Item Table
-drop table if exists `Item`;
+-- items Table
+drop table if exists `items`;
 
--- Data Table
-drop table if exists `Data`;
+-- datas Table
+drop table if exists `datas`;
 
--- Tag Table
-drop table if exists `Tag`;
+-- tags Table
+drop table if exists `tags`;
 
--- User Table
-drop table if exists `User`;
+-- users Table
+drop table if exists `users`;
 
 

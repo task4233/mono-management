@@ -13,11 +13,14 @@ import (
 	// relative path from ./vender
 	//"github.com/task4233/mono-management/backend/router"
 
-    // router
-	"github.com/task4233/mono-management/backend/router"
+	// router
+	"app/internal"
+	"app/router"
 )
 
 func main() {
+	internal.InitDB()
+	defer internal.CloseDB()
 
 	router := router.Create()
 
