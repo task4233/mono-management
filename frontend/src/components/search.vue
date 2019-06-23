@@ -1,9 +1,9 @@
 <template lang="html">
   <div v-if:"searchMode">
-    <form></form>
+    <form>検索ワードを記入</form>
   </div>
   <div v-else>
-    
+
   </div>
 
 </template>
