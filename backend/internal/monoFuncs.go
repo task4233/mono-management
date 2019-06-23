@@ -1,6 +1,8 @@
 package internal
 
 import (
+	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -18,13 +20,34 @@ Endpoints
 */
 func GetMonos(c *gin.Context) {
 	// Monoデータをitemsテーブルから取得する
+	resItems := []Item{}
 
 	// itemsテーブルの全てのデータを持ってくる
+	db := GetDB()
+	db.Find(&resItems)
+
+	fmt.Println(resItems)
 
 	// これ無し
 	// itemsテーブルのidごとに, itemdatasテーブルで該当するデータをくっつける
 
-	c.JSON(http.StatusOK, "get monos")
+	// JSONをまとめてreturnする
+	resItemsJSON, err := json.Marshal(resItems)
+	if err != nil {
+		SendDefaultHeader(c, "GET")
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": "JSONの作成に失敗しました.",
+		})
+		panic(err)
+	}
+
+	SendDefaultHeader(c, "GET")
+	c.JSON(http.StatusOK, gin.H{
+		"status": true,
+		"data":   resItemsJSON,
+	})
+
 }
 
 /*
