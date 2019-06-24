@@ -18,7 +18,7 @@
     </div>
     googleアカウントでログイン
     <br>
-    <button @click="login">サインアップ</button>
+    <button @click="signup">サインアップ</button>
   </div>
 </template>
 
@@ -32,7 +32,7 @@ export default {
     }
   },
   methods: {
-    login: function() {
+    SignUp: function() {
       /*特別な $event 変数を使うことでメソッドに DOM イベントを渡すことができます*/
       var nextPage = this.$route.query.next
       if (nextPage === undefined) {

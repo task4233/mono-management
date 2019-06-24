@@ -18,21 +18,31 @@
     </div>
     googleアカウントでログイン
     <br>
-    <button @click="login">ログイン</button>
+    <button v-on:click="login">ログイン</button>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'login',
   data: function() {
     return {
       loginId: '',
       loginPass: '',
+      users: [],
     }
   },
+  created() {
+    axios.get('http://localhost:3000/users').then(response => {
+      console.log('status:', response.status);
+      console.log('body:', response.data);
+      this.users = response.data
+    });
+  },
   methods: {
-    login: function(event) {
+    login: function() {
       /*特別な $event 変数を使うことでメソッドに DOM イベントを渡すことができます*/
       var nextPage = this.$route.query.next
       if (nextPage === undefined) {
@@ -40,16 +50,14 @@ export default {
       }
       console.log(nextPage)
       // checkloginイベント(htmlファイル内で定義している)の内容を記述
-      var correctLoginId = 'LoginId'
-      var correctPass = 'LoginPass'
-      var myLoginId = document.getElementById('loginId').value
-      var myLoginPass = document.getElementById('loginPass').value
-      if ((myLoginId === correctLoginId) &&
-        (myLoginPass === correctPass)) {
-        // document.getElementById('loginResult').innerHTML = 'Login Success !'
-        this.$router.push({name: nextPage, query: { auth: 'authenticated' }})
-      } else {
-        document.getElementById('loginResult').innerHTML = 'Login Failed !'
+      for (var i = 0; this.users.length < 10; i++) {
+        if (this.users[i] === null) break
+        if (this.loginPass === this.users[i].userPass &&
+          this.loginId === this.users[i].userId) {
+          this.$router.push('/header')
+        } else {
+          // errorメッセージを作成
+        }
       }
     }
   }

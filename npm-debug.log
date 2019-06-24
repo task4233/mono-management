@@ -1,22 +1,175 @@
 0 info it worked if it ends with ok
 1 verbose cli [ 'C:\\Program Files (x86)\\Nodist\\v-x64\\10.13.0\\node.exe',
 1 verbose cli   'C:\\Program Files (x86)\\Nodist\\npmv\\4.0.5\\bin\\npm-cli.js',
-1 verbose cli   'run',
-1 verbose cli   'serve' ]
+1 verbose cli   'install',
+1 verbose cli   '--save',
+1 verbose cli   '@component/menu.vue',
+1 verbose cli   '@component/search.vue' ]
 2 info using npm@4.0.5
 3 info using node@v10.13.0
-4 verbose stack Error: ENOENT: no such file or directory, open 'C:\Users\将太\msys64\home\将太\package.json'
-5 verbose cwd C:\Users\将太\msys64\home\将太\mono-management
-6 error Windows_NT 6.3.9600
-7 error argv "C:\\Program Files (x86)\\Nodist\\v-x64\\10.13.0\\node.exe" "C:\\Program Files (x86)\\Nodist\\npmv\\4.0.5\\bin\\npm-cli.js" "run" "serve"
-8 error node v10.13.0
-9 error npm  v4.0.5
-10 error path C:\Users\将太\msys64\home\将太\package.json
-11 error code ENOENT
-12 error errno -4058
-13 error syscall open
-14 error enoent ENOENT: no such file or directory, open 'C:\Users\将太\msys64\home\将太\package.json'
-15 error enoent ENOENT: no such file or directory, open 'C:\Users\将太\msys64\home\将太\package.json'
-15 error enoent This is most likely not a problem with npm itself
-15 error enoent and is related to npm not being able to find a file.
-16 verbose exit [ -4058, true ]
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readLocalPackageData
+7 silly fetchPackageMetaData @component/menu.vue
+8 silly fetchPackageMetaData @component/search.vue
+9 silly fetchNamedPackageData @component/menu.vue
+10 silly mapToRegistry name @component/menu.vue
+11 silly mapToRegistry scope (from package name) @component
+12 verbose mapToRegistry no registry URL found in name for scope @component
+13 silly mapToRegistry using default registry
+14 silly mapToRegistry registry https://registry.npmjs.org/
+15 silly mapToRegistry data Result {
+15 silly mapToRegistry   raw: '@component/menu.vue',
+15 silly mapToRegistry   scope: '@component',
+15 silly mapToRegistry   escapedName: '@component%2fmenu.vue',
+15 silly mapToRegistry   name: '@component/menu.vue',
+15 silly mapToRegistry   rawSpec: '',
+15 silly mapToRegistry   spec: 'latest',
+15 silly mapToRegistry   type: 'tag' }
+16 silly mapToRegistry uri https://registry.npmjs.org/@component%2fmenu.vue
+17 silly fetchNamedPackageData @component/search.vue
+18 silly mapToRegistry name @component/search.vue
+19 silly mapToRegistry scope (from package name) @component
+20 verbose mapToRegistry no registry URL found in name for scope @component
+21 silly mapToRegistry using default registry
+22 silly mapToRegistry registry https://registry.npmjs.org/
+23 silly mapToRegistry data Result {
+23 silly mapToRegistry   raw: '@component/search.vue',
+23 silly mapToRegistry   scope: '@component',
+23 silly mapToRegistry   escapedName: '@component%2fsearch.vue',
+23 silly mapToRegistry   name: '@component/search.vue',
+23 silly mapToRegistry   rawSpec: '',
+23 silly mapToRegistry   spec: 'latest',
+23 silly mapToRegistry   type: 'tag' }
+24 silly mapToRegistry uri https://registry.npmjs.org/@component%2fsearch.vue
+25 verbose request uri https://registry.npmjs.org/@component%2fmenu.vue
+26 verbose request no auth needed
+27 info attempt registry request try #1 at 04:15:19
+28 verbose request id 89f0847885ac2efd
+29 http request GET https://registry.npmjs.org/@component%2fmenu.vue
+30 verbose request uri https://registry.npmjs.org/@component%2fsearch.vue
+31 verbose request no auth needed
+32 info attempt registry request try #1 at 04:15:19
+33 http request GET https://registry.npmjs.org/@component%2fsearch.vue
+34 http 404 https://registry.npmjs.org/@component%2fsearch.vue
+35 verbose headers { date: 'Mon, 24 Jun 2019 19:15:18 GMT',
+35 verbose headers   'content-type': 'application/json',
+35 verbose headers   'content-length': '21',
+35 verbose headers   connection: 'keep-alive',
+35 verbose headers   'set-cookie':
+35 verbose headers    [ '__cfduid=d6c9fa6ce7c4b6f3d09ea688aa36eeb451561403718; expires=Tue, 23-Jun-20 19:15:18 GMT; path=/; domain=.npmjs.org; HttpOnly' ],
+35 verbose headers   'cf-ray': '4ec107967c79a552-NRT',
+35 verbose headers   'expect-ct':
+35 verbose headers    'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+35 verbose headers   vary: 'Accept-Encoding',
+35 verbose headers   server: 'cloudflare' }
+36 silly get cb [ 404,
+36 silly get   { date: 'Mon, 24 Jun 2019 19:15:18 GMT',
+36 silly get     'content-type': 'application/json',
+36 silly get     'content-length': '21',
+36 silly get     connection: 'keep-alive',
+36 silly get     'set-cookie':
+36 silly get      [ '__cfduid=d6c9fa6ce7c4b6f3d09ea688aa36eeb451561403718; expires=Tue, 23-Jun-20 19:15:18 GMT; path=/; domain=.npmjs.org; HttpOnly' ],
+36 silly get     'cf-ray': '4ec107967c79a552-NRT',
+36 silly get     'expect-ct':
+36 silly get      'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+36 silly get     vary: 'Accept-Encoding',
+36 silly get     server: 'cloudflare' } ]
+37 silly fetchPackageMetaData Error: Not found : @component/search.vue
+37 silly fetchPackageMetaData     at makeError (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\npm-registry-client\lib\request.js:302:12)
+37 silly fetchPackageMetaData     at CachingRegistryClient.<anonymous> (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\npm-registry-client\lib\request.js:290:14)
+37 silly fetchPackageMetaData     at Request._callback (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\npm-registry-client\lib\request.js:210:14)
+37 silly fetchPackageMetaData     at Request.self.callback (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\request\request.js:186:22)
+37 silly fetchPackageMetaData     at Request.emit (events.js:182:13)
+37 silly fetchPackageMetaData     at Request.<anonymous> (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\request\request.js:1081:10)
+37 silly fetchPackageMetaData     at Request.emit (events.js:182:13)
+37 silly fetchPackageMetaData     at IncomingMessage.<anonymous> (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\request\request.js:1001:12)
+37 silly fetchPackageMetaData     at Object.onceWrapper (events.js:273:13)
+37 silly fetchPackageMetaData     at IncomingMessage.emit (events.js:187:15)
+37 silly fetchPackageMetaData  error for @component/search.vue { Error: Not found : @component/search.vue
+37 silly fetchPackageMetaData     at makeError (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\npm-registry-client\lib\request.js:302:12)
+37 silly fetchPackageMetaData     at CachingRegistryClient.<anonymous> (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\npm-registry-client\lib\request.js:290:14)
+37 silly fetchPackageMetaData     at Request._callback (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\npm-registry-client\lib\request.js:210:14)
+37 silly fetchPackageMetaData     at Request.self.callback (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\request\request.js:186:22)
+37 silly fetchPackageMetaData     at Request.emit (events.js:182:13)
+37 silly fetchPackageMetaData     at Request.<anonymous> (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\request\request.js:1081:10)
+37 silly fetchPackageMetaData     at Request.emit (events.js:182:13)
+37 silly fetchPackageMetaData     at IncomingMessage.<anonymous> (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\request\request.js:1001:12)
+37 silly fetchPackageMetaData     at Object.onceWrapper (events.js:273:13)
+37 silly fetchPackageMetaData     at IncomingMessage.emit (events.js:187:15) pkgid: '@component/search.vue', statusCode: 404, code: 'E404' }
+38 http 404 https://registry.npmjs.org/@component%2fmenu.vue
+39 verbose headers { date: 'Mon, 24 Jun 2019 19:15:18 GMT',
+39 verbose headers   'content-type': 'application/json',
+39 verbose headers   'content-length': '21',
+39 verbose headers   connection: 'keep-alive',
+39 verbose headers   'set-cookie':
+39 verbose headers    [ '__cfduid=d2cbaf00dffe4d876c122b9359e38ffea1561403718; expires=Tue, 23-Jun-20 19:15:18 GMT; path=/; domain=.npmjs.org; HttpOnly' ],
+39 verbose headers   'cf-ray': '4ec1079688c39413-NRT',
+39 verbose headers   'expect-ct':
+39 verbose headers    'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+39 verbose headers   vary: 'Accept-Encoding',
+39 verbose headers   server: 'cloudflare' }
+40 silly get cb [ 404,
+40 silly get   { date: 'Mon, 24 Jun 2019 19:15:18 GMT',
+40 silly get     'content-type': 'application/json',
+40 silly get     'content-length': '21',
+40 silly get     connection: 'keep-alive',
+40 silly get     'set-cookie':
+40 silly get      [ '__cfduid=d2cbaf00dffe4d876c122b9359e38ffea1561403718; expires=Tue, 23-Jun-20 19:15:18 GMT; path=/; domain=.npmjs.org; HttpOnly' ],
+40 silly get     'cf-ray': '4ec1079688c39413-NRT',
+40 silly get     'expect-ct':
+40 silly get      'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+40 silly get     vary: 'Accept-Encoding',
+40 silly get     server: 'cloudflare' } ]
+41 silly fetchPackageMetaData Error: Not found : @component/menu.vue
+41 silly fetchPackageMetaData     at makeError (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\npm-registry-client\lib\request.js:302:12)
+41 silly fetchPackageMetaData     at CachingRegistryClient.<anonymous> (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\npm-registry-client\lib\request.js:290:14)
+41 silly fetchPackageMetaData     at Request._callback (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\npm-registry-client\lib\request.js:210:14)
+41 silly fetchPackageMetaData     at Request.self.callback (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\request\request.js:186:22)
+41 silly fetchPackageMetaData     at Request.emit (events.js:182:13)
+41 silly fetchPackageMetaData     at Request.<anonymous> (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\request\request.js:1081:10)
+41 silly fetchPackageMetaData     at Request.emit (events.js:182:13)
+41 silly fetchPackageMetaData     at IncomingMessage.<anonymous> (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\request\request.js:1001:12)
+41 silly fetchPackageMetaData     at Object.onceWrapper (events.js:273:13)
+41 silly fetchPackageMetaData     at IncomingMessage.emit (events.js:187:15)
+41 silly fetchPackageMetaData  error for @component/menu.vue { Error: Not found : @component/menu.vue
+41 silly fetchPackageMetaData     at makeError (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\npm-registry-client\lib\request.js:302:12)
+41 silly fetchPackageMetaData     at CachingRegistryClient.<anonymous> (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\npm-registry-client\lib\request.js:290:14)
+41 silly fetchPackageMetaData     at Request._callback (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\npm-registry-client\lib\request.js:210:14)
+41 silly fetchPackageMetaData     at Request.self.callback (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\request\request.js:186:22)
+41 silly fetchPackageMetaData     at Request.emit (events.js:182:13)
+41 silly fetchPackageMetaData     at Request.<anonymous> (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\request\request.js:1081:10)
+41 silly fetchPackageMetaData     at Request.emit (events.js:182:13)
+41 silly fetchPackageMetaData     at IncomingMessage.<anonymous> (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\request\request.js:1001:12)
+41 silly fetchPackageMetaData     at Object.onceWrapper (events.js:273:13)
+41 silly fetchPackageMetaData     at IncomingMessage.emit (events.js:187:15) pkgid: '@component/menu.vue', statusCode: 404, code: 'E404' }
+42 silly rollbackFailedOptional Starting
+43 silly rollbackFailedOptional Finishing
+44 silly runTopLevelLifecycles Finishing
+45 silly install printInstalled
+46 verbose stack Error: Not found : @component/search.vue
+46 verbose stack     at makeError (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\npm-registry-client\lib\request.js:302:12)
+46 verbose stack     at CachingRegistryClient.<anonymous> (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\npm-registry-client\lib\request.js:290:14)
+46 verbose stack     at Request._callback (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\npm-registry-client\lib\request.js:210:14)
+46 verbose stack     at Request.self.callback (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\request\request.js:186:22)
+46 verbose stack     at Request.emit (events.js:182:13)
+46 verbose stack     at Request.<anonymous> (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\request\request.js:1081:10)
+46 verbose stack     at Request.emit (events.js:182:13)
+46 verbose stack     at IncomingMessage.<anonymous> (C:\Program Files (x86)\Nodist\npmv\4.0.5\node_modules\request\request.js:1001:12)
+46 verbose stack     at Object.onceWrapper (events.js:273:13)
+46 verbose stack     at IncomingMessage.emit (events.js:187:15)
+47 verbose statusCode 404
+48 verbose pkgid @component/search.vue
+49 verbose cwd C:\Users\将太\msys64\home\将太\mono-management
+50 error Windows_NT 6.3.9600
+51 error argv "C:\\Program Files (x86)\\Nodist\\v-x64\\10.13.0\\node.exe" "C:\\Program Files (x86)\\Nodist\\npmv\\4.0.5\\bin\\npm-cli.js" "install" "--save" "@component/menu.vue" "@component/search.vue"
+52 error node v10.13.0
+53 error npm  v4.0.5
+54 error code E404
+55 error 404 Not found : @component/search.vue
+56 error 404
+57 error 404 '@component/search.vue' is not in the npm registry.
+58 error 404 You should bug the author to publish it (or use the name yourself!)
+59 error 404 Note that you can also install from a
+60 error 404 tarball, folder, http url, or git url.
+61 verbose exit [ 1, true ]

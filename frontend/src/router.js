@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './components/login.vue'
 import SignUp from './components/signup.vue'
+import Header from './components/HelloWorld.vue'
+
 
 Vue.use(Router)
 
@@ -11,7 +13,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'login',
       component: Home
     },
     {
@@ -21,6 +23,11 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: SignUp
+    },
+    {
+      path: '/header',
+      name: 'header',
+      component: Header
     }
   ]
 })
