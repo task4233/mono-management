@@ -5,18 +5,18 @@
 1 verbose cli   'serve' ]
 2 info using npm@4.0.5
 3 info using node@v10.13.0
-4 verbose stack Error: ENOENT: no such file or directory, open 'C:\Users\将太\msys64\home\将太\mono-management\package.json'
+4 verbose stack Error: ENOENT: no such file or directory, open 'C:\Users\将太\msys64\home\将太\package.json'
 5 verbose cwd C:\Users\将太\msys64\home\将太\mono-management
 6 error Windows_NT 6.3.9600
 7 error argv "C:\\Program Files (x86)\\Nodist\\v-x64\\10.13.0\\node.exe" "C:\\Program Files (x86)\\Nodist\\npmv\\4.0.5\\bin\\npm-cli.js" "run" "serve"
 8 error node v10.13.0
 9 error npm  v4.0.5
-10 error path C:\Users\将太\msys64\home\将太\mono-management\package.json
+10 error path C:\Users\将太\msys64\home\将太\package.json
 11 error code ENOENT
 12 error errno -4058
 13 error syscall open
-14 error enoent ENOENT: no such file or directory, open 'C:\Users\将太\msys64\home\将太\mono-management\package.json'
-15 error enoent ENOENT: no such file or directory, open 'C:\Users\将太\msys64\home\将太\mono-management\package.json'
+14 error enoent ENOENT: no such file or directory, open 'C:\Users\将太\msys64\home\将太\package.json'
+15 error enoent ENOENT: no such file or directory, open 'C:\Users\将太\msys64\home\将太\package.json'
 15 error enoent This is most likely not a problem with npm itself
 15 error enoent and is related to npm not being able to find a file.
 16 verbose exit [ -4058, true ]

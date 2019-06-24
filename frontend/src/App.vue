@@ -1,16 +1,12 @@
 <template>
   <div id="app">
-    <!--<img src="./assets/logo.png">-->
+    <font size="9" face="ＭＳ 明朝" color="#ffffff">
+      mono<br>management
+    </font>
+    <br>
     <router-view/>
   </div>
 </template>
-
-<script>
-
-export default {
-  name: 'App'
-}
-</script>
 
 <style>
 #app {
@@ -19,6 +15,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

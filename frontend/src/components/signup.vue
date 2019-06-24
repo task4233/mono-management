@@ -4,6 +4,8 @@
       mono<br>management
     </font>
     <br>
+    <router-link to="/">login</router-link>
+    <br>
     <font size="2">
     ユーザー名/メールアドレス
     </font>
@@ -55,7 +57,7 @@ export default {
 </script>
 
 <style scoped>
-.login {
+.signup {
   margin: 0 auto;
   width: 300px;
   height: 500px;

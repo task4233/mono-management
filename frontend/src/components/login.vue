@@ -4,7 +4,7 @@
       mono<br>management
     </font>
     <br>
-    <router-link to="sigup">signup</router-link>
+    <router-link to="/signup">signup</router-link>
     <br>
     <font size="2">
     ユーザー名/メールアドレス
