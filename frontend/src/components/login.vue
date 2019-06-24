@@ -19,6 +19,7 @@
     googleアカウントでログイン
     <br>
     <button v-on:click="login">ログイン</button>
+    
   </div>
 </template>
 
@@ -44,11 +45,6 @@ export default {
   methods: {
     login: function() {
       /*特別な $event 変数を使うことでメソッドに DOM イベントを渡すことができます*/
-      var nextPage = this.$route.query.next
-      if (nextPage === undefined) {
-        nextPage = 'login'
-      }
-      console.log(nextPage)
       // checkloginイベント(htmlファイル内で定義している)の内容を記述
       for (var i = 0; this.users.length < 10; i++) {
         if (this.users[i] === null) break

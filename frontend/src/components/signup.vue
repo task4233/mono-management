@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'signup',
   data: function() {
@@ -32,24 +34,21 @@ export default {
     }
   },
   methods: {
-    SignUp: function() {
+    signup: function() {
+
       /*特別な $event 変数を使うことでメソッドに DOM イベントを渡すことができます*/
-      var nextPage = this.$route.query.next
-      if (nextPage === undefined) {
-        nextPage = 'login'
-      }
-      console.log(nextPage)
       // checkloginイベント(htmlファイル内で定義している)の内容を記述
-      var correctLoginId = 'LoginId'
-      var correctPass = 'LoginPass'
-      var myLoginId = document.getElementById('loginId').value
-      var myLoginPass = document.getElementById('loginPass').value
-      if ((myLoginId === correctLoginId) &&
-        (myLoginPass === correctPass)) {
         // document.getElementById('loginResult').innerHTML = 'Login Success !'
-        this.$router.push({name: nextPage, query: { auth: 'authenticated' }})
+      if (this.userId !== null && this.userPass !== null) {
+        var data = {userId : this.loginId, userPass : this.loginPass };
+        axios.post('http://localhost:3000/users/', data)
+          .then(response => {
+            console.log('body:', response.data);
+          }).catch(function(error) {
+            console.log(error);
+        });
       } else {
-        document.getElementById('loginResult').innerHTML = 'Login Failed !'
+        // エラーメッセージ作成
       }
     }
   }
