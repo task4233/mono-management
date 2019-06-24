@@ -16,10 +16,10 @@ create table if not exists `itemdatas`
   constraint foreignKey_itemId_from_itemdatas_to_items
     foreign key (`itemId`)
     references `items` (`id`)
-    on delete restrict on update restrict,
+    on delete cascade on update restrict,
   constraint foreignKey_dataId_from_itemdatas_to_datas
     foreign key (`dataId`)
     references `datas` (`id`)
-    on delete restrict on update restrict,
+    on delete cascade on update restrict,
   primary key(`dataId`, `itemId`)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_bin;

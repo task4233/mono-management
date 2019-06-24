@@ -1,9 +1,9 @@
 package internal
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -32,21 +32,23 @@ func GetMonos(c *gin.Context) {
 	// itemsテーブルのidごとに, itemdatasテーブルで該当するデータをくっつける
 
 	// JSONをまとめてreturnする
-	resItemsJSON, err := json.Marshal(resItems)
-	if err != nil {
-		SendDefaultHeader(c, "GET")
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"status":  false,
-			"message": "JSONの作成に失敗しました.",
-		})
-		panic(err)
-	}
+	// [TODO]
+	// エラー処理はあとで実装
+	/*
+		{
+			SendDefaultHeader(c, "GET")
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"status":  false,
+				"message": "JSONの作成に失敗しました.",
+			})
+			panic(err)
+		}
+	*/
+	ms := ResItems{true, resItems}
 
-	SendDefaultHeader(c, "GET")
-	c.JSON(http.StatusOK, gin.H{
-		"status": true,
-		"data":   resItemsJSON,
-	})
+	SendDefaultHeader(c, "GET/POST")
+
+	c.JSON(http.StatusOK, ms)
 
 }
 
@@ -62,11 +64,32 @@ Endpoints
 */
 func CreateMono(c *gin.Context) {
 	// リクエストに含まれる情報のうち, name, userId, tagIdをitemsテーブルに追加
+	// 受け取るjsonの形式は以下の通り
+	//```json
+	// +name
+	// +userId
+	// +tagId
+	//```
 
-	// リクエストに含まれる情報のうち, datasに含まれるデータ群を1つずつに対して以下の処理を行う
-	// + type(primary data), name(データ名)をdatasテーブルに追加する
-	// + そのdataId, itemId, 型に該当する値をitemdatasテーブルに追加する
-	c.JSON(http.StatusOK, "create mono")
+	var reqItem Item
+	c.BindJSON(&reqItem)
+	db := GetDB()
+	fmt.Println(reqItem)
+	db.Create(&reqItem)
+	if db.NewRecord(reqItem) {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": "データを作成できませんでした",
+		})
+	} else {
+		fmt.Println(reqItem)
+
+		// リクエストに含まれる情報のうち, datasに含まれるデータ群を1つずつに対して以下の処理を行う
+		// + type(primary data), name(データ名)をdatasテーブルに追加する
+		// + そのdataId, itemId, 型に該当する値をitemdatasテーブルに追加する
+		ms := ResItem{true, reqItem}
+		c.JSON(http.StatusOK, ms)
+	}
 }
 
 /*
@@ -102,6 +125,32 @@ Endpoints
 func DeleteMono(c *gin.Context) {
 	// パスの{:monoId}を用いてデータをitemsテーブルから削除する
 	// 関連するデータ群はまとめて削除される
+	SendDefaultHeader(c, "DELETE")
+	delItem := Item{}
+	itemID := c.Param("monoId")
+	delItem.Id, err = strconv.Atoi(itemID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": "削除対象のmonoが見つかりませんでした",
+		})
+		panic(err)
+	}
 
-	c.JSON(http.StatusOK, "delete mono")
+	db := GetDB()
+	Itemdatas := []Itemdata{}
+	db.Where("Itemid=?", itemID).Find(&Itemdatas)
+	fmt.Printf("%+v\n", Itemdatas)
+
+	db.First(&delItem)
+
+	deldata := Data{}
+	deldata.Id = delItem.Id
+
+	db.Delete(&delItem)
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":  true,
+		"message": "削除完了しました",
+	})
 }

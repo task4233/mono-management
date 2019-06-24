@@ -8,6 +8,7 @@ docker-composeの環境下では
 package internal
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/url"
 	"os"
@@ -25,70 +26,70 @@ var (
 )
 
 type (
-	// users
+	// User
 	User struct {
 		// id
-		Id int `json:id`
+		Id int `json:"id" gorm:"primary_key"`
 		// name
-		Name string `json:name`
+		Name string `json:"name"`
 		// hashedPass
-		HashedPass string `json:hashedPass`
+		HashedPass string `json:"hashedPass" gorm:"column:hasedPass"`
 	}
 
 	// items
 	Item struct {
 		// id
-		Id int `json:id`
+		Id int `json:"id" gorm:"primary_key"`
 		// name
-		Name string `json:name`
+		Name string `json:"name"`
 		// userId
-		UserId int `json:userId`
+		Userid int `json:"userId" gorm:"column:userId"`
 		// tagId
-		TagId int `json:tagId`
+		Tagid int `json:"tagId" gorm:"column:tagId"`
 	}
 
 	// itemdatas
-	ItemData struct {
+	Itemdata struct {
 		// dataId
-		DataId int `json:dataId`
+		DataId int `json:"id" gorm:"primary_key"`
 		// itemId
-		ItemId int `json:itemId`
+		ItemId int `json:"itemId" gorm:"column:itemId"`
 		// num
-		Num float64 `json:num`
+		Num float64 `json:"num"`
 		// str
-		Str string `json:str`
+		Str string `json:"str"`
 		// timestamp
-		Timestamp time.Time `json:timestamp`
+		Timestamp time.Time `json:"timestamp"`
 	}
 
 	// tags
 	Tag struct {
 		// id
-		Id int `json:id`
+		Id int `json:"id" gorm:"primary_key"`
 		// name
-		Name string `json:name`
+		Name string `json:"name"`
 		// parentId
-		ParentId int `json:parentId`
+		ParentId int `json:"parentId" gorm:"column:tagId"`
 		// userId
-		UserId int `json:userId`
+		UserId int `json:"userId" gorm:"column:userId"`
 	}
 
 	// datas
 	Data struct {
 		// id
-		Id int `json:id`
+		Id int `json:"id" gorm:"primary_key"`
 		// name
-		Name string `json:name`
+		Name string `json:"name"`
 		// type
-		Type string `json:type`
+		Type string `json:"type"`
 	}
 
 	// tokens
 	Token struct {
 		// token
-		Token string `json:token`
+		Token string `json:"token" gorm:"primary_key"`
 		// userId
-		UserId int `json:userId`
+		UserId int `json:"userId" gorm:"column:userId"`
 	}
 )
 
@@ -201,4 +202,50 @@ func GetCookie(c *gin.Context, name string) (string, error) {
 	}
 	val, _ := url.QueryUnescape(cookie.Value)
 	return val, nil
+}
+
+// Res is the interface of Item structure
+type Res Item
+type ResItems struct {
+	Status bool
+	Item   []Item
+}
+
+/*
+AddStatusMessageForItems は与えられたjsonデータにステータスを追加して返すメソッドです.
+*/
+func (i Item) AddStatusMessageForItems() ([]byte, error) {
+	return json.Marshal(struct {
+		Res
+		Status bool
+	}{
+		Res:    Res(i),
+		Status: true,
+	})
+}
+
+// Res is the interface of Item structure
+type ResItem struct {
+	Status bool
+	Item   Item
+}
+
+/*
+AddStatusMessageForItem は与えられたjsonデータにステータスを追加して返すメソッドです.
+*/
+func (i Item) AddStatusMessageForItem() ([]byte, error) {
+	return json.Marshal(struct {
+		Res
+		Status bool
+	}{
+		Res:    Res(i),
+		Status: true,
+	})
+}
+
+//
+// Table Setting
+//
+func (i *Itemdata) TableName() string {
+	return "itemdatas"
 }
