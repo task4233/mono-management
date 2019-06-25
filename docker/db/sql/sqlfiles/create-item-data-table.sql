@@ -12,7 +12,7 @@ create table if not exists `itemdatas`
   `itemId`         INT(8),
   `num`            double,
   `str`            VARCHAR(64),
-  `timestamp`      Date,
+  `timestamp`      timestamp,
   constraint foreignKey_itemId_from_itemdatas_to_items
     foreign key (`itemId`)
     references `items` (`id`)

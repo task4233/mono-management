@@ -9,6 +9,7 @@ package internal
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 	"net/url"
 	"os"
@@ -51,7 +52,7 @@ type (
 	// itemdatas
 	Itemdata struct {
 		// dataId
-		DataId int `json:"id" gorm:"primary_key"`
+		DataId int `json:"id" gorm:"column:dataId; primary_key"`
 		// itemId
 		ItemId int `json:"itemId" gorm:"column:itemId"`
 		// num
@@ -59,7 +60,7 @@ type (
 		// str
 		Str string `json:"str"`
 		// timestamp
-		Timestamp time.Time `json:"timestamp"`
+		Timestamp *time.Time `json:"timestamp"`
 	}
 
 	// tags
@@ -69,7 +70,7 @@ type (
 		// name
 		Name string `json:"name"`
 		// parentId
-		ParentId int `json:"parentId" gorm:"column:tagId"`
+		ParentId int `json:"parentId" gorm:"column:parentId"`
 		// userId
 		UserId int `json:"userId" gorm:"column:userId"`
 	}
@@ -110,6 +111,7 @@ func InitDB() {
 	if err != nil {
 		panic(err.Error())
 	}
+	db.LogMode(true)
 }
 
 /*
@@ -224,6 +226,42 @@ func (i Item) AddStatusMessageForItems() ([]byte, error) {
 	})
 }
 
+//
+// user tool funcs
+//
+func GetUserFromToken(token string) (*User, error) {
+	if len(token) == 0 {
+		return &User{Id: -1, Name: "", HashedPass: ""}, errors.New("Empty token")
+	}
+	var userToken Token
+	if err := GetDB().Where(&Token{Token: token, UserId: 0}).First(&userToken).Error; err != nil {
+		if gorm.IsRecordNotFoundError(err) {
+			return &User{Id: -1, Name: "", HashedPass: ""}, errors.New("Login required")
+		}
+		return &User{Id: -1, Name: "", HashedPass: ""}, errors.New("Something went wrong!")
+	}
+	var user User
+	if err := GetDB().Where(&User{Id: userToken.UserId, Name: "", HashedPass: ""}).First(&user).Error; err != nil {
+		return &User{Id: -1, Name: "", HashedPass: ""}, errors.New("Something went wrong!")
+	}
+	return &user, nil
+}
+func GetUserFromCookie(c *gin.Context) (*User, error) {
+	token, err := GetCookie(c, "token")
+	if err != nil {
+		return GetUserFromToken(token)
+	} else {
+		return &User{Id: -1, Name: "", HashedPass: ""}, errors.New("Login Required")
+	}
+}
+func CheckLogin(c *gin.Context) (*User, error) {
+	user, err := GetUserFromCookie(c)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"status": false, "message": err.Error()})
+	}
+	return user, err
+}
+
 // Res is the interface of Item structure
 type ResItem struct {
 	Status bool
@@ -248,4 +286,23 @@ func (i Item) AddStatusMessageForItem() ([]byte, error) {
 //
 func (i *Itemdata) TableName() string {
 	return "itemdatas"
+}
+
+func (i *Data) TableName() string {
+	return "datas"
+}
+
+//
+// reecived request form
+//
+type ReqItemData struct {
+	Name  string
+	Value string
+	Type  string
+}
+
+type ReqItem struct {
+	Name  string
+	TagId int `json:"tagId"`
+	Datas []ReqItemData
 }
