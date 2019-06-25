@@ -39,7 +39,7 @@ func GetInfo(c *gin.Context) {
 		return
 	}
 
-	if err := db.Where("userId = ?", user.Id).First(&user).Error; err != nil {
+	if err := db.Where("userId = ?", user.ID).First(&user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
 			"message": "ユーザが見つかりません",
@@ -102,7 +102,7 @@ func Login(c *gin.Context) {
 	randomToken := make([]byte, 64)
 	rand.Read(randomToken)
 
-	token.UserId = user.Id
+	token.UserID = user.ID
 	token.Token = string(randomToken)
 	db.Create(&token)
 
@@ -134,7 +134,7 @@ func Logout(c *gin.Context) {
 	}
 
 	token := Token{}
-	if err := db.Where("userId = ?", user.Id).First(&token).Error; err != nil {
+	if err := db.Where("userId = ?", user.ID).First(&token).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
 			"message": "サーバエラー",
@@ -225,18 +225,18 @@ GetUserFromToken はトークンからユーザ情報を取得するメソッド
 */
 func GetUserFromToken(token string) (User, error) {
 	if len(token) == 0 {
-		return User{Id: -1}, errors.New("empty token")
+		return User{ID: -1}, errors.New("empty token")
 	}
 	var userToken Token
-	if err := GetDB().Where(&Token{Token: token, UserId: 0}).First(&userToken).Error; err != nil {
+	if err := GetDB().Where(&Token{Token: token, UserID: 0}).First(&userToken).Error; err != nil {
 		if gorm.IsRecordNotFoundError(err) {
-			return User{Id: -1}, errors.New("login required")
+			return User{ID: -1}, errors.New("login required")
 		}
-		return User{Id: -1}, errors.New("something went wrong")
+		return User{ID: -1}, errors.New("something went wrong")
 	}
 	var user User
-	if err := GetDB().Where(&User{Id: userToken.UserId, Name: "", HashedPass: ""}).First(&user).Error; err != nil {
-		return User{Id: -1}, errors.New("something went wrong")
+	if err := GetDB().Where(&User{ID: userToken.UserID, Name: "", HashedPass: ""}).First(&user).Error; err != nil {
+		return User{ID: -1}, errors.New("something went wrong")
 	}
 	return user, nil
 }
@@ -250,7 +250,7 @@ func GetUserFromCookie(c *gin.Context) (User, error) {
 	if err != nil {
 		return GetUserFromToken(token)
 	} else {
-		return User{Id: -1}, errors.New("Login Required")
+		return User{ID: -1}, errors.New("Login Required")
 	}
 }
 
