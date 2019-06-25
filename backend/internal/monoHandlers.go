@@ -55,12 +55,11 @@ func CreateMono(c *gin.Context) {
 	var reqItem ReqItem
 	c.BindJSON(&reqItem)
 
-	CreateDatasByRequest(c, reqItem)
+	if err := CreateDatasByRequest(c, reqItem); err != nil {
+		return
+	}
+	ReturnStatusOKWithStrMessage(c, "作成完了しました")
 
-	c.JSON(http.StatusOK, gin.H{
-		"status":  true,
-		"message": "作成完了しました",
-	})
 }
 
 /*
@@ -81,12 +80,10 @@ func UpdateMonos(c *gin.Context) {
 	c.BindJSON(&reqItem)
 	itemID := c.Param("monoId")
 
-	UpdateDatasByRequestAndStrID(c, reqItem, itemID)
-
-	c.JSON(http.StatusOK, gin.H{
-		"status":  true,
-		"message": "作成完了しました",
-	})
+	if err := UpdateDatasByRequestAndStrID(c, reqItem, itemID); err != nil {
+		return
+	}
+	ReturnStatusOKWithStrMessage(c, "更新完了しました")
 }
 
 /*
@@ -108,9 +105,5 @@ func DeleteMono(c *gin.Context) {
 	if err := DeleteDatasByStrID(c, itemID); err != nil {
 		return
 	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"status":  true,
-		"message": "削除完了しました",
-	})
+	ReturnStatusOKWithStrMessage(c, "削除完了しました")
 }

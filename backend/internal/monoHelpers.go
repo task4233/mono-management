@@ -67,7 +67,12 @@ func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
 	// fmt.Printf("%+v\n", newItem)  // for debug
 
 	db := GetDB()
+	// トランザクション開始
+	tx := db.Begin()
 	db.Create(&newItem)
+	if tx.Error != nil {
+		return tx.Error
+	}
 
 	for _, data := range reqItem.Datas {
 		newData := Data{Name: data.Name, Type: data.Type}
@@ -123,50 +128,68 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 	reqUser := User{Id: 1}
 
 	// fmt.Printf("%+v\n", reqItem) // for debug
-
-	editItem := Item{Name: reqItem.Name, Userid: reqUser.Id, Tagid: reqItem.TagId}
 	// fmt.Printf("%+v\n", newItem)  // for debug
 
+	editItem := Item{}
+	if editItem.Id, err = strconv.Atoi(itemID); err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"status":  false,
+			"message": "不正なidです",
+		})
+		return err
+	}
+
 	db := GetDB()
-	db.Create(&newItem)
+	db.Model(&editItem).Updates(Item{Name: reqItem.Name, Userid: reqUser.Id, Tagid: reqItem.TagId})
 
-	for _, data := range reqItem.Datas {
-		newData := Data{Name: data.Name, Type: data.Type}
-		db.Create(&newData)
-		// fmt.Printf("%+v\n", newData) // for debug
+	editItemDatas := []Itemdata{}
+	db.Where(&Itemdata{ItemId: editItem.Id}).Find(&editItemDatas)
 
-		switch data.Type {
-		case "num":
-			numVal, err := strconv.ParseFloat(data.Value, 64)
-			if err != nil {
+	for _, editItemData := range editItemDatas {
+		// fmt.Printf("[%d]%+v\n", index, delItemdata) // for debug
+
+		// datasテーブルのそのレコードをupdate
+		for _, data := range reqItem.Datas {
+			editData := Data{Id: editItemData.DataId}
+			db.First(&editData)
+			if editData.Name != data.Name {
+				continue
+			}
+
+			switch data.Type {
+			case "num":
+				numVal, err := strconv.ParseFloat(data.Value, 64)
+				if err != nil {
+					c.JSON(http.StatusInternalServerError, gin.H{
+						"status":  false,
+						"message": "型が数字ではありません",
+					})
+					return err
+				}
+				db.Model(&editItemData).Updates(&Itemdata{DataId: editData.Id, ItemId: editItem.Id, Num: numVal, Timestamp: nil})
+			case "str":
+				db.Model(&editItemData).Updates(&Itemdata{DataId: editData.Id, ItemId: editItem.Id, Str: data.Value, Timestamp: nil})
+			case "timestamp":
+				// time.Parse("layout", "value")
+				timestampValue, err := time.Parse(time.RFC1123, data.Value)
+				if err != nil {
+					c.JSON(http.StatusInternalServerError, gin.H{
+						"status":  false,
+						"message": "型が日付ではありません",
+					})
+					return err
+				}
+				db.Model(&editItemData).Updates(&Itemdata{DataId: editItem.Id, ItemId: editItem.Id, Timestamp: &timestampValue})
+			default:
 				c.JSON(http.StatusInternalServerError, gin.H{
 					"status":  false,
-					"message": "型が数字ではありません",
+					"message": "無効な型です",
 				})
 				return err
 			}
-			db.Create(&Itemdata{DataId: newData.Id, ItemId: newItem.Id, Num: numVal, Timestamp: nil})
-		case "str":
-			db.Create(&Itemdata{DataId: newData.Id, ItemId: newItem.Id, Str: data.Value, Timestamp: nil})
-		case "timestamp":
-			// time.Parse("layout", "value")
-			timestampValue, err := time.Parse(time.RFC1123, data.Value)
-			if err != nil {
-				c.JSON(http.StatusInternalServerError, gin.H{
-					"status":  false,
-					"message": "型が日付ではありません",
-				})
-				return err
-			}
-			db.Create(&Itemdata{DataId: newItem.Id, ItemId: newItem.Id, Timestamp: &timestampValue})
-		default:
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"status":  false,
-				"message": "無効な型です",
-			})
-			return err
 		}
 	}
+
 	return nil
 }
 
@@ -175,7 +198,7 @@ func DeleteDatasByStrID(c *gin.Context, itemId string) error {
 	if delItem.Id, err = strconv.Atoi(itemId); err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"status":  false,
-			"message": "削除対象のmonoが見つかりませんでした",
+			"message": "不正なidです",
 		})
 		return err
 	}
@@ -201,6 +224,13 @@ func DeleteDatasByStrID(c *gin.Context, itemId string) error {
 	// 最後にitemを削除
 	db.Delete(&delItem)
 	return nil
+}
+
+func ReturnStatusOKWithStrMessage(c *gin.Context, message string) {
+	c.JSON(http.StatusOK, gin.H{
+		"status":  true,
+		"message": message,
+	})
 }
 
 //
