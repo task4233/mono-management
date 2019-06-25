@@ -52,7 +52,7 @@ type (
 		// dataId
 		DataID int `json:"id" gorm:"column:dataId; primary_key"`
 		// itemId
-		ItemID int `json:"itemId" gorm:"column:itemId"`
+		ItemID int `json:"itemId" gorm:"column:itemId; primary_key"`
 		// num
 		Num float64 `json:"num"`
 		// str
