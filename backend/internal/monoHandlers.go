@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -34,7 +35,21 @@ func GetMonos(c *gin.Context) {
 
 	SendDefaultHeader(c, "GET")
 	resItems := []Item{}
-	GetDB().Find(&resItems)
+	db := GetDB().Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			db.Rollback()
+		}
+	}()
+
+	if err := db.Find(&resItems).Error; err != nil {
+		db.Rollback()
+		c.JSON(http.StatusNotFound, gin.H{
+			"status":  false,
+			"message": "データが存在しません",
+		})
+		return
+	}
 	ms := ResItems{true, resItems}
 	c.JSON(http.StatusOK, ms)
 }
@@ -53,11 +68,19 @@ func CreateMono(c *gin.Context) {
 	SendDefaultHeader(c, "POST")
 
 	var reqItem ReqItem
-	c.BindJSON(&reqItem)
+	if err := c.BindJSON(&reqItem); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  false,
+			"message": "不正なリクエストボディです",
+		})
+		return
+	}
 
+	fmt.Println(reqItem)
 	if err := CreateDatasByRequest(c, reqItem); err != nil {
 		return
 	}
+
 	ReturnStatusOKWithStrMessage(c, "作成完了しました")
 
 }

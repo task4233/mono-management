@@ -2,6 +2,8 @@ package internal
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -13,7 +15,7 @@ import (
 type Res Item
 type ResItems struct {
 	Status bool
-	Item   []Item
+	Data   []Item
 }
 
 /*
@@ -32,7 +34,7 @@ func (i Item) AddStatusMessageForItems() ([]byte, error) {
 // Res is the interface of Item structure
 type ResItem struct {
 	Status bool
-	Item   Item
+	Data   Item
 }
 
 /*
@@ -66,50 +68,98 @@ func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
 	newItem := Item{Name: reqItem.Name, UserID: reqUser.ID, TagID: reqItem.TagID}
 	// fmt.Printf("%+v\n", newItem)  // for debug
 
-	db := GetDB()
 	// トランザクション開始
-	tx := db.Begin()
-	db.Create(&newItem)
-	if tx.Error != nil {
-		return tx.Error
+	db := GetDB().Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			db.Rollback()
+		}
+	}()
+
+	if err := db.Create(&newItem).Error; err != nil {
+		db.Rollback()
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": err.Error,
+		})
+		return err
 	}
 
-	for _, data := range reqItem.Datas {
+	fmt.Println("hgoe")
+	for _, data := range reqItem.Data {
+		fmt.Println("fuga")
 		newData := Data{Name: data.Name, Type: data.Type}
-		db.Create(&newData)
+		if err := db.Create(&newData).Error; err != nil {
+			db.Rollback()
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"status":  false,
+				"message": err.Error,
+			})
+			return err
+		}
 		// fmt.Printf("%+v\n", newData) // for debug
 
 		switch data.Type {
 		case "num":
 			numVal, err := strconv.ParseFloat(data.Value, 64)
 			if err != nil {
-				c.JSON(http.StatusInternalServerError, gin.H{
+				c.JSON(http.StatusBadRequest, gin.H{
 					"status":  false,
 					"message": "型が数字ではありません",
 				})
 				return err
 			}
-			db.Create(&Itemdata{DataID: newData.ID, ItemID: newItem.ID, Num: numVal, Timestamp: nil})
+			if err := db.Create(&Itemdata{DataID: newData.ID, ItemID: newItem.ID, Num: numVal, Timestamp: nil}).Error; err != nil {
+				db.Rollback()
+				c.JSON(http.StatusInternalServerError, gin.H{
+					"status":  false,
+					"message": err.Error,
+				})
+				return err
+			}
 		case "str":
-			db.Create(&Itemdata{DataID: newData.ID, ItemID: newItem.ID, Str: data.Value, Timestamp: nil})
+			if err := db.Create(&Itemdata{DataID: newData.ID, ItemID: newItem.ID, Str: data.Value, Timestamp: nil}).Error; err != nil {
+				db.Rollback()
+				c.JSON(http.StatusInternalServerError, gin.H{
+					"status":  false,
+					"message": err.Error,
+				})
+				return err
+			}
 		case "timestamp":
 			// time.Parse("layout", "value")
 			timestampValue, err := time.Parse(time.RFC1123, data.Value)
 			if err != nil {
-				c.JSON(http.StatusInternalServerError, gin.H{
+				c.JSON(http.StatusBadRequest, gin.H{
 					"status":  false,
 					"message": "型が日付ではありません",
 				})
 				return err
 			}
-			db.Create(&Itemdata{DataID: newItem.ID, ItemID: newItem.ID, Timestamp: &timestampValue})
+
+			if err := db.Create(&Itemdata{DataID: newData.ID, ItemID: newItem.ID, Timestamp: &timestampValue}).Error; err != nil {
+				db.Rollback()
+				c.JSON(http.StatusInternalServerError, gin.H{
+					"status":  false,
+					"message": err.Error,
+				})
+				return err
+			}
 		default:
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"status":  false,
 				"message": "無効な型です",
 			})
-			return err
+			return errors.New("Invalid Structure")
 		}
+	}
+	if err := db.Commit().Error; err != nil {
+		db.Rollback()
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": err.Error,
+		})
+		return err
 	}
 	return nil
 }
@@ -139,19 +189,46 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 		return err
 	}
 
-	db := GetDB()
-	db.Model(&editItem).Updates(Item{Name: reqItem.Name, UserID: reqUser.ID, TagID: reqItem.TagID})
+	db := GetDB().Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			db.Rollback()
+		}
+	}()
+
+	if err := db.Model(&editItem).Updates(Item{Name: reqItem.Name, UserID: reqUser.ID, TagID: reqItem.TagID}).Error; err != nil {
+		db.Rollback()
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": err.Error,
+		})
+		return err
+	}
 
 	editItemDatas := []Itemdata{}
-	db.Where(&Itemdata{ItemID: editItem.ID}).Find(&editItemDatas)
+	if err := db.Where(&Itemdata{ItemID: editItem.ID}).Find(&editItemDatas).Error; err != nil {
+		db.Rollback()
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": err.Error,
+		})
+		return err
+	}
 
 	for _, editItemData := range editItemDatas {
 		// fmt.Printf("[%d]%+v\n", index, delItemdata) // for debug
 
 		// datasテーブルのそのレコードをupdate
-		for _, data := range reqItem.Datas {
+		for _, data := range reqItem.Data {
 			editData := Data{ID: editItemData.DataID}
-			db.First(&editData)
+			if err := db.First(&editData).Error; err != nil {
+				db.Rollback()
+				c.JSON(http.StatusInternalServerError, gin.H{
+					"status":  false,
+					"message": err.Error,
+				})
+				return err
+			}
 			if editData.Name != data.Name {
 				continue
 			}
@@ -166,9 +243,23 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 					})
 					return err
 				}
-				db.Model(&editItemData).Updates(&Itemdata{DataID: editData.ID, ItemID: editItem.ID, Num: numVal, Timestamp: nil})
+				if err := db.Model(&editItemData).Updates(&Itemdata{DataID: editData.ID, ItemID: editItem.ID, Num: numVal, Timestamp: nil}).Error; err != nil {
+					db.Rollback()
+					c.JSON(http.StatusInternalServerError, gin.H{
+						"status":  false,
+						"message": err.Error,
+					})
+					return err
+				}
 			case "str":
-				db.Model(&editItemData).Updates(&Itemdata{DataID: editData.ID, ItemID: editItem.ID, Str: data.Value, Timestamp: nil})
+				if err := db.Model(&editItemData).Updates(&Itemdata{DataID: editData.ID, ItemID: editItem.ID, Str: data.Value, Timestamp: nil}).Error; err != nil {
+					db.Rollback()
+					c.JSON(http.StatusInternalServerError, gin.H{
+						"status":  false,
+						"message": err.Error,
+					})
+					return err
+				}
 			case "timestamp":
 				// time.Parse("layout", "value")
 				timestampValue, err := time.Parse(time.RFC1123, data.Value)
@@ -179,7 +270,14 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 					})
 					return err
 				}
-				db.Model(&editItemData).Updates(&Itemdata{DataID: editItem.ID, ItemID: editItem.ID, Timestamp: &timestampValue})
+				if err := db.Model(&editItemData).Updates(&Itemdata{DataID: editItem.ID, ItemID: editItem.ID, Timestamp: &timestampValue}).Error; err != nil {
+					db.Rollback()
+					c.JSON(http.StatusInternalServerError, gin.H{
+						"status":  false,
+						"message": err.Error,
+					})
+					return err
+				}
 			default:
 				c.JSON(http.StatusInternalServerError, gin.H{
 					"status":  false,
@@ -188,6 +286,14 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 				return err
 			}
 		}
+	}
+	if err := db.Commit().Error; err != nil {
+		db.Rollback()
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": err.Error,
+		})
+		return err
 	}
 
 	return nil
@@ -204,25 +310,74 @@ func DeleteDatasByStrID(c *gin.Context, itemID string) error {
 	}
 	// fmt.Printf("%+v\n", delItem) // for debug
 
-	db := GetDB()
-	db.First(&delItem)
+	db := GetDB().Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			db.Rollback()
+		}
+	}()
+
+	if err := db.First(&delItem).Error; err != nil {
+		db.Rollback()
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": err.Error,
+		})
+		return err
+	}
 
 	delItemdatas := []Itemdata{}
-	db.Where(&Itemdata{ItemID: delItem.ID}).Find(&delItemdatas)
+	if err := db.Where(&Itemdata{ItemID: delItem.ID}).Find(&delItemdatas).Error; err != nil {
+		db.Rollback()
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": err.Error,
+		})
+		return err
+	}
 
 	for _, delItemdata := range delItemdatas {
 		// fmt.Printf("[%d]%+v\n", index, delItemdata) // for debug
 
 		// datasテーブルのそのレコードをdelete
 		delData := Data{ID: delItemdata.DataID}
-		db.First(&delData).Delete(&delData)
+		if err := db.First(&delData).Delete(&delData).Error; err != nil {
+			db.Rollback()
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"status":  false,
+				"message": err.Error,
+			})
+			return err
+		}
 
 		// 保持しておいたdataIDとitemIDを持つレコードをitemdatasからdelete
-		db.Delete(&delItemdata)
+		if err := db.Delete(&delItemdata).Error; err != nil {
+			db.Rollback()
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"status":  false,
+				"message": err.Error,
+			})
+			return err
+		}
 	}
 
 	// 最後にitemを削除
-	db.Delete(&delItem)
+	if err := db.Delete(&delItem).Error; err != nil {
+		db.Rollback()
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": err.Error,
+		})
+		return err
+	}
+	if err := db.Commit().Error; err != nil {
+		db.Rollback()
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": err.Error,
+		})
+		return err
+	}
 	return nil
 }
 
@@ -248,6 +403,6 @@ type ReqItemData struct {
 
 type ReqItem struct {
 	Name  string
-	TagID int `json:"tagID"`
-	Datas []ReqItemData
+	TagID int `json:"tagId" gorm:"tagId"`
+	Data  []ReqItemData
 }
