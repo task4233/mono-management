@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"encoding/base64"
 	"errors"
 	"net/http"
 
@@ -39,7 +40,7 @@ func GetInfo(c *gin.Context) {
 		return
 	}
 
-	if err := db.Where("userId = ?", user.ID).First(&user).Error; err != nil {
+	if err := db.Where("id = ?", user.ID).First(&user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
 			"message": "ユーザが見つかりません",
@@ -97,15 +98,8 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token := Token{}
-
-	randomToken := make([]byte, 64)
-	rand.Read(randomToken)
-
-	token.UserID = user.ID
-	token.Token = string(randomToken)
+	token := generateToken(user.ID)
 	db.Create(&token)
-
 	SetCookie(c, "token", token.Token)
 
 	c.JSON(http.StatusOK, gin.H{
@@ -168,7 +162,7 @@ func CreateAccount(c *gin.Context) {
 	if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  false,
-			"message": err.Error(), // 仮
+			"message": err.Error(),
 		})
 	}
 	hashedPass, err := bcrypt.GenerateFromPassword([]byte(json.Password), bcrypt.DefaultCost)
@@ -180,11 +174,16 @@ func CreateAccount(c *gin.Context) {
 		return
 	}
 
-	user := User{}
-	user.Name = json.Name
-	user.HashedPass = string(hashedPass)
+	user := User{Name: json.Name, HashedPass: string(hashedPass)}
+	db.Create(&user)
 
-	c.JSON(http.StatusOK, "create account")
+	token := generateToken(user.ID)
+	db.Create(&token)
+	SetCookie(c, "token", token.Token)
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": true,
+	})
 }
 
 /*
@@ -248,9 +247,9 @@ GetUserFromCookie はCookieからユーザ情報を取得するメソッドで�
 func GetUserFromCookie(c *gin.Context) (User, error) {
 	token, err := GetCookie(c, "token")
 	if err != nil {
-		return GetUserFromToken(token)
-	} else {
 		return User{ID: -1}, errors.New("Login Required")
+	} else {
+		return GetUserFromToken(token)
 	}
 }
 
@@ -267,4 +266,10 @@ func CheckLogin(c *gin.Context) (User, error) {
 		})
 	}
 	return user, err
+}
+
+func generateToken(userID int) Token {
+	randomToken := make([]byte, 48) // 64文字
+	rand.Read(randomToken)
+	return Token{Token: base64.URLEncoding.EncodeToString(randomToken), UserID: userID}
 }
