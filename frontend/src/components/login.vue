@@ -19,7 +19,7 @@
     googleアカウントでログイン
     <br>
     <button v-on:click="login">ログイン</button>
-    
+
   </div>
 </template>
 
@@ -35,25 +35,20 @@ export default {
       users: [],
     }
   },
-  created() {
-    axios.get('http://localhost:3000/users').then(response => {
-      console.log('status:', response.status);
-      console.log('body:', response.data);
-      this.users = response.data
-    });
-  },
   methods: {
     login: function() {
       /*特別な $event 変数を使うことでメソッドに DOM イベントを渡すことができます*/
       // checkloginイベント(htmlファイル内で定義している)の内容を記述
-      for (var i = 0; this.users.length < 10; i++) {
-        if (this.users[i] === null) break
-        if (this.loginPass === this.users[i].userPass &&
-          this.loginId === this.users[i].userId) {
-          this.$router.push('/header')
-        } else {
-          // errorメッセージを作成
-        }
+      if (this.userId !== null && this.userPass !== null) {
+        var data = {userId : this.loginId, userPass : this.loginPass };
+        axios.post('/api/v1/user/login', data)
+          .then(response => {
+            console.log('body:', response.data);
+          }).catch(function(error) {
+            console.log(error);
+        });
+      } else {
+        // エラーメッセージ作成
       }
     }
   }

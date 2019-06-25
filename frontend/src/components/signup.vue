@@ -41,7 +41,7 @@ export default {
         // document.getElementById('loginResult').innerHTML = 'Login Success !'
       if (this.userId !== null && this.userPass !== null) {
         var data = {userId : this.loginId, userPass : this.loginPass };
-        axios.post('http://localhost:3000/users/', data)
+        axios.post('/api/v1/user/new', data)
           .then(response => {
             console.log('body:', response.data);
           }).catch(function(error) {
