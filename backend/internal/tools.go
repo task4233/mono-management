@@ -8,8 +8,6 @@ docker-composeの環境下では
 package internal
 
 import (
-	"encoding/json"
-	"errors"
 	"net/http"
 	"net/url"
 	"os"
@@ -114,6 +112,25 @@ func InitDB() {
 	db.LogMode(true)
 }
 
+func (i *User) TableName() string {
+	return "users"
+}
+func (i *Item) TableName() string {
+	return "items"
+}
+func (i *Itemdata) TableName() string {
+	return "itemdatas"
+}
+func (i *Data) TableName() string {
+	return "datas"
+}
+func (i *Tag) TableName() string {
+	return "tags"
+}
+func (i *Token) TableName() string {
+	return "tokens"
+}
+
 /*
 CloseDB はGORMの接続を閉じる為のメソッドです。
 
@@ -204,105 +221,4 @@ func GetCookie(c *gin.Context, name string) (string, error) {
 	}
 	val, _ := url.QueryUnescape(cookie.Value)
 	return val, nil
-}
-
-// Res is the interface of Item structure
-type Res Item
-type ResItems struct {
-	Status bool
-	Item   []Item
-}
-
-/*
-AddStatusMessageForItems は与えられたjsonデータにステータスを追加して返すメソッドです.
-*/
-func (i Item) AddStatusMessageForItems() ([]byte, error) {
-	return json.Marshal(struct {
-		Res
-		Status bool
-	}{
-		Res:    Res(i),
-		Status: true,
-	})
-}
-
-//
-// user tool funcs
-//
-func GetUserFromToken(token string) (*User, error) {
-	if len(token) == 0 {
-		return &User{Id: -1, Name: "", HashedPass: ""}, errors.New("Empty token")
-	}
-	var userToken Token
-	if err := GetDB().Where(&Token{Token: token, UserId: 0}).First(&userToken).Error; err != nil {
-		if gorm.IsRecordNotFoundError(err) {
-			return &User{Id: -1, Name: "", HashedPass: ""}, errors.New("Login required")
-		}
-		return &User{Id: -1, Name: "", HashedPass: ""}, errors.New("Something went wrong!")
-	}
-	var user User
-	if err := GetDB().Where(&User{Id: userToken.UserId, Name: "", HashedPass: ""}).First(&user).Error; err != nil {
-		return &User{Id: -1, Name: "", HashedPass: ""}, errors.New("Something went wrong!")
-	}
-	return &user, nil
-}
-func GetUserFromCookie(c *gin.Context) (*User, error) {
-	token, err := GetCookie(c, "token")
-	if err != nil {
-		return GetUserFromToken(token)
-	} else {
-		return &User{Id: -1, Name: "", HashedPass: ""}, errors.New("Login Required")
-	}
-}
-func CheckLogin(c *gin.Context) (*User, error) {
-	user, err := GetUserFromCookie(c)
-	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"status": false, "message": err.Error()})
-	}
-	return user, err
-}
-
-// Res is the interface of Item structure
-type ResItem struct {
-	Status bool
-	Item   Item
-}
-
-/*
-AddStatusMessageForItem は与えられたjsonデータにステータスを追加して返すメソッドです.
-*/
-func (i Item) AddStatusMessageForItem() ([]byte, error) {
-	return json.Marshal(struct {
-		Res
-		Status bool
-	}{
-		Res:    Res(i),
-		Status: true,
-	})
-}
-
-//
-// Table Setting
-//
-func (i *Itemdata) TableName() string {
-	return "itemdatas"
-}
-
-func (i *Data) TableName() string {
-	return "datas"
-}
-
-//
-// reecived request form
-//
-type ReqItemData struct {
-	Name  string
-	Value string
-	Type  string
-}
-
-type ReqItem struct {
-	Name  string
-	TagId int `json:"tagId"`
-	Datas []ReqItemData
 }
