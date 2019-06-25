@@ -25,70 +25,70 @@ var (
 )
 
 type (
-	// users
+	// User structure
 	User struct {
 		// id
-		Id int `json:id`
+		ID int `json:"id" gorm:"primary_key"`
 		// name
-		Name string `json:name`
+		Name string `json:"name"`
 		// hashedPass
-		HashedPass string `json:hashedPass`
+		HashedPass string `json:"hashedPass" gorm:"column:hasedPass"`
 	}
 
-	// items
+	// Item structure
 	Item struct {
 		// id
-		Id int `json:id`
+		ID int `json:"id" gorm:"primary_key"`
 		// name
-		Name string `json:name`
+		Name string `json:"name"`
 		// userId
-		UserId int `json:userId`
+		Userid int `json:"userId" gorm:"column:userId"`
 		// tagId
-		TagId int `json:tagId`
+		Tagid int `json:"tagId" gorm:"column:tagId"`
 	}
 
-	// itemdatas
-	ItemData struct {
+	// Itemdata structure
+	Itemdata struct {
 		// dataId
-		DataId int `json:dataId`
+		DataID int `json:"id" gorm:"column:dataId; primary_key"`
 		// itemId
-		ItemId int `json:itemId`
+		ItemID int `json:"itemId" gorm:"column:itemId; primary_key"`
 		// num
-		Num float64 `json:num`
+		Num float64 `json:"num"`
 		// str
-		Str string `json:str`
+		Str string `json:"str"`
 		// timestamp
-		Timestamp time.Time `json:timestamp`
+		Timestamp *time.Time `json:"timestamp"`
 	}
 
-	// tags
+	// Tag structure
 	Tag struct {
 		// id
-		Id int `json:id`
+		ID int `json:"id" gorm:"primary_key"`
 		// name
-		Name string `json:name`
+		Name string `json:"name"`
 		// parentId
-		ParentId int `json:parentId`
+		ParentID int `json:"parentId" gorm:"column:parentId"`
 		// userId
-		UserId int `json:userId`
+		UserID int `json:"userId" gorm:"column:userId"`
 	}
 
-	// datas
+	// Data structure
 	Data struct {
 		// id
-		Id int `json:id`
+		ID int `json:"id" gorm:"primary_key"`
 		// name
-		Name string `json:name`
+		Name string `json:"name"`
 		// type
-		Type string `json:type`
+		Type string `json:"type"`
 	}
 
-	// tokens
+	// Token structure
 	Token struct {
 		// token
-		Token string `json:token`
+		Token string `json:"token" gorm:"primary_key"`
 		// userId
-		UserId int `json:userId`
+		UserID int `json:"userId" gorm:"column:userId"`
 	}
 )
 
@@ -109,6 +109,37 @@ func InitDB() {
 	if err != nil {
 		panic(err.Error())
 	}
+	db.LogMode(true)
+}
+
+// TableName (users)
+func (i *User) TableName() string {
+	return "users"
+}
+
+// TableName (items)
+func (i *Item) TableName() string {
+	return "items"
+}
+
+// TableName (itemdatas)
+func (i *Itemdata) TableName() string {
+	return "itemdatas"
+}
+
+// TableName (datas)
+func (i *Data) TableName() string {
+	return "datas"
+}
+
+// TableName (tags)
+func (i *Tag) TableName() string {
+	return "tags"
+}
+
+// TableName (tokens)
+func (i *Token) TableName() string {
+	return "tokens"
 }
 
 /*
