@@ -5,7 +5,7 @@
     <span>ヘルプ</span><br>
     <span>このソフトについて</span><br>
   </div>
-  <div v-else>
+  <div v-on:click="changeView" v-else>
     ≡
   </div>
 </template>
@@ -16,9 +16,12 @@ export default {
     menuMode:false
   }
   methods:{
-    logout:functon(event){
+    logout:function(event){
       axios.delete('api/v1/user/logoiut')
       this.$router.push({path:'/login'})
+    },
+    changeView:function(){
+      this.menuMode = !this.menuMode
     }
   }
 }
