@@ -158,7 +158,7 @@ Endpoints
 
 	[POST]   /api/v1/user/new
 */
-func CreateAccount(c *gin.Context, name string, password string) {
+func CreateAccount(c *gin.Context) {
 	// userIdとrawPasswordを取得
 
 	// rawPasswordをハッシュ関数にかけてhashedPassを取得
