@@ -25,20 +25,20 @@ var (
 )
 
 type (
-	// User
+	// User structure
 	User struct {
 		// id
-		Id int `json:"id" gorm:"primary_key"`
+		ID int `json:"id" gorm:"primary_key"`
 		// name
 		Name string `json:"name"`
 		// hashedPass
 		HashedPass string `json:"hashedPass" gorm:"column:hasedPass"`
 	}
 
-	// items
+	// Item structure
 	Item struct {
 		// id
-		Id int `json:"id" gorm:"primary_key"`
+		ID int `json:"id" gorm:"primary_key"`
 		// name
 		Name string `json:"name"`
 		// userId
@@ -47,12 +47,12 @@ type (
 		Tagid int `json:"tagId" gorm:"column:tagId"`
 	}
 
-	// itemdatas
+	// Itemdata structure
 	Itemdata struct {
 		// dataId
-		DataId int `json:"id" gorm:"column:dataId; primary_key"`
+		DataID int `json:"id" gorm:"column:dataId; primary_key"`
 		// itemId
-		ItemId int `json:"itemId" gorm:"column:itemId"`
+		ItemID int `json:"itemId" gorm:"column:itemId"`
 		// num
 		Num float64 `json:"num"`
 		// str
@@ -61,34 +61,34 @@ type (
 		Timestamp *time.Time `json:"timestamp"`
 	}
 
-	// tags
+	// Tag structure
 	Tag struct {
 		// id
-		Id int `json:"id" gorm:"primary_key"`
+		ID int `json:"id" gorm:"primary_key"`
 		// name
 		Name string `json:"name"`
 		// parentId
-		ParentId int `json:"parentId" gorm:"column:parentId"`
+		ParentID int `json:"parentId" gorm:"column:parentId"`
 		// userId
-		UserId int `json:"userId" gorm:"column:userId"`
+		UserID int `json:"userId" gorm:"column:userId"`
 	}
 
-	// datas
+	// Data structure
 	Data struct {
 		// id
-		Id int `json:"id" gorm:"primary_key"`
+		ID int `json:"id" gorm:"primary_key"`
 		// name
 		Name string `json:"name"`
 		// type
 		Type string `json:"type"`
 	}
 
-	// tokens
+	// Token structure
 	Token struct {
 		// token
 		Token string `json:"token" gorm:"primary_key"`
 		// userId
-		UserId int `json:"userId" gorm:"column:userId"`
+		UserID int `json:"userId" gorm:"column:userId"`
 	}
 )
 
@@ -112,21 +112,32 @@ func InitDB() {
 	db.LogMode(true)
 }
 
+// TableName (users)
 func (i *User) TableName() string {
 	return "users"
 }
+
+// TableName (items)
 func (i *Item) TableName() string {
 	return "items"
 }
+
+// TableName (itemdatas)
 func (i *Itemdata) TableName() string {
 	return "itemdatas"
 }
+
+// TableName (datas)
 func (i *Data) TableName() string {
 	return "datas"
 }
+
+// TableName (tags)
 func (i *Tag) TableName() string {
 	return "tags"
 }
+
+// TableName (tokens)
 func (i *Token) TableName() string {
 	return "tokens"
 }
