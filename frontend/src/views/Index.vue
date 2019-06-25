@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="index">
-    <header></header>
-    <monoList></monoList>
+    <header v-on:changeTag="getMonoList"></header>
+    <monoList list="mono_list"></monoList>
   </div>
 </template>
 
@@ -15,21 +15,44 @@ export default {
     header
   },
   data:{
-    isModal:false
-  }
+    isModal:false,
+    modal_message:'spam',
+    mono_list:null,
+    tag_list:null
+  },
+  methods:{
+    getMonoList:function(tagId){
+      axios.get('/api/v1/mono/'+tagId+'/')
+        .then(funtion(response){
+        })
+    }
+    getTagList:function(){
+      axios.get('/api/v1/tag/')
+        .then(function(response){
+          if(response.status){
+            this.tag_list = response.status.data.tags
+          }
+        })
+    }
+  },
   mounted:funciton(){
     api_base = '/api/v1/'
     axios.get(api_base + 'tag/')
       .then(funtion(response){
-        response
+        tagList = response
         axios.get(api_base + 'mono/')
           .then(response){
-
+            if(response.status == true){
+              monoList = response.monoList
+            }else{
+              modalMessage = response.msg
+            }
           }
       })
       .catch(function(error){
         if(error.response.status == 401){
           //loginページへジャンプ
+          this.$router.push({path:'/login'})
         }
       })
   }
