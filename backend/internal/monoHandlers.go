@@ -1,7 +1,6 @@
 package internal
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -76,7 +75,6 @@ func CreateMono(c *gin.Context) {
 		return
 	}
 
-	fmt.Println(reqItem)
 	if err := CreateDatasByRequest(c, reqItem); err != nil {
 		return
 	}
