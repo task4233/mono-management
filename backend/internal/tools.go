@@ -27,8 +27,8 @@ var (
 type (
 	// User structure
 	User struct {
-		// id
-		ID int `json:"id" gorm:"primary_key"`
+		// ID
+		ID int `json:"ID" gorm:"primary_key"`
 		// name
 		Name string `json:"name"`
 		// hashedPass
@@ -37,22 +37,22 @@ type (
 
 	// Item structure
 	Item struct {
-		// id
-		ID int `json:"id" gorm:"primary_key"`
+		// ID
+		ID int `json:"ID" gorm:"primary_key"`
 		// name
 		Name string `json:"name"`
-		// userId
-		Userid int `json:"userId" gorm:"column:userId"`
-		// tagId
-		Tagid int `json:"tagId" gorm:"column:tagId"`
+		// userID
+		UserID int `json:"userID" gorm:"column:userID"`
+		// tagID
+		TagID int `json:"tagID" gorm:"column:tagID"`
 	}
 
 	// Itemdata structure
 	Itemdata struct {
-		// dataId
-		DataID int `json:"id" gorm:"column:dataId; primary_key"`
-		// itemId
-		ItemID int `json:"itemId" gorm:"column:itemId"`
+		// dataID
+		DataID int `json:"ID" gorm:"column:dataID; primary_key"`
+		// itemID
+		ItemID int `json:"itemID" gorm:"column:itemID; primary_key"`
 		// num
 		Num float64 `json:"num"`
 		// str
@@ -63,20 +63,20 @@ type (
 
 	// Tag structure
 	Tag struct {
-		// id
-		ID int `json:"id" gorm:"primary_key"`
+		// ID
+		ID int `json:"ID" gorm:"primary_key"`
 		// name
 		Name string `json:"name"`
-		// parentId
-		ParentID int `json:"parentId" gorm:"column:parentId"`
-		// userId
-		UserID int `json:"userId" gorm:"column:userId"`
+		// parentID
+		ParentID int `json:"parentID" gorm:"column:parentID"`
+		// userID
+		UserID int `json:"userID" gorm:"column:userID"`
 	}
 
 	// Data structure
 	Data struct {
-		// id
-		ID int `json:"id" gorm:"primary_key"`
+		// ID
+		ID int `json:"ID" gorm:"primary_key"`
 		// name
 		Name string `json:"name"`
 		// type
@@ -87,8 +87,8 @@ type (
 	Token struct {
 		// token
 		Token string `json:"token" gorm:"primary_key"`
-		// userId
-		UserID int `json:"userId" gorm:"column:userId"`
+		// userID
+		UserID int `json:"userID" gorm:"column:userID"`
 	}
 )
 

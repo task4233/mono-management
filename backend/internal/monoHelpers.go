@@ -59,11 +59,11 @@ func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
 		fmt.Printf("%+v\n", reqUser)
 	*/
 	// スタブ
-	reqUser := User{Id: 1}
+	reqUser := User{ID: 1}
 
 	// fmt.Printf("%+v\n", reqItem) // for debug
 
-	newItem := Item{Name: reqItem.Name, Userid: reqUser.Id, Tagid: reqItem.TagId}
+	newItem := Item{Name: reqItem.Name, UserID: reqUser.ID, TagID: reqItem.TagID}
 	// fmt.Printf("%+v\n", newItem)  // for debug
 
 	db := GetDB()
@@ -89,9 +89,9 @@ func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
 				})
 				return err
 			}
-			db.Create(&Itemdata{DataId: newData.Id, ItemId: newItem.Id, Num: numVal, Timestamp: nil})
+			db.Create(&Itemdata{DataID: newData.ID, ItemID: newItem.ID, Num: numVal, Timestamp: nil})
 		case "str":
-			db.Create(&Itemdata{DataId: newData.Id, ItemId: newItem.Id, Str: data.Value, Timestamp: nil})
+			db.Create(&Itemdata{DataID: newData.ID, ItemID: newItem.ID, Str: data.Value, Timestamp: nil})
 		case "timestamp":
 			// time.Parse("layout", "value")
 			timestampValue, err := time.Parse(time.RFC1123, data.Value)
@@ -102,7 +102,7 @@ func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
 				})
 				return err
 			}
-			db.Create(&Itemdata{DataId: newItem.Id, ItemId: newItem.Id, Timestamp: &timestampValue})
+			db.Create(&Itemdata{DataID: newItem.ID, ItemID: newItem.ID, Timestamp: &timestampValue})
 		default:
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"status":  false,
@@ -125,32 +125,32 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 		fmt.Printf("%+v\n", reqUser)
 	*/
 	// スタブ
-	reqUser := User{Id: 1}
+	reqUser := User{ID: 1}
 
 	// fmt.Printf("%+v\n", reqItem) // for debug
 	// fmt.Printf("%+v\n", newItem)  // for debug
 
 	editItem := Item{}
-	if editItem.Id, err = strconv.Atoi(itemID); err != nil {
+	if editItem.ID, err = strconv.Atoi(itemID); err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"status":  false,
-			"message": "不正なidです",
+			"message": "不正なIDです",
 		})
 		return err
 	}
 
 	db := GetDB()
-	db.Model(&editItem).Updates(Item{Name: reqItem.Name, Userid: reqUser.Id, Tagid: reqItem.TagId})
+	db.Model(&editItem).Updates(Item{Name: reqItem.Name, UserID: reqUser.ID, TagID: reqItem.TagID})
 
 	editItemDatas := []Itemdata{}
-	db.Where(&Itemdata{ItemId: editItem.Id}).Find(&editItemDatas)
+	db.Where(&Itemdata{ItemID: editItem.ID}).Find(&editItemDatas)
 
 	for _, editItemData := range editItemDatas {
 		// fmt.Printf("[%d]%+v\n", index, delItemdata) // for debug
 
 		// datasテーブルのそのレコードをupdate
 		for _, data := range reqItem.Datas {
-			editData := Data{Id: editItemData.DataId}
+			editData := Data{ID: editItemData.DataID}
 			db.First(&editData)
 			if editData.Name != data.Name {
 				continue
@@ -166,9 +166,9 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 					})
 					return err
 				}
-				db.Model(&editItemData).Updates(&Itemdata{DataId: editData.Id, ItemId: editItem.Id, Num: numVal, Timestamp: nil})
+				db.Model(&editItemData).Updates(&Itemdata{DataID: editData.ID, ItemID: editItem.ID, Num: numVal, Timestamp: nil})
 			case "str":
-				db.Model(&editItemData).Updates(&Itemdata{DataId: editData.Id, ItemId: editItem.Id, Str: data.Value, Timestamp: nil})
+				db.Model(&editItemData).Updates(&Itemdata{DataID: editData.ID, ItemID: editItem.ID, Str: data.Value, Timestamp: nil})
 			case "timestamp":
 				// time.Parse("layout", "value")
 				timestampValue, err := time.Parse(time.RFC1123, data.Value)
@@ -179,7 +179,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 					})
 					return err
 				}
-				db.Model(&editItemData).Updates(&Itemdata{DataId: editItem.Id, ItemId: editItem.Id, Timestamp: &timestampValue})
+				db.Model(&editItemData).Updates(&Itemdata{DataID: editItem.ID, ItemID: editItem.ID, Timestamp: &timestampValue})
 			default:
 				c.JSON(http.StatusInternalServerError, gin.H{
 					"status":  false,
@@ -193,12 +193,12 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 	return nil
 }
 
-func DeleteDatasByStrID(c *gin.Context, itemId string) error {
+func DeleteDatasByStrID(c *gin.Context, itemID string) error {
 	delItem := Item{}
-	if delItem.Id, err = strconv.Atoi(itemId); err != nil {
+	if delItem.ID, err = strconv.Atoi(itemID); err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"status":  false,
-			"message": "不正なidです",
+			"message": "不正なIDです",
 		})
 		return err
 	}
@@ -208,16 +208,16 @@ func DeleteDatasByStrID(c *gin.Context, itemId string) error {
 	db.First(&delItem)
 
 	delItemdatas := []Itemdata{}
-	db.Where(&Itemdata{ItemId: delItem.Id}).Find(&delItemdatas)
+	db.Where(&Itemdata{ItemID: delItem.ID}).Find(&delItemdatas)
 
 	for _, delItemdata := range delItemdatas {
 		// fmt.Printf("[%d]%+v\n", index, delItemdata) // for debug
 
 		// datasテーブルのそのレコードをdelete
-		delData := Data{Id: delItemdata.DataId}
+		delData := Data{ID: delItemdata.DataID}
 		db.First(&delData).Delete(&delData)
 
-		// 保持しておいたdataidとitemidを持つレコードをitemdatasからdelete
+		// 保持しておいたdataIDとitemIDを持つレコードをitemdatasからdelete
 		db.Delete(&delItemdata)
 	}
 
@@ -248,6 +248,6 @@ type ReqItemData struct {
 
 type ReqItem struct {
 	Name  string
-	TagId int `json:"tagId"`
+	TagID int `json:"tagID"`
 	Datas []ReqItemData
 }
