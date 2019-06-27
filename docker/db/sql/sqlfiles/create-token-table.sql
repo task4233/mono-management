@@ -13,5 +13,5 @@ create table if not exists `tokens`
   constraint foreignKey_userId_from_tokens_to_users
     foreign key (`userId`)
     references `users` (`id`)
-    on delete restrict on update restrict
+    on delete cascade on update restrict
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
