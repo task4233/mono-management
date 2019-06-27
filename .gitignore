@@ -25,7 +25,7 @@ frontend/html/yarn-debug.log*
 frontend/html/yarn-error.log*
 frontend/public
 sample/
-
+gh-pages/
 
 .idea
 .vscode
