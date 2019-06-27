@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"encoding/base64"
 	"errors"
 	"net/http"
 
@@ -34,7 +35,7 @@ func GetInfo(c *gin.Context) {
 	SendDefaultHeader(c, "GET")
 	db := GetDB()
 
-	user, err := CheckLogin(c)
+	user, err := GetUserFromCookie(c)
 	if err != nil {
 		return
 	}
@@ -128,7 +129,7 @@ func Logout(c *gin.Context) {
 	// 削除できたらおk
 	SendDefaultHeader(c, "DELETE")
 	db := GetDB()
-	user, err := CheckLogin(c)
+	user, err := GetUserFromCookie(c)
 	if err != nil {
 		return
 	}
@@ -178,9 +179,10 @@ func CreateAccount(c *gin.Context) {
 			"status":  false,
 			"message": err.Error(),
 		})
+		return
 	}
 
-	hashedPass, err := bcrypt.GenerateFromPassword([]byte(json.Password), bcrypt.DefaultCost)
+	hashedPass, err := generateHashedPass(json.Password)
 	if err != nil {
 		createServerErrorMessage(c, "サーバエラー")
 		return
@@ -222,7 +224,51 @@ Endpoints
 */
 func UpdateAccount(c *gin.Context) {
 	// usersテーブルからuserIdを元に該当データをupdate
-	c.JSON(http.StatusOK, "update account")
+	SendDefaultHeader(c, "PUT")
+	db := GetDB()
+
+	var json account
+	if err := c.ShouldBindJSON(&json); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  false,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	user, err := GetUserFromCookie(c)
+	if err != nil {
+		return
+	}
+
+	if len(json.Name) != 0 {
+		if err := db.Model(&user).Update("name", json.Name).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"status":  false,
+				"message": err.Error(),
+			})
+			return
+		}
+	}
+
+	if len(json.Password) != 0 {
+		hashedPass, err := generateHashedPass(json.Password)
+		if err != nil {
+			createServerErrorMessage(c, "サーバエラー")
+			return
+		}
+		if err := db.Model(&user).Update("hashedPass", hashedPass).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"status":  false,
+				"message": err.Error(),
+			})
+			return
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": true,
+	})
 }
 
 /*
@@ -240,19 +286,12 @@ func DeleteAccount(c *gin.Context) {
 	SendDefaultHeader(c, "DELETE")
 	db := GetDB()
 
-	user, err := CheckLogin(c)
+	user, err := GetUserFromCookie(c)
 	if err != nil {
 		return
 	}
 
-	if err := db.First(&user).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"status":  false,
-			"message": err.Error(),
-		})
-		return
-	}
-	if err := db.Delete(&user).Error; err != nil {
+	if err := db.First(&user).Delete(&user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
 			"message": err.Error(),
@@ -318,12 +357,20 @@ func CheckLogin(c *gin.Context) (User, error) {
 func generateToken(userID int) Token {
 	randomToken := make([]byte, 48) // 64文字
 	rand.Read(randomToken)
-	return Token{Token: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkl" /*base64.URLEncoding.EncodeToString(randomToken)*/, UserID: userID}
+	return Token{Token: base64.URLEncoding.EncodeToString(randomToken), UserID: userID}
 }
 
 func createServerErrorMessage(c *gin.Context, message string) {
 	c.JSON(http.StatusInternalServerError, gin.H{
 		"status":  false,
-		"message": errorMessage,
+		"message": message,
 	})
+}
+
+func generateHashedPass(password string) (string, error) {
+	hashedPass, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+	return string(hashedPass), err
 }
