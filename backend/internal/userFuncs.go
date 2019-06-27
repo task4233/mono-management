@@ -1,7 +1,6 @@
 package internal
 
 import (
-	"encoding/base64"
 	"errors"
 	"net/http"
 
@@ -70,6 +69,8 @@ func Login(c *gin.Context) {
 	// tokenを生成してtokensテーブルにINSERT
 	// Cookieにtokenをセットして返す
 	SendDefaultHeader(c, "POST")
+	db := GetDB()
+
 	var json account
 	if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -78,7 +79,7 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
-	db := GetDB()
+
 	user := User{}
 
 	if err := db.Where("name = ?", json.Name).First(&user).Error; err != nil {
@@ -99,7 +100,12 @@ func Login(c *gin.Context) {
 	}
 
 	token := generateToken(user.ID)
-	db.Create(&token)
+	if err := db.Create(&token).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": err.Error(),
+		})
+	}
 	SetCookie(c, "token", token.Token)
 
 	c.JSON(http.StatusOK, gin.H{
@@ -131,11 +137,17 @@ func Logout(c *gin.Context) {
 	if err := db.Where("userId = ?", user.ID).First(&token).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
-			"message": "サーバエラー",
+			"message": err.Error(),
 		})
 		return
 	}
-	db.Delete(&token)
+	if err := db.Delete(&token).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": err.Error(),
+		})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"status": true,
@@ -158,6 +170,8 @@ func CreateAccount(c *gin.Context) {
 	// rawPasswordをハッシュ関数にかけてhashedPassを取得
 	// tokensテーブルにhashedPass, userIdを格納
 	SendDefaultHeader(c, "POST")
+	db := GetDB()
+
 	var json account
 	if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -165,20 +179,30 @@ func CreateAccount(c *gin.Context) {
 			"message": err.Error(),
 		})
 	}
+
 	hashedPass, err := bcrypt.GenerateFromPassword([]byte(json.Password), bcrypt.DefaultCost)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"status":  false,
-			"message": "サーバエラー",
-		})
+		createServerErrorMessage(c, "サーバエラー")
 		return
 	}
 
 	user := User{Name: json.Name, HashedPass: string(hashedPass)}
-	db.Create(&user)
+	if err := db.Create(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": "既に登録されているユーザ名です",
+		})
+		return
+	}
 
 	token := generateToken(user.ID)
-	db.Create(&token)
+	if err := db.Create(&token).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": err.Error(),
+		})
+		return
+	}
 	SetCookie(c, "token", token.Token)
 
 	c.JSON(http.StatusOK, gin.H{
@@ -198,7 +222,6 @@ Endpoints
 */
 func UpdateAccount(c *gin.Context) {
 	// usersテーブルからuserIdを元に該当データをupdate
-
 	c.JSON(http.StatusOK, "update account")
 }
 
@@ -214,7 +237,32 @@ Endpoints
 */
 func DeleteAccount(c *gin.Context) {
 	// usersテーブルからuserIdを元に該当データをdelete
-	c.JSON(http.StatusOK, "delete account")
+	SendDefaultHeader(c, "DELETE")
+	db := GetDB()
+
+	user, err := CheckLogin(c)
+	if err != nil {
+		return
+	}
+
+	if err := db.First(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": err.Error(),
+		})
+		return
+	}
+	if err := db.Delete(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": true,
+	})
 }
 
 /*
@@ -248,9 +296,8 @@ func GetUserFromCookie(c *gin.Context) (User, error) {
 	token, err := GetCookie(c, "token")
 	if err != nil {
 		return User{ID: -1}, errors.New("Login Required")
-	} else {
-		return GetUserFromToken(token)
 	}
+	return GetUserFromToken(token)
 }
 
 /*
@@ -271,5 +318,12 @@ func CheckLogin(c *gin.Context) (User, error) {
 func generateToken(userID int) Token {
 	randomToken := make([]byte, 48) // 64文字
 	rand.Read(randomToken)
-	return Token{Token: base64.URLEncoding.EncodeToString(randomToken), UserID: userID}
+	return Token{Token: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkl" /*base64.URLEncoding.EncodeToString(randomToken)*/, UserID: userID}
+}
+
+func createServerErrorMessage(c *gin.Context, message string) {
+	c.JSON(http.StatusInternalServerError, gin.H{
+		"status":  false,
+		"message": errorMessage,
+	})
 }
