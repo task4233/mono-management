@@ -110,7 +110,7 @@ func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
 				db.Rollback()
 				c.JSON(http.StatusInternalServerError, gin.H{
 					"status":  false,
-					"message": err.Error,
+					"message": "データ名が不正です",
 				})
 				return err
 			}
@@ -119,7 +119,7 @@ func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
 				db.Rollback()
 				c.JSON(http.StatusInternalServerError, gin.H{
 					"status":  false,
-					"message": err.Error,
+					"message": "データ名が不正です",
 				})
 				return err
 			}
@@ -138,7 +138,7 @@ func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
 				db.Rollback()
 				c.JSON(http.StatusInternalServerError, gin.H{
 					"status":  false,
-					"message": err.Error,
+					"message": "timestampに関するデータが不正です",
 				})
 				return err
 			}
@@ -154,7 +154,7 @@ func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
 		db.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
-			"message": err.Error,
+			"message": "リクエストされたデータに不備があり, データベースにコミットできません",
 		})
 		return err
 	}
@@ -197,7 +197,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 		db.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
-			"message": err.Error,
+			"message": "データ名が不正です",
 		})
 		return err
 	}
@@ -207,7 +207,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 		db.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
-			"message": err.Error,
+			"message": "データ名が不正です",
 		})
 		return err
 	}
@@ -222,7 +222,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 				db.Rollback()
 				c.JSON(http.StatusInternalServerError, gin.H{
 					"status":  false,
-					"message": err.Error,
+					"message": "データ名が不正です",
 				})
 				return err
 			}
@@ -244,7 +244,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 					db.Rollback()
 					c.JSON(http.StatusInternalServerError, gin.H{
 						"status":  false,
-						"message": err.Error,
+						"message": "numのデータが不正です",
 					})
 					return err
 				}
@@ -253,7 +253,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 					db.Rollback()
 					c.JSON(http.StatusInternalServerError, gin.H{
 						"status":  false,
-						"message": err.Error,
+						"message": "strのデータが不正です",
 					})
 					return err
 				}
@@ -271,7 +271,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 					db.Rollback()
 					c.JSON(http.StatusInternalServerError, gin.H{
 						"status":  false,
-						"message": err.Error,
+						"message": "timestampのデータが不正です",
 					})
 					return err
 				}
@@ -288,7 +288,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 		db.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
-			"message": err.Error,
+			"message": "リクエストされたデータに不備があり, データベースにコミットできません",
 		})
 		return err
 	}
@@ -318,7 +318,7 @@ func DeleteDatasByStrID(c *gin.Context, itemID string) error {
 		db.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
-			"message": err.Error,
+			"message": "データを削除できません",
 		})
 		return err
 	}
@@ -328,7 +328,7 @@ func DeleteDatasByStrID(c *gin.Context, itemID string) error {
 		db.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
-			"message": err.Error,
+			"message": "削除しようとしているデータが見つかりません",
 		})
 		return err
 	}
@@ -342,7 +342,7 @@ func DeleteDatasByStrID(c *gin.Context, itemID string) error {
 			db.Rollback()
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"status":  false,
-				"message": err.Error,
+				"message": "データ名が不正です",
 			})
 			return err
 		}
@@ -352,7 +352,7 @@ func DeleteDatasByStrID(c *gin.Context, itemID string) error {
 			db.Rollback()
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"status":  false,
-				"message": err.Error,
+				"message": "データが不正です",
 			})
 			return err
 		}
@@ -363,7 +363,7 @@ func DeleteDatasByStrID(c *gin.Context, itemID string) error {
 		db.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
-			"message": err.Error,
+			"message": "データが削除できません",
 		})
 		return err
 	}
@@ -371,7 +371,7 @@ func DeleteDatasByStrID(c *gin.Context, itemID string) error {
 		db.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
-			"message": err.Error,
+			"message": "リクエストされたデータに不備があり, データベースにコミットできません",
 		})
 		return err
 	}
