@@ -2,20 +2,13 @@ package internal
 
 import (
 	"encoding/base64"
-	"errors"
 	"net/http"
 
 	"crypto/rand"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
 )
-
-type account struct {
-	Name     string `json:"name"`
-	Password string `json:"password"`
-}
 
 /*
 GetInfo は, ログイン時に保存されるCookieのtoken情報を元にusersテーブルから該当の情報を返却するメソッドです.
@@ -72,7 +65,7 @@ func Login(c *gin.Context) {
 	SendDefaultHeader(c, "POST")
 	db := GetDB()
 
-	var json account
+	var json Account
 	if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  false,
@@ -173,7 +166,7 @@ func CreateAccount(c *gin.Context) {
 	SendDefaultHeader(c, "POST")
 	db := GetDB()
 
-	var json account
+	var json Account
 	if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  false,
@@ -184,7 +177,7 @@ func CreateAccount(c *gin.Context) {
 
 	hashedPass, err := generateHashedPass(json.Password)
 	if err != nil {
-		createServerErrorMessage(c, "サーバエラー")
+		CreateServerErrorMessage(c, "サーバエラー")
 		return
 	}
 
@@ -227,7 +220,7 @@ func UpdateAccount(c *gin.Context) {
 	SendDefaultHeader(c, "PUT")
 	db := GetDB()
 
-	var json account
+	var json Account
 	if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  false,
@@ -254,7 +247,7 @@ func UpdateAccount(c *gin.Context) {
 	if len(json.Password) != 0 {
 		hashedPass, err := generateHashedPass(json.Password)
 		if err != nil {
-			createServerErrorMessage(c, "サーバエラー")
+			CreateServerErrorMessage(c, "サーバエラー")
 			return
 		}
 		if err := db.Model(&user).Update("hashedPass", hashedPass).Error; err != nil {
@@ -304,67 +297,10 @@ func DeleteAccount(c *gin.Context) {
 	})
 }
 
-/*
-GetUserFromToken はトークンからユーザ情報を取得するメソッドです．
-途中でエラーが発生した場合の挙動はwikiを参照してください．
-
-*/
-func GetUserFromToken(token string) (User, error) {
-	if len(token) == 0 {
-		return User{ID: -1}, errors.New("ログインしてください")
-	}
-	var userToken Token
-	if err := GetDB().Where(&Token{Token: token, UserID: 0}).First(&userToken).Error; err != nil {
-		if gorm.IsRecordNotFoundError(err) {
-			return User{ID: -1}, errors.New("サーバエラー")
-		}
-		return User{ID: -1}, errors.New("サーバエラー")
-	}
-	var user User
-	if err := GetDB().Where(&User{ID: userToken.UserID, Name: "", HashedPass: ""}).First(&user).Error; err != nil {
-		return User{ID: -1}, errors.New("サーバエラー")
-	}
-	return user, nil
-}
-
-/*
-GetUserFromCookie はCookieからユーザ情報を取得するメソッドです．
-途中でエラーが発生した場合の挙動はwikiを参照してください．
-*/
-func GetUserFromCookie(c *gin.Context) (User, error) {
-	token, err := GetCookie(c, "token")
-	if err != nil {
-		return User{ID: -1}, errors.New("ログインしてください")
-	}
-	return GetUserFromToken(token)
-}
-
-/*
-CheckLogin はログイン状態の確認をするメソッドです．
-途中でエラーが発生した場合の挙動はwikiを参照してください．
-*/
-func CheckLogin(c *gin.Context) (User, error) {
-	user, err := GetUserFromCookie(c)
-	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"status":  false,
-			"message": err.Error(),
-		})
-	}
-	return user, err
-}
-
 func generateToken(userID int) Token {
 	randomToken := make([]byte, 48) // 64文字
 	rand.Read(randomToken)
 	return Token{Token: base64.URLEncoding.EncodeToString(randomToken), UserID: userID}
-}
-
-func createServerErrorMessage(c *gin.Context, message string) {
-	c.JSON(http.StatusInternalServerError, gin.H{
-		"status":  false,
-		"message": message,
-	})
 }
 
 func generateHashedPass(password string) (string, error) {
