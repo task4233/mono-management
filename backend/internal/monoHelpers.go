@@ -3,7 +3,6 @@ package internal
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -77,24 +76,22 @@ func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
 	}()
 
 	if err := db.Create(&newItem).Error; err != nil {
-		db.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
-			"message": err.Error,
+			"message": "tagIdが不正です",
 		})
+        db.Rollback()
 		return err
 	}
 
-	fmt.Println("hgoe")
 	for _, data := range reqItem.Data {
-		fmt.Println("fuga")
 		newData := Data{Name: data.Name, Type: data.Type}
 		if err := db.Create(&newData).Error; err != nil {
-			db.Rollback()
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"status":  false,
-				"message": err.Error,
+				"message": "データ名が不正です",
 			})
+            db.Rollback()
 			return err
 		}
 		// fmt.Printf("%+v\n", newData) // for debug
@@ -396,13 +393,13 @@ func ReturnStatusOKWithStrMessage(c *gin.Context, message string) {
 // received request form
 //
 type ReqItemData struct {
-	Name  string
-	Value string
-	Type  string
+	Name  string `json: "name"`
+	Value string `json: "value"`
+	Type  string `json: "type"`
 }
 
 type ReqItem struct {
-	Name  string
+	Name  string `json: "name"`
 	TagID int `json:"tagId" gorm:"tagId"`
-	Data  []ReqItemData
+	Data  []ReqItemData `json: "data"`
 }
