@@ -8,9 +8,7 @@ services:
     env_file:
     - ./docker/mysql.env
     command: >
-      /bin/bash -c "go get -u github.com/golang/dep/cmd/dep &&
-      cd /go/src/app &&
-      dep ensure &&
+      /bin/bash -c "cd /go/src/app &&
       go run ./main.go"
     volumes:
     - ./backend:/go/src/app

@@ -7,7 +7,7 @@ import (
 )
 
 /*
-SearchMonos は, メソッドです.
+SearchMonos は, POSTされたmonoのキーワードをもとに該当するデータを全て返却するメソッドです.
 途中でエラーが発生した場合の挙動はwikiを参照してください.
 
 
@@ -21,11 +21,13 @@ func SearchMonos(c *gin.Context) {
 	if err := c.BindJSON(&reqSearch); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  false,
-			"message": "不正なリクエストボディです",
+			"message": err.Error,
 		})
 		return
 	}
 
+    likeStr := "%" + reqSearch.Name + "%"
+    
 	resItems := []Item{}
 	db := GetDB().Begin()
 	defer func() {
@@ -34,7 +36,9 @@ func SearchMonos(c *gin.Context) {
 		}
 	}()
 
-	if err := db.Where().Find(&resItems).Error; err != nil {
+    // ここでLIKE検索をしたい
+    // Itemテーブルに対してLIKE検索
+	if err := db.Where(&Item{TagID: reqSearch.TagID}).Where("name LIKE ?", likeStr).Find(&resItems).Error; err != nil {
 		db.Rollback()
 		c.JSON(http.StatusNotFound, gin.H{
 			"status":  false,
