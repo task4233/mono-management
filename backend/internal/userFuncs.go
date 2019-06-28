@@ -311,18 +311,18 @@ GetUserFromToken はトークンからユーザ情報を取得するメソッド
 */
 func GetUserFromToken(token string) (User, error) {
 	if len(token) == 0 {
-		return User{ID: -1}, errors.New("empty token")
+		return User{ID: -1}, errors.New("ログインしてください")
 	}
 	var userToken Token
 	if err := GetDB().Where(&Token{Token: token, UserID: 0}).First(&userToken).Error; err != nil {
 		if gorm.IsRecordNotFoundError(err) {
-			return User{ID: -1}, errors.New("login required")
+			return User{ID: -1}, errors.New("サーバエラー")
 		}
-		return User{ID: -1}, errors.New("something went wrong")
+		return User{ID: -1}, errors.New("サーバエラー")
 	}
 	var user User
 	if err := GetDB().Where(&User{ID: userToken.UserID, Name: "", HashedPass: ""}).First(&user).Error; err != nil {
-		return User{ID: -1}, errors.New("something went wrong")
+		return User{ID: -1}, errors.New("サーバエラー")
 	}
 	return user, nil
 }
@@ -334,7 +334,7 @@ GetUserFromCookie はCookieからユーザ情報を取得するメソッドで�
 func GetUserFromCookie(c *gin.Context) (User, error) {
 	token, err := GetCookie(c, "token")
 	if err != nil {
-		return User{ID: -1}, errors.New("Login Required")
+		return User{ID: -1}, errors.New("ログインしてください")
 	}
 	return GetUserFromToken(token)
 }
