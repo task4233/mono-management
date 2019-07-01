@@ -224,7 +224,7 @@ func UpdateAccount(c *gin.Context) {
 		return
 	}
 
-	user, err := GetUserFromCookie(c)
+	user, err := CheckLogin(c)
 	if err != nil {
 		return
 	}
