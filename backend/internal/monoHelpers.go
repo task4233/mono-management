@@ -80,7 +80,7 @@ func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
 			"status":  false,
 			"message": "tagIdが不正です",
 		})
-        db.Rollback()
+		db.Rollback()
 		return err
 	}
 
@@ -91,7 +91,7 @@ func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
 				"status":  false,
 				"message": "データ名が不正です",
 			})
-            db.Rollback()
+			db.Rollback()
 			return err
 		}
 		// fmt.Printf("%+v\n", newData) // for debug
@@ -267,7 +267,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 					})
 					return err
 				}
-				if err := db.Model(&editItemData).Updates(&Itemdata{DataID: editItem.ID, ItemID: editItem.ID, Timestamp: &timestampValue}).Error; err != nil {
+				if err := db.Model(&editItemData).Updates(&Itemdata{DataID: editData.ID, ItemID: editItem.ID, Timestamp: &timestampValue}).Error; err != nil {
 					db.Rollback()
 					c.JSON(http.StatusInternalServerError, gin.H{
 						"status":  false,
@@ -399,7 +399,7 @@ type ReqItemData struct {
 }
 
 type ReqItem struct {
-	Name  string `json: "name"`
-	TagID int `json:"tagId" gorm:"tagId"`
+	Name  string        `json: "name"`
+	TagID int           `json:"tagId" gorm:"tagId"`
 	Data  []ReqItemData `json: "data"`
 }
