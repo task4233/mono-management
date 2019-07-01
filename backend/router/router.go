@@ -44,7 +44,7 @@ func Create() *gin.Engine {
 				user.POST("/login", internal.Login)
 				user.POST("/logout", internal.Logout)
 				user.POST("new", internal.CreateAccount)
-				user.POST("update", internal.UpdateAccount)
+				user.PUT("update", internal.UpdateAccount)
 				user.DELETE("delete", internal.DeleteAccount)
 			}
 			// tag
