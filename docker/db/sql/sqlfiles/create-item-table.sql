@@ -15,11 +15,11 @@ create table if not exists `items`
   constraint foreignKey_userId_from_items_to_users
     foreign key (`userId`)
     references `users` (`id`)
-    on delete restrict on update restrict,
+    on delete cascade on update restrict,
   constraint foreignKey_tagId_from_items_to_tags
     foreign key (`tagId`)
     references `tags` (`id`)
-    on delete restrict on update restrict,
+    on delete cascade on update restrict,
     primary key(`id`)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
