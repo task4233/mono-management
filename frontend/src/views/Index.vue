@@ -2,7 +2,7 @@
   <div class="index">
     <search></search>
     <tagList></tagList>
-    <menu></menu>
+    <menuBar></menuBar>
     <monoList></monoList>
   </div>
 </template>
@@ -11,7 +11,7 @@
 import monoList from '../components/mono-list.vue'
 import tagList from '../components/tag-list.vue'
 import search from '../components/search.vue'
-import menu from '../components/menu.vue'
+import menuBar from '../components/menu.vue'
 
 export default {
   name:'index',
@@ -19,7 +19,7 @@ export default {
     monoList,
     tagList,
     search,
-    menu
+    menuBar
   }
 }
 </script>

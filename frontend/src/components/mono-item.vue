@@ -5,8 +5,8 @@
 <script>
 export default {
   name:'monoItem',
-  data:function(){
-    mono = null
+  props:{
+    mono : null
   }
 }
 </script>

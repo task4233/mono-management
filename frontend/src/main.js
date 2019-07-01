@@ -9,7 +9,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 
 import axios from 'axios'
-Vue.prottype.$axios = axios
+Vue.prototype.$axios = axios
 
 Vue.config.productionTip = false
 
