@@ -69,9 +69,9 @@ export default {
   }
 }
 </script>
-
 <style scoped>
 .login {
+  font-family: Makinas-4-Square;
   margin: 0 auto;
   width: 300px;
   height: 500px;
