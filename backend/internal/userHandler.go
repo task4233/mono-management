@@ -217,7 +217,7 @@ Endpoints
 */
 func UpdateAccount(c *gin.Context) {
 	// usersテーブルからuserIdを元に該当データをupdate
-	SendDefaultHeader(c, "PUT")
+	SendDefaultHeader(c, "POST")
 	db := GetDB()
 
 	var json Account
