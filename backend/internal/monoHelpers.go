@@ -50,17 +50,11 @@ func (i Item) AddStatusMessageForItem() ([]byte, error) {
 }
 
 func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
-	// createTokenができるまでスタブにしとく
-	// 認証
-	/*
-		reqUser, err := CheckLogin(c)
-		if err != nil {
-			return
-		}
-		fmt.Printf("%+v\n", reqUser)
-	*/
-	// スタブ
-	reqUser := User{ID: 1}
+	reqUser, err := CheckLogin(c)
+	if err != nil {
+		return errors.New("Login error")
+	}
+	// fmt.Printf("%+v\n", reqUser) // for debug
 
 	// fmt.Printf("%+v\n", reqItem) // for debug
 
@@ -162,17 +156,11 @@ func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
 }
 
 func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string) error {
-	// createTokenができるまでスタブにしとく
-	// 認証
-	/*
-		reqUser, err := CheckLogin(c)
-		if err != nil {
-			return
-		}
-		fmt.Printf("%+v\n", reqUser)
-	*/
-	// スタブ
-	reqUser := User{ID: 1}
+	reqUser, err := CheckLogin(c)
+	if err != nil {
+		return errors.New("Login error")
+	}
+	// fmt.Printf("%+v\n", reqUser) // for debug
 
 	// fmt.Printf("%+v\n", reqItem) // for debug
 	// fmt.Printf("%+v\n", newItem)  // for debug

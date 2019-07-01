@@ -33,19 +33,16 @@ func GetMonos(c *gin.Context) {
 	*/
 
 	SendDefaultHeader(c, "GET")
+	user, err := CheckLogin(c)
+	if err != nil {
+		return
+	}
 	resItems := []Item{}
-	db := GetDB().Begin()
-	defer func() {
-		if r := recover(); r != nil {
-			db.Rollback()
-		}
-	}()
 
-	if err := db.Find(&resItems).Error; err != nil {
-		db.Rollback()
+	if err := GetDB().Where("userId = ?", user.ID).Find(&resItems).Error; err != nil && !gorm.IsRecordNotFoundError(err) {
 		c.JSON(http.StatusNotFound, gin.H{
 			"status":  false,
-			"message": "データが存在しません",
+			"message": "何らかのエラーが発生しました",
 		})
 		return
 	}
