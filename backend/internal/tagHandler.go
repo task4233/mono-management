@@ -63,6 +63,13 @@ func CreateTagHandler(c *gin.Context) {
 		})
 		return
 	}
+	if newTag.Name == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": false,
+			"message": "タグ名を空にすることはできません。",
+		})
+		return
+	}
 	newTag.UserID = user.ID
 	crtedTag, err := CreateTag(newTag)
 	if err != nil {
