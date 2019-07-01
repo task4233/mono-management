@@ -267,7 +267,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 					})
 					return err
 				}
-				if err := db.Model(&editItemData).Updates(&Itemdata{DataID: editItem.ID, ItemID: editItem.ID, Timestamp: &timestampValue}).Error; err != nil {
+				if err := db.Model(&editItemData).Updates(&Itemdata{DataID: editData.ID, ItemID: editItem.ID, Timestamp: &timestampValue}).Error; err != nil {
 					db.Rollback()
 					c.JSON(http.StatusInternalServerError, gin.H{
 						"status":  false,
