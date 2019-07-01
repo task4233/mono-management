@@ -39,6 +39,7 @@ export default {
   },
   watch : {
     flag: function (value) {
+      this.error = ''; // errorの初期化
       if (this.loginId === '') {
         this.error = this.error + '\n' + 'ログインIDが入力されていません。'
       }
@@ -53,7 +54,6 @@ export default {
   methods: {
     login: function() {
       var self = this;
-      this.error = ''; // errorの初期化
       this.flag++;
       if (this.loginId !== null && this.loginPass !== null) {
         var data = {name : this.loginId, password : this.loginPass };
