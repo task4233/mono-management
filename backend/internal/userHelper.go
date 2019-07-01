@@ -28,7 +28,7 @@ func GetUserFromToken(token string) (User, error) {
 	var userToken Token
 	if err := GetDB().Where(&Token{Token: token, UserID: 0}).First(&userToken).Error; err != nil {
 		if gorm.IsRecordNotFoundError(err) {
-			return User{ID: -1}, errors.New("サーバエラー")
+			return User{ID: -1}, errors.New("ログインしてください")
 		}
 		return User{ID: -1}, errors.New("サーバエラー")
 	}
