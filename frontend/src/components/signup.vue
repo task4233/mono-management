@@ -8,16 +8,14 @@
     <br>
     <font size="2">
     ユーザー名/メールアドレス
-    </font>
     <div class="loginId">
       <input type="text" placeholder="ログインID" v-model="loginId">
     </div>
     パスワード
+    </font>
     <div class="loginPass">
       <input type="text" placeholder="ログインPASS" v-model="loginPass">
     </div>
-    googleアカウントでログイン
-    <br>
     <button @click="signup">サインアップ</button>
   </div>
 </template>
