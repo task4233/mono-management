@@ -32,7 +32,7 @@ type (
 		// name
 		Name string `json:"name"`
 		// hashedPass
-		HashedPass string `json:"hashedPass" gorm:"column:hasedPass"`
+		HashedPass string `json:"hashedPass" gorm:"column:hashedPass"`
 	}
 
 	// Item structure
