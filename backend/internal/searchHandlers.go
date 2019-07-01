@@ -27,19 +27,12 @@ func SearchMonos(c *gin.Context) {
 	}
 
     likeStr := "%" + reqSearch.Name + "%"
-    
+
 	resItems := []Item{}
-	db := GetDB().Begin()
-	defer func() {
-		if r := recover(); r != nil {
-			db.Rollback()
-		}
-	}()
 
     // ここでLIKE検索をしたい
     // Itemテーブルに対してLIKE検索
-	if err := db.Where(&Item{TagID: reqSearch.TagID}).Where("name LIKE ?", likeStr).Find(&resItems).Error; err != nil {
-		db.Rollback()
+	if err := GetDB().Where(&Item{TagID: reqSearch.TagID}).Where("name LIKE ?", likeStr).Find(&resItems).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"status":  false,
 			"message": "データが存在しません",
