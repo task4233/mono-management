@@ -34,36 +34,36 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    getMonoList({commit, state},tagId, name){
+    getMonoList({commit},tagId, name){
       this.$axios.post(api_base + 'search/',{
         name:name,
         tagId:tagId
       })
       .then(function(response){
         if(response.status){
-          this.commit('setMonoList',response.monoList)
+          commit('setMonoList',response.monoList)
         }else{
-          this.commit('setModalMessage',response.msg)
+          commit('setModalMessage',response.msg)
         }
       })
       .catch(function(error){
         if(error.response.status == 401){
-          this.commit('resetUserData')
+          commit('resetUserData')
           //loginページへジャンプ
           this.$router.push({path:'/login'})
         }
       })
     },
-    getTagList({commit, state}){
+    getTagList({commit}){
       this.$axios.get(api_base + 'tag/')
       .then(function(response){
         if(response.status){
-          this.commit('setTagList',response.tags)
+          commit('setTagList',response.tags)
         }
       })
       .catch(function(error){
         if(error.response.status == 401){
-          this.commit('resetUserData')
+          commit('resetUserData')
           //loginページへジャンプ
           this.$router.push({path:'/login'})
         }
