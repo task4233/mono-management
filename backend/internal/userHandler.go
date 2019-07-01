@@ -114,20 +114,23 @@ func Logout(c *gin.Context) {
 	// 削除できたらおk
 	SendDefaultHeader(c, "DELETE")
 	db := GetDB()
-	user, err := CheckLogin(c)
+
+	tokenString, err := GetCookie(c, "token")
 	if err != nil {
+		CreateServerErrorMessage(c, "サーバエラー")
 		return
 	}
-
-	token := Token{}
-	if err := db.Where("userId = ?", user.ID).First(&token).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
+	user, err := GetUserFromToken(tokenString)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
 			"status":  false,
 			"message": err.Error(),
 		})
 		return
 	}
-	if err := db.Delete(&token).Error; err != nil {
+
+	token := Token{UserID: user.ID, Token: tokenString}
+	if err := db.First(&token).Delete(&token).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
 			"message": err.Error(),
@@ -209,7 +212,7 @@ Endpoints
 */
 func UpdateAccount(c *gin.Context) {
 	// usersテーブルからuserIdを元に該当データをupdate
-	SendDefaultHeader(c, "POST")
+	SendDefaultHeader(c, "PUT")
 	db := GetDB()
 
 	var json Account
