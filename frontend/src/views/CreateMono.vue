@@ -7,15 +7,21 @@
     </p>
 
     <div class="dynamic">
-      <p v-for="data in datas" :key="name">
-        <input type="text" v-model="data.name" />
-        <input type="text" v-model="data.type" />
-        <input type="text" v-model="data.value" />
+      <p v-for="dat in data" :key="dat.name">
+        {{ dat.name }}
+        {{ dat.type }}
+        {{ dat.value }}
       </p>
       <p>
         <input type="text" placeholder="新しい要素名を追加！" v-model="dataName" />
-        <input type="text" placeholder="新しい要素の型を選択" v-model="dataType" />
-        <input type="text" placeholder="新しい要素の値を追加！" v-model="dataValue" />
+        <select v-model="dataType">
+          <option disabled value>型を選んでね</option>
+          <option>num</option>
+          <option>str</option>
+          <option>timestamp</option>
+        </select>
+        <datepicker v-if="dataType=='timestamp'" v-model="dataValue" :format="DatePickerFormat"></datepicker>
+        <input v-else type="text" placeholder="新しい要素の値を追加！" v-model="dataValue" />
       </p>
     </div>
     <button @click="addData" class="btn btn-primary btn-sm">+</button>
@@ -25,15 +31,21 @@
 
 <script>
 import Axios from "axios";
-import qs from "qs";
+import Datepicker from "vuejs-datepicker"
 
 export default {
   name: "CreateMono",
-  data: {
-    dataName: "",
-    dataValue: "",
-    dataType: "",
-    data: []
+  data() {
+    return {
+      dataName: "",
+      dataValue: "",
+      dataType: "",
+      DatePickerFormat: 'yyyy-MM-dd',
+      data: []
+    };
+  },
+  components: {
+    Datepicker
   },
   methods: {
     addData: function() {
@@ -45,8 +57,9 @@ export default {
       if (!newDataType) {
         return;
       }
-      const newDataValue = this.dataValue.trim();
+      const newDataValue = newDataType==='timestamp' ? this.dataValue.toUTCString() : this.dataValue.trim();
       if (!newDataValue) {
+        console.log(this.dataValue)
         return;
       }
       this.data.push({
@@ -54,7 +67,7 @@ export default {
         type: newDataType,
         value: newDataValue
       });
-      alert("呼ばれたよ!");
+      alert("追加するよ!");
       this.dataName = " ";
       this.dataType = " ";
       this.dataValue = " ";
@@ -62,7 +75,8 @@ export default {
     create: function() {
       const data = {
         name: String(this.name),
-        tagId: Number(this.tagId)
+        tagId: Number(this.tagId),
+        data: this.data
       };
       console.log(data);
 
