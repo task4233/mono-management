@@ -2,8 +2,7 @@
   <div v-if:"menuMode">
     ×<br>
     <span v-on:click="logout">ログアウト</span><br>
-    <span>ヘルプ</span><br>
-    <span>このソフトについて</span><br>
+    <a href="https://hackmd.io/giR3aLTXSH6VUQigiqEK0A"><span>このソフトについて</span><br></a>
   </div>
   <div v-on:click="changeView" v-else>
     ≡
@@ -16,8 +15,9 @@ export default {
     menuMode:false
   }
   methods:{
-    logout:function(event){
-      axios.delete('api/v1/user/logoiut')
+    logout:function(){
+      axios.delete('api/v1/user/logout')
+      this.$store.commit('resetUserData')
       this.$router.push({path:'/login'})
     },
     changeView:function(){

@@ -14,10 +14,10 @@ export default {
     searchMode:false
     words:''
   },
-  computed:{
+  methods:{
     search:function(){
       if(this.searchMode){
-        this.$emit('searchWord',this.words)
+        this.$store.dispatch('getMonoList', null, words)
       }else{
         this.searchMode = true
       }
@@ -25,6 +25,7 @@ export default {
     exitSearch:function(){
       this.searchMode = false
       this.words=''
+      
     }
 
   }

@@ -8,9 +8,11 @@
 import monoItem from './mono-item.vue'
 
 export default {
-  props:{
-    list:null
-  }
+  computed:{
+    list(){
+      return this.$store.state.monoList
+    }
+  },
   components:{
     monoItem
   }
