@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import monoList from '@components/mono-list.vue'
-import tagList from '@components/tag-list.vue'
-import search from '@component/search.vue'
-import menu from '@component/menu.vue'
+import monoList from '../components/mono-list.vue'
+import tagList from '../components/tag-list.vue'
+import search from '../components/search.vue'
+import menu from '../components/menu.vue'
 
 export default {
   name:'index',

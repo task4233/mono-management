@@ -16,9 +16,8 @@ export default {
       this.$store.tag_list
     }
   },
-  created:{
+  mounted:function(){
     this.$store.dispatch('getTagList')
-    this.$store.dispatch('getMonoList', null, null)
   },
   watch:{
     selected(){

@@ -13,10 +13,10 @@ export default new Vuex.Store({
     modal_message:''
   },
   mutations: {
-    updateTagList:function(state, tags){
+    setTagList:function(state, tags){
       state.tag_list = tags
     },
-    updateMonoList:function(state, monos){
+    setMonoList:function(state, monos){
       state.mono_list = monos
     },
     setMonoData:function(state, data){
@@ -35,35 +35,35 @@ export default new Vuex.Store({
   },
   actions: {
     getMonoList({commit, state},tagId, name){
-      axios.post(api_base + 'search/',{
+      this.$axios.post(api_base + 'search/',{
         name:name,
         tagId:tagId
       })
       .then(function(response){
-        if(response.status == true){
-          monoList = response.monoList
+        if(response.status){
+          this.commit('setMonoList',response.monoList)
         }else{
-          commit.setModalMessage(response.msg)
+          this.commit('setModalMessage',response.msg)
         }
       })
       .catch(function(error){
         if(error.response.status == 401){
-          store.commit('resetUserData')
+          this.commit('resetUserData')
           //loginページへジャンプ
           this.$router.push({path:'/login'})
         }
       })
     },
     getTagList({commit, state}){
-      axios.get(api_base + 'tag/')
+      this.$axios.get(api_base + 'tag/')
       .then(function(response){
         if(response.status){
-          this.tag_list = response.status.data.tags
+          this.commit('setTagList',response.tags)
         }
       })
-      error(function(error){
+      .catch(function(error){
         if(error.response.status == 401){
-          store.commit('resetUserData')
+          this.commit('resetUserData')
           //loginページへジャンプ
           this.$router.push({path:'/login'})
         }

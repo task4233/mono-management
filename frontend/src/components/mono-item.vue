@@ -1,5 +1,5 @@
 <template lang="html">
-  <tr v-on:click=""><td>{{mono.name}}</td><td>{{mono.info[{{mono.primary}}]}}</td></tr>
+  <tr><td>{{mono.name}}</td></tr>
 </template>
 
 <script>

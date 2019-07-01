@@ -1,17 +1,19 @@
 <template lang="html">
-  <div v-on:click="search">search</div>
-  <div v-if:"searchMode">
-    <form>
-      <input type="text" name="" value="">
-    </form>
-    <div v-on:click="exitSearch">x</div>
+  <div>
+    <div v-on:click="search">search</div>
+    <div v-if = "searchMode">
+      <form>
+        <input type="text" name="" value="">
+      </form>
+      <div v-on:click="exitSearch">x</div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   data:{
-    searchMode:false
+    searchMode:false,
     words:''
   },
   methods:{
@@ -25,7 +27,7 @@ export default {
     exitSearch:function(){
       this.searchMode = false
       this.words=''
-      
+
     }
 
   }

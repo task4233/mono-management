@@ -1,6 +1,6 @@
 <template lang="html">
   <table>
-    <monoItem v-for:"item in list" v-bind:mono="item" v-bind:key="item.id"></monoItem>
+    <monoItem v-for="item in list" v-bind:mono="item" v-bind:key="item.id"></monoItem>
   </table>
 </template>
 
@@ -12,6 +12,9 @@ export default {
     list(){
       return this.$store.state.monoList
     }
+  },
+  mounted:function(){
+    this.$store.dispatch('getMonoList', null, null)
   },
   components:{
     monoItem
