@@ -193,6 +193,15 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 		}
 	}()
 
+	if err := db.First(&editItem).Error; err != nil {
+		db.Rollback()
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": "そのようなアイテムは存在しません",
+		})
+		return err
+	}
+
 	if err := db.Model(&editItem).Updates(Item{Name: reqItem.Name, UserID: reqUser.ID, TagID: reqItem.TagID}).Error; err != nil {
 		db.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -318,7 +327,7 @@ func DeleteDatasByStrID(c *gin.Context, itemID string) error {
 		db.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
-			"message": "データを削除できません",
+			"message": "そのようなアイテムは存在しません",
 		})
 		return err
 	}

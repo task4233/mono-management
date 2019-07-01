@@ -64,7 +64,7 @@ Endpoints
 	[POST]   /api/v1/mono/new
 */
 func CreateMono(c *gin.Context) {
-	SendDefaultHeader(c, "*")
+	SendDefaultHeader(c, "POST")
 
 	var reqItem ReqItem
 	if err := c.BindJSON(&reqItem); err != nil {
