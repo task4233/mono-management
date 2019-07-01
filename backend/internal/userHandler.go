@@ -26,20 +26,12 @@ func GetInfo(c *gin.Context) {
 	// token情報を元にtokensテーブルからuserIdを取得
 	// 該当するuserIdを持つデータをusersテーブルから返却
 	SendDefaultHeader(c, "GET")
-	db := GetDB()
 
-	user, err := GetUserFromCookie(c)
+	user, err := CheckLogin(c)
 	if err != nil {
 		return
 	}
 
-	if err := db.Where("id = ?", user.ID).First(&user).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"status":  false,
-			"message": "ユーザが見つかりません",
-		})
-		return
-	}
 	c.JSON(http.StatusOK, gin.H{
 		"status": true,
 		"user":   user,
@@ -122,7 +114,7 @@ func Logout(c *gin.Context) {
 	// 削除できたらおk
 	SendDefaultHeader(c, "DELETE")
 	db := GetDB()
-	user, err := GetUserFromCookie(c)
+	user, err := CheckLogin(c)
 	if err != nil {
 		return
 	}
@@ -279,7 +271,7 @@ func DeleteAccount(c *gin.Context) {
 	SendDefaultHeader(c, "DELETE")
 	db := GetDB()
 
-	user, err := GetUserFromCookie(c)
+	user, err := CheckLogin(c)
 	if err != nil {
 		return
 	}
