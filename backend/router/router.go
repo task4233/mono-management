@@ -50,10 +50,10 @@ func Create() *gin.Engine {
 			// tag
 			tag := v1.Group("tag")
 			{
-				tag.GET("/", internal.GetTags)
-				tag.POST("/new", internal.CreateTag)
-				tag.PUT("/:tagId", internal.UpdateTag)
-				tag.DELETE("/:tagId", internal.DeleteTag)
+				tag.GET("/", internal.GetTagsHandler)
+				tag.POST("/new", internal.CreateTagHandler)
+				tag.PUT("/:tagId", internal.UpdateTagHandler)
+				tag.DELETE("/:tagId", internal.DeleteTagHandler)
 			}
 			// search
 			search := v1.Group("search")

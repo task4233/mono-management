@@ -68,7 +68,7 @@ type (
 		// name
 		Name string `json:"name"`
 		// parentId
-		ParentID int `json:"parentId" gorm:"column:parentId"`
+		ParentID int `json:"parentId" gorm:"column:parentId" sql:"default:null"`
 		// userId
 		UserID int `json:"userId" gorm:"column:userId"`
 	}

@@ -39,34 +39,15 @@
   version = "v1.3.1"
 
 [[projects]]
-  digest = "1:cef043bd5b80782d55de321d4ffc86af97b8382794c31d0119c139b258e37ea7"
+  digest = "1:6d39be33a917111436132ff319562545899eaeca7039a1bfffd0cd0246990d78"
   name = "github.com/jinzhu/gorm"
   packages = [
     ".",
     "dialects/mysql",
   ]
   pruneopts = "UT"
-  revision = "01b66011427614f01e84a473b0303c917179f2a0"
-  version = "v1.9.9"
-
-[[projects]]
-  digest = "1:01ed62f8f4f574d8aff1d88caee113700a2b44c42351943fa73cc1808f736a50"
-  name = "github.com/jinzhu/inflection"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "f5c5f50e6090ae76a29240b61ae2a90dd810112e"
-  version = "v1.0.0"
-
-[[projects]]
-  digest = "1:cef043bd5b80782d55de321d4ffc86af97b8382794c31d0119c139b258e37ea7"
-  name = "github.com/jinzhu/gorm"
-  packages = [
-    ".",
-    "dialects/mysql",
-  ]
-  pruneopts = "UT"
-  revision = "01b66011427614f01e84a473b0303c917179f2a0"
-  version = "v1.9.9"
+  revision = "836fb2c19d84dac7b0272958dfb9af7cf0d0ade4"
+  version = "v1.9.10"
 
 [[projects]]
   digest = "1:01ed62f8f4f574d8aff1d88caee113700a2b44c42351943fa73cc1808f736a50"
@@ -125,7 +106,7 @@
     "blowfish",
   ]
   pruneopts = "UT"
-  revision = "cc06ce4a13d484c0101a9e92913248488a75786d"
+  revision = "4def268fd1a49955bfb3dda92fe3db4f924f2285"
 
 [[projects]]
   branch = "master"
@@ -134,14 +115,6 @@
   packages = ["unix"]
   pruneopts = "UT"
   revision = "04f50cda93cbb67f2afa353c52f342100e80e625"
-
-[[projects]]
-  digest = "1:c25289f43ac4a68d88b02245742347c94f1e108c534dda442188015ff80669b3"
-  name = "google.golang.org/appengine"
-  packages = ["cloudsql"]
-  pruneopts = "UT"
-  revision = "b2f4a3cf3c67576a2ee09e1fe62656a5086ce880"
-  version = "v1.6.1"
 
 [[projects]]
   digest = "1:c25289f43ac4a68d88b02245742347c94f1e108c534dda442188015ff80669b3"
