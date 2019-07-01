@@ -41,13 +41,19 @@ export default {
     flag: function (value) {
       this.error = ''; // errorの初期化
       if (this.loginId === '') {
-        this.error = this.error + '\n' + 'ログインIDが入力されていません。'
+        this.error = this.error + 'ログインIDが入力されていません。'
+      }
+      if (this.loginId.length > 255) {
+        this.error = this.error + 'ログインIDの文字数が長すぎます。'
       }
       if (this.loginPass === '') {
-        this.error = this.error + '\n' + 'ログインPASSが入力されていません。'
+        this.error = this.error + 'ログインPASSが入力されていません。'
+      }
+      if (this.loginPass.length > 255) {
+        this.error = this.error + 'ログインPASSの文字数が長すぎます。'
       }
       if (value === 404) {
-        this.error = this.error + '\n' + 'サーバに接続できませんでした。'
+        this.error = this.error + 'サーバに接続できませんでした。'
       }
     }
   },
@@ -55,7 +61,7 @@ export default {
     login: function() {
       var self = this;
       this.flag++;
-      if (this.loginId !== null && this.loginPass !== null) {
+      if (this.loginId !== '' && this.loginPass !== '' && this.loginId.length <= 255 && this.loginPass.length <= 255) {
         var data = {name : this.loginId, password : this.loginPass };
         axios.post('/api/v1/user/login', data)
           .then(response => {
@@ -69,9 +75,8 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style >
 .login {
-  font-family: Makinas-4-Square;
   margin: 0 auto;
   width: 300px;
   height: 500px;
