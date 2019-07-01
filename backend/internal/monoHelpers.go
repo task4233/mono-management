@@ -80,7 +80,7 @@ func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
 			"status":  false,
 			"message": "tagIdが不正です",
 		})
-        db.Rollback()
+		db.Rollback()
 		return err
 	}
 
@@ -91,7 +91,7 @@ func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
 				"status":  false,
 				"message": "データ名が不正です",
 			})
-            db.Rollback()
+			db.Rollback()
 			return err
 		}
 		// fmt.Printf("%+v\n", newData) // for debug
@@ -399,7 +399,7 @@ type ReqItemData struct {
 }
 
 type ReqItem struct {
-	Name  string `json: "name"`
-	TagID int `json:"tagId" gorm:"tagId"`
+	Name  string        `json: "name"`
+	TagID int           `json:"tagId" gorm:"tagId"`
 	Data  []ReqItemData `json: "data"`
 }

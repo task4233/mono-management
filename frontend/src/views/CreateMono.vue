@@ -9,40 +9,38 @@
 
 <script>
 import Axios from "axios";
+import qs from "qs";
 
 export default {
-  name: 'CreateMono',
-  data: function() {
-    return {
-      name: "",
-      tagId: "",
-      data: [""]
-    };
-  },
+  name: "CreateMono",
   methods: {
     create: function() {
-      Axios.post("0.0.0.0:80/api/v1/mono/new", {
-        name: this.name,
-        tagId: this.tagId,
-        data: [
-          { name: "数量", value: "3", type: "num" },
-          {
-            name: "消費期限",
-            value: "Fri, 28 Jun 2019 08:09:52 GMT",
-            type: "timestamp"
-          },
-          { name: "メモ", value: "赤いよ", type: "str" }
-        ]
-      }).then(response => {
-        console.log(response)
-        const status = response.data.status
-        alert(response.data.message)
-        if (status) {
-          this.$router.push('/')
+      const data = {
+        name: String(this.name),
+        tagId: Number(this.tagId)
+      }
+      console.log(data)
+
+
+      Axios.post("/api/v1/mono/new", data, {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers": "*",
+          useCredentials: true
         }
-      }).catch(err => {
-        console.log(err.response)
       })
+        .then(response => {
+          console.log(response);
+          const status = response.data.status;
+          alert(response.data.message);
+          if (status) {
+            this.$router.push("/");
+          }
+        })
+        .catch(err => {
+          console.log(err.response);
+        });
     }
   }
 };
