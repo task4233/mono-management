@@ -170,6 +170,11 @@ func CreateAccount(c *gin.Context) {
 		return
 	}
 
+	if (json.Name == "" || json.Password == "") {
+		CreateServerErrorMessage(c, "空のユーザ名、パスワードは設定できません")
+		return
+	}
+
 	hashedPass, err := generateHashedPass(json.Password)
 	if err != nil {
 		CreateServerErrorMessage(c, "サーバエラー")
