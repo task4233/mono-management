@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 )
 
 // Res is the interface of Item structure
@@ -381,6 +382,10 @@ func ReturnStatusOKWithStrMessage(c *gin.Context, message string) {
 	})
 }
 
+func GetJoinedItemData() *gorm.DB {
+	return GetDB().Table("itemdatas").Select("*").Joins("left join datas on itemdatas.dataId = datas.id")
+}
+
 //
 // Table Setting
 //
@@ -398,4 +403,9 @@ type ReqItem struct {
 	Name  string        `json: "name"`
 	TagID int           `json:"tagId" gorm:"tagId"`
 	Data  []ReqItemData `json: "data"`
+}
+
+type JoinedItemData struct {
+	Itemdata
+	Data
 }

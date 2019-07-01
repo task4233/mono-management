@@ -34,6 +34,7 @@ func Create() *gin.Engine {
 				// CRUD
 				mono.GET("/", internal.GetMonos)
 				mono.POST("/new", internal.CreateMono)
+				mono.GET("/:monoId", internal.GetMonoData)
 				mono.PUT("/:monoId", internal.UpdateMonos)
 				mono.DELETE("/:monoId", internal.DeleteMono)
 			}
