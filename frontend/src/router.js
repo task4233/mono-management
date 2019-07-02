@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Login from './components/login.vue'
 import SignUp from './components/signup.vue'
 import Header from './components/HelloWorld.vue'
-
+import Home from './views/Home.vue'
 
 Vue.use(Router)
 
@@ -28,6 +28,12 @@ export default new Router({
       path: '/header',
       name: 'header',
       component: Header
+      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+    },
+    {
+      path: '/mono/new',
+      name: 'createmono',
+      component: () => import('@/views/CreateMono.vue')
     }
   ]
 })
