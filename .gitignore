@@ -1,10 +1,5 @@
 *~
 
-
-# frontend
-frontend/node_modules
-frontend/public
-
 # backend
 backend/repos
 backend/docker
@@ -16,12 +11,13 @@ backend/.*
 frontend/public/
 frontend/html/
 frontend/node_modules
-frontend/npm-debug.log*
-frontend/yarn-error.log*
+frontend/npm-debug.log
+frontend/yarn-error.log
 frontend/.DS_Store
 frontend/.env.local
 frontend/.env.*.local
 frontend/src/assets/fonts
+
 sample/
 gh-pages/
 
@@ -37,4 +33,3 @@ gh-pages/
 # docker
 .docker-sync
 docker/db/data
-

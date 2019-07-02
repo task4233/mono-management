@@ -2,16 +2,17 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import ClientTable from 'vuetable-2'
+import axios from 'axios'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+require('./assets/sass/style.scss') // グローバルに展開する
 
 Vue.use(BootstrapVue)
-Vue.use(ClientTable);
-
 
 Vue.config.productionTip = false
+
+Vue.prototype.$axios = axios
 
 new Vue({
   router,
