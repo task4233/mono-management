@@ -3,6 +3,7 @@ package internal
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -60,7 +61,7 @@ func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
 	// fmt.Printf("%+v\n", reqItem) // for debug
 
 	newItem := Item{Name: reqItem.Name, UserID: reqUser.ID, TagID: reqItem.TagID}
-	// fmt.Printf("%+v\n", newItem)  // for debug
+	fmt.Printf("%+v\n", newItem) // for debug
 
 	// トランザクション開始
 	db := GetDB().Begin()
@@ -69,6 +70,23 @@ func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
 			db.Rollback()
 		}
 	}()
+
+	currentTag := Tag{ID: newItem.TagID}
+	if err := db.First(&currentTag).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": "タグが存在していません",
+		})
+		db.Rollback()
+		return err
+	}
+
+	// タグを保有していないユーザ
+	if currentTag.UserID != newItem.UserID {
+		CreateServerErrorMessage(c, "タグを保有していないユーザです")
+		db.Rollback()
+		return errors.New("タグを保有していないユーザです")
+	}
 
 	if err := db.Create(&newItem).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
