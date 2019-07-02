@@ -17,6 +17,12 @@ Endpoints
 	[POST]   /api/v1/search/
 */
 func SearchMonos(c *gin.Context) {
+	SendDefaultHeader(c, "POST")
+	user, err := CheckLogin(c)
+	if err != nil {
+		return
+	}
+
 	var reqSearch ReqSearch
 	if err := c.BindJSON(&reqSearch); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -32,7 +38,7 @@ func SearchMonos(c *gin.Context) {
 
     // ここでLIKE検索をしたい
     // Itemテーブルに対してLIKE検索
-	if err := GetDB().Where(&Item{TagID: reqSearch.TagID}).Where("name LIKE ?", likeStr).Find(&resItems).Error; err != nil {
+	if err := GetDB().Where(&Item{TagID: reqSearch.TagID, UserID: user.ID}).Where("name LIKE ?", likeStr).Find(&resItems).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"status":  false,
 			"message": "データが存在しません",
