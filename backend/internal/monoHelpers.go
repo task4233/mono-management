@@ -183,7 +183,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 		}
 	}()
 
-	if err := db.First(&editItem).Error; err != nil {
+	if err := db.Where(&editItem).First(&editItem).Error; err != nil {
 		db.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
@@ -191,7 +191,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 		})
 		return err
 	}
-	if err := db.Model(&editItem).Updates(Item{Name: reqItem.Name, UserID: reqUser.ID, TagID: reqItem.TagID}).Error; err != nil {
+	if err := db.Model(&editItem).Where(&editItem).Updates(Item{Name: reqItem.Name, UserID: reqUser.ID, TagID: reqItem.TagID}).Error; err != nil {
 		db.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
@@ -317,7 +317,7 @@ func DeleteDatasByStrID(c *gin.Context, itemID string) error {
 		}
 	}()
 
-	if err := db.First(&delItem).Error; err != nil {
+	if err := db.Where(&delItem).First(&delItem).Error; err != nil {
 		db.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
