@@ -174,6 +174,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 		})
 		return err
 	}
+	editItem.UserID = reqUser.ID
 
 	db := GetDB().Begin()
 	defer func() {
