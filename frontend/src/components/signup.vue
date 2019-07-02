@@ -1,26 +1,31 @@
 <template>
-  <div class="signup">
-    <font size="9" face="ＭＳ 明朝" color="#ffffff">
-      mono<br>management
-    </font>
-    <br>
-    <router-link to="/">login</router-link>
-    <br>
-    <font size="2">
-    ユーザー名/メールアドレス
-    <div class="signupId">
-      <input type="text" placeholder="サインアップID" v-model="signupId">
-    </div>
-    パスワード
-    </font>
-    <div class="signupPass">
-      <input type="text" placeholder="サインアップPASS" v-model="signupPass">
-    </div>
-    <button @click="signup">サインアップ</button>
-    <div class = "errorform">
-      <p v-if="error">{{ error }}</p>
-    </div>
-  </div>
+  <b-container class="signup">
+    <h1>mono management</h1>
+    <b-form-group>
+      <b-button variant="outline-success" class="mx-auto" href="/">login</b-button>
+    </b-form-group>
+    <b-form-group>
+      <div class="signupId">
+        <b-form-input type="text" placeholder="ユーザ名" v-model="signupId"></b-form-input>
+      </div>
+    </b-form-group>
+    <b-form-group>
+      <div class="signupPass">
+        <b-form-input type="password" placeholder="パスワード" v-model="signupPass"></b-form-input>
+      </div>
+    </b-form-group>
+    <b-form-group>
+      <div class="signupPassRetype">
+        <b-form-input type="password" placeholder="パスワード再入力" v-model="signupPassRetype"></b-form-input>
+      </div>
+    </b-form-group>
+    <b-form-group>
+      <b-button v-on:click="signup" variant="primary" class="mx-auto">サインアップ</b-button>
+    </b-form-group>
+    <b-row class="errorForm">
+      <p v-if="error" class="mx-auto">{{ error }}</p>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -31,6 +36,7 @@ export default {
     return {
       signupId: '',
       signupPass: '',
+      signupPassRetype: '',
       error : '',
       flag : 0, //  flag変数をloginされるたびに変えて、watchを呼び出す。
     }
@@ -39,16 +45,19 @@ export default {
     flag: function (value) {
       this.error = ''; // errorの初期化
       if (this.signupId === '') {
-        this.error = this.error + 'サインアップIDが入力されていません。'
+        this.error = this.error + 'ユーザ名が入力されていません。'
       }
-      if (this.signupId.length > 255) {
-        this.error = this.error + 'サインアップIDの文字数が長すぎます。'
+      if (this.signupId.length > 64) {
+        this.error = this.error + 'ユーザ名が長すぎます。'
       }
       if (this.signupPass === '') {
-        this.error = this.error + 'サインアップPASSが入力されていません。'
+        this.error = this.error + 'パスワードが入力されていません。'
       }
-      if (this.signupPass.length > 255) {
-        this.error = this.error + 'サインアップPASSの文字数が長すぎます。'
+      if (this.signupPass !== this.signupPassRetype) {
+        this.error = this.error + 'パスワード再入力が一致していません。'
+      }
+      if (this.signupPass.length > 64) {
+        this.error = this.error + 'パスワードが長すぎます。'
       }
       if (value === 404) {
         this.error = this.error + 'サーバに接続できませんでした。'
@@ -76,16 +85,13 @@ export default {
 
 <style>
 .signup {
-  margin: 0 auto;
-  width: 300px;
-  height: 500px;
-  background-color: #6fdf6f;
+  font-family: 'Makinas-4-Square';
 }
 
 .errorform {
-  margin: 0 auto;
+  /*margin: 0 auto;
   width: 250px;
   height: 200px;
-  background-color: #f0f0f0;
+  background-color: #f0f0f0;*/
 }
 </style>

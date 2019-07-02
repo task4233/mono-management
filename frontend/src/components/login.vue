@@ -1,26 +1,26 @@
 <template>
-  <div class="login">
-    <font size="9" face="ＭＳ 明朝" color="#ffffff">
-      mono<br>management
-    </font>
-    <br>
-    <router-link to="/signup">signup</router-link>
-    <br>
-    <font size="2">
-    ユーザー名/メールアドレス
-    <div class="loginId">
-      <input type="text" placeholder="ログインID" v-model="loginId">
-    </div>
-    パスワード
-    </font>
-    <div class="loginPass">
-      <input type="text" placeholder="ログインPASS" v-model="loginPass">
-    </div>
-    <button v-on:click="login">ログイン</button>
-    <div class = "errorForm">
-      <p v-if="error">{{ error }}</p>
-    </div>
-  </div>
+  <b-container class="login">
+    <h1>mono management</h1>
+    <b-form-group>
+      <b-button variant="outline-success" class="mx-auto" href="/signup">signup</b-button>
+    </b-form-group>
+    <b-form-group>
+      <div class="loginId">
+        <b-form-input type="text" placeholder="ユーザ名" v-model="loginId"></b-form-input>
+      </div>
+    </b-form-group>
+    <b-form-group>
+      <div class="loginPass">
+        <b-form-input type="password" placeholder="パスワード" v-model="loginPass"></b-form-input>
+      </div>
+    </b-form-group>
+    <b-form-group>
+      <b-button v-on:click="login" variant="primary" class="mx-auto">ログイン</b-button>
+    </b-form-group>
+    <b-row class="errorForm">
+      <p v-if="error" class="mx-auto">{{ error }}</p>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -40,16 +40,16 @@ export default {
     flag: function (value) {
       this.error = ''; // errorの初期化
       if (this.loginId === '') {
-        this.error = this.error + 'ログインIDが入力されていません。'
+        this.error = this.error + 'ユーザ名が入力されていません。'
       }
-      if (this.loginId.length > 255) {
-        this.error = this.error + 'ログインIDの文字数が長すぎます。'
+      if (this.loginId.length > 64) {
+        this.error = this.error + 'ユーザ名が長すぎます。'
       }
       if (this.loginPass === '') {
-        this.error = this.error + 'ログインPASSが入力されていません。'
+        this.error = this.error + 'パスワードが入力されていません。'
       }
-      if (this.loginPass.length > 255) {
-        this.error = this.error + 'ログインPASSの文字数が長すぎます。'
+      if (this.loginPass.length > 64) {
+        this.error = this.error + 'パスワードが長すぎます。'
       }
       if (value === 404) {
         this.error = this.error + 'サーバに接続できませんでした。'
@@ -76,16 +76,13 @@ export default {
 </script>
 <style >
 .login {
-  margin: 0 auto;
-  width: 300px;
-  height: 500px;
-  background-color: #6fdf6f;
+  font-family: 'Makinas-4-Square';
 }
 
 .errorForm {
-  margin: 0 auto;
+  /*margin: 0 auto;
   width: 250px;
   height: 200px;
-  background-color: #f0f0f0;
+  background-color: #f0f0f0;*/
 }
 </style>
