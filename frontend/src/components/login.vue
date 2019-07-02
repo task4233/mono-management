@@ -32,7 +32,6 @@ export default {
     return {
       loginId: '',
       loginPass: '',
-      users: [],
       error : '',
       flag : 0, //  flag変数をloginされるたびに変えて、watchを呼び出す。
     }
