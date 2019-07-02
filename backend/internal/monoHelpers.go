@@ -3,11 +3,13 @@ package internal
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 )
 
 // Res is the interface of Item structure
@@ -50,22 +52,16 @@ func (i Item) AddStatusMessageForItem() ([]byte, error) {
 }
 
 func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
-	// createTokenができるまでスタブにしとく
-	// 認証
-	/*
-		reqUser, err := CheckLogin(c)
-		if err != nil {
-			return
-		}
-		fmt.Printf("%+v\n", reqUser)
-	*/
-	// スタブ
-	reqUser := User{ID: 1}
+	reqUser, err := CheckLogin(c)
+	if err != nil {
+		return errors.New("Login error")
+	}
+	// fmt.Printf("%+v\n", reqUser) // for debug
 
 	// fmt.Printf("%+v\n", reqItem) // for debug
 
 	newItem := Item{Name: reqItem.Name, UserID: reqUser.ID, TagID: reqItem.TagID}
-	// fmt.Printf("%+v\n", newItem)  // for debug
+	fmt.Printf("%+v\n", newItem) // for debug
 
 	// トランザクション開始
 	db := GetDB().Begin()
@@ -74,6 +70,23 @@ func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
 			db.Rollback()
 		}
 	}()
+
+	currentTag := Tag{ID: newItem.TagID}
+	if err := db.First(&currentTag).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  false,
+			"message": "タグが存在していません",
+		})
+		db.Rollback()
+		return err
+	}
+
+	// タグを保有していないユーザ
+	if currentTag.UserID != newItem.UserID {
+		CreateServerErrorMessage(c, "タグを保有していないユーザです")
+		db.Rollback()
+		return errors.New("タグを保有していないユーザです")
+	}
 
 	if err := db.Create(&newItem).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -162,17 +175,11 @@ func CreateDatasByRequest(c *gin.Context, reqItem ReqItem) error {
 }
 
 func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string) error {
-	// createTokenができるまでスタブにしとく
-	// 認証
-	/*
-		reqUser, err := CheckLogin(c)
-		if err != nil {
-			return
-		}
-		fmt.Printf("%+v\n", reqUser)
-	*/
-	// スタブ
-	reqUser := User{ID: 1}
+	reqUser, err := CheckLogin(c)
+	if err != nil {
+		return errors.New("Login error")
+	}
+	// fmt.Printf("%+v\n", reqUser) // for debug
 
 	// fmt.Printf("%+v\n", reqItem) // for debug
 	// fmt.Printf("%+v\n", newItem)  // for debug
@@ -185,6 +192,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 		})
 		return err
 	}
+	editItem.UserID = reqUser.ID
 
 	db := GetDB().Begin()
 	defer func() {
@@ -193,7 +201,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 		}
 	}()
 
-	if err := db.First(&editItem).Error; err != nil {
+	if err := db.Where(&editItem).First(&editItem).Error; err != nil {
 		db.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
@@ -201,7 +209,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 		})
 		return err
 	}
-	if err := db.Model(&editItem).Updates(Item{Name: reqItem.Name, UserID: reqUser.ID, TagID: reqItem.TagID}).Error; err != nil {
+	if err := db.Model(&editItem).Where(&editItem).Updates(Item{Name: reqItem.Name, UserID: reqUser.ID, TagID: reqItem.TagID}).Error; err != nil {
 		db.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
@@ -305,6 +313,10 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 }
 
 func DeleteDatasByStrID(c *gin.Context, itemID string) error {
+	reqUser, err := CheckLogin(c)
+	if err != nil {
+		return errors.New("Login error")
+	}
 	delItem := Item{}
 	if delItem.ID, err = strconv.Atoi(itemID); err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
@@ -313,6 +325,7 @@ func DeleteDatasByStrID(c *gin.Context, itemID string) error {
 		})
 		return err
 	}
+	delItem.UserID = reqUser.ID
 	// fmt.Printf("%+v\n", delItem) // for debug
 
 	db := GetDB().Begin()
@@ -322,7 +335,7 @@ func DeleteDatasByStrID(c *gin.Context, itemID string) error {
 		}
 	}()
 
-	if err := db.First(&delItem).Error; err != nil {
+	if err := db.Where(&delItem).First(&delItem).Error; err != nil {
 		db.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
@@ -393,6 +406,10 @@ func ReturnStatusOKWithStrMessage(c *gin.Context, message string) {
 	})
 }
 
+func GetJoinedItemData() *gorm.DB {
+	return GetDB().Table("itemdatas").Select("*").Joins("left join datas on itemdatas.dataId = datas.id")
+}
+
 //
 // Table Setting
 //
@@ -410,4 +427,9 @@ type ReqItem struct {
 	Name  string        `json: "name"`
 	TagID int           `json:"tagId" gorm:"tagId"`
 	Data  []ReqItemData `json: "data"`
+}
+
+type JoinedItemData struct {
+	Itemdata
+	Data
 }
