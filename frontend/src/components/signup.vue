@@ -41,13 +41,13 @@ export default {
       if (this.signupId === '') {
         this.error = this.error + 'サインアップIDが入力されていません。'
       }
-      if (this.signupId.length > 255) {
+      if (this.signupId.length > 64) {
         this.error = this.error + 'サインアップIDの文字数が長すぎます。'
       }
       if (this.signupPass === '') {
         this.error = this.error + 'サインアップPASSが入力されていません。'
       }
-      if (this.signupPass.length > 255) {
+      if (this.signupPass.length > 64) {
         this.error = this.error + 'サインアップPASSの文字数が長すぎます。'
       }
       if (value === 404) {
@@ -59,7 +59,7 @@ export default {
     signup: function() {
       var self = this;
       this.flag++;
-      if (this.signupId !== null && this.signupPass !== null) {
+      if (this.signupId !== '' && this.signupPass !== '' && this.signupId.length <= 64 && this.signupPass.length <= 64) {
         var data = {name : this.signupId, password : this.signupPass };
         axios.post('/api/v1/user/new', data)
           .then(response => {
@@ -79,13 +79,13 @@ export default {
   margin: 0 auto;
   width: 300px;
   height: 500px;
-  background-color: #6fdf6f;
+  background-color: #50de88;
 }
 
 .errorform {
   margin: 0 auto;
   width: 250px;
   height: 200px;
-  background-color: #f0f0f0;
+  background-color: #bebebe;
 }
 </style>

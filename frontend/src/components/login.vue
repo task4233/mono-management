@@ -42,13 +42,13 @@ export default {
       if (this.loginId === '') {
         this.error = this.error + 'ログインIDが入力されていません。'
       }
-      if (this.loginId.length > 255) {
+      if (this.loginId.length > 64) {
         this.error = this.error + 'ログインIDの文字数が長すぎます。'
       }
       if (this.loginPass === '') {
         this.error = this.error + 'ログインPASSが入力されていません。'
       }
-      if (this.loginPass.length > 255) {
+      if (this.loginPass.length > 64) {
         this.error = this.error + 'ログインPASSの文字数が長すぎます。'
       }
       if (value === 404) {
@@ -60,7 +60,7 @@ export default {
     login: function() {
       var self = this;
       this.flag++;
-      if (this.loginId !== '' && this.loginPass !== '' && this.loginId.length <= 255 && this.loginPass.length <= 255) {
+      if (this.loginId !== '' && this.loginPass !== '' && this.loginId.length <= 64 && this.loginPass.length <= 64) {
         var data = {name : this.loginId, password : this.loginPass };
         axios.post('/api/v1/user/login', data)
           .then(response => {
@@ -79,13 +79,13 @@ export default {
   margin: 0 auto;
   width: 300px;
   height: 500px;
-  background-color: #6fdf6f;
+  background-color: #50de88;
 }
 
 .errorForm {
   margin: 0 auto;
   width: 250px;
   height: 200px;
-  background-color: #f0f0f0;
+  background-color: #bebebe;
 }
 </style>
