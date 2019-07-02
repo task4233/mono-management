@@ -8,8 +8,10 @@
 
 <script>
 export default {
-  data:{
-    selected:null
+  data:function(){
+    return{
+      selected:null
+    }
   },
   computed:{
     headLabel(){

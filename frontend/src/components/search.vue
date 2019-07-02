@@ -12,9 +12,11 @@
 
 <script>
 export default {
-  data:{
-    searchMode:false,
-    words:''
+  data:function(){
+    return{
+      searchMode:false,
+      words:''
+    }
   },
   methods:{
     search:function(){

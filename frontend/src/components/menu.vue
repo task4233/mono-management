@@ -1,7 +1,7 @@
 <template lang="html">
   <div>
     <div v-if="menuMode">
-      ×<br>
+      <div v-on:click="changeView">×</div><br>
       <span v-on:click="logout">ログアウト</span><br>
       <a href="https://hackmd.io/giR3aLTXSH6VUQigiqEK0A"><span>このソフトについて</span><br></a>
     </div>
@@ -13,8 +13,10 @@
 
 <script>
 export default {
-  data:{
-    menuMode:false
+  data:function(){
+    return{
+      menuMode:false
+    }
   },
   methods:{
     logout:function(){
