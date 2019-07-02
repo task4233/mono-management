@@ -67,9 +67,9 @@ type (
 		ID int `json:"Id" gorm:"primary_key"`
 		// name
 		Name string `json:"name"`
-		// parentID
-		ParentID int `json:"parentId" gorm:"column:parentId"`
-		// userID
+		// parentId
+		ParentID int `json:"parentId" gorm:"column:parentId" sql:"default:null"`
+		// userId
 		UserID int `json:"userId" gorm:"column:userId"`
 	}
 
@@ -183,7 +183,7 @@ func SendDefaultHeader(c *gin.Context, methods string) {
 	c.Header("Access-Control-Allow-Origin", "*")
 	c.Header("Access-Control-Allow-Methods", methods)
 	c.Header("Access-Control-Max-Age", "86400")
-	c.Header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+	c.Header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, X-HogeApp-Hogeid")
 }
 
 /*

@@ -1,15 +1,37 @@
 <template>
-  <div class="edit">
-    <h1>{{ itemdatas[$route.params.id].name }}詳細画面</h1>
-    <p >
-        
-        </p>
-        </div>
+  <div class="signup">
+    <h1>新規作成</h1>
+    <p>
+      <input type="text" placeholder="名前" v-model="name" />
+      <input type="text" placeholder="タグ" v-model="tagId" />
+    </p>
+
+    <div class="dynamic">
+      <p v-for="dat in data" :key="dat.name">
+        {{ dat.name }}
+        {{ dat.type }}
+        {{ dat.value }}
+      </p>
+      <p>
+        <input type="text" placeholder="新しい要素名を追加！" v-model="dataName" />
+        <select v-model="dataType">
+          <option disabled value>型を選んでね</option>
+          <option>num</option>
+          <option>str</option>
+          <option>timestamp</option>
+        </select>
+        <datepicker v-if="dataType=='timestamp'" v-model="dataValue" :format="DatePickerFormat"></datepicker>
+        <input v-else type="text" placeholder="新しい要素の値を追加！" v-model="dataValue" />
+      </p>
+    </div>
+    <button @click="addData" class="btn btn-primary btn-sm">+</button>
+    <button @click="create">保存する</button>
+  </div>
 </template>
 
 <script>
 import Axios from "axios";
-import Datepicker from "vuejs-datepicker";
+import Datepicker from "vuejs-datepicker"
 
 export default {
   name: "CreateMono",
@@ -18,46 +40,12 @@ export default {
       dataName: "",
       dataValue: "",
       dataType: "",
-      DatePickerFormat: "yyyy-MM-dd",
-      data: [],
-      itemdatas: [],
+      DatePickerFormat: 'yyyy-MM-dd',
+      data: []
     };
   },
   components: {
     Datepicker
-  },
-  created: function() {
-    Axios.get("/api/v1/mono/")
-      .then(response => {
-        console.log(response);
-        const stat = response.data.Status;
-        if (stat) {
-          const datas = response.data.Data;
-          console.log(datas);
-          console.log(datas.length);
-          for (let i = 0; i < datas.length; ++i) {
-            const mid = datas[i].Id;
-            const mname = datas[i].name;
-            const mtagId = datas[i].tagId;
-            const muserId = datas[i].userId;
-            console.log({
-              id: mid,
-              name: mname,
-              tagId: mtagId,
-              userId: muserId
-            });
-            this.itemdatas.push({
-              id: mid,
-              name: mname,
-              tagId: mtagId,
-              userId: muserId
-            });
-          }
-        }
-      })
-      .catch(err => {
-        console.log(err.response);
-      });
   },
   methods: {
     addData: function() {
@@ -69,12 +57,9 @@ export default {
       if (!newDataType) {
         return;
       }
-      const newDataValue =
-        newDataType === "timestamp"
-          ? this.dataValue.toUTCString()
-          : this.dataValue.trim();
+      const newDataValue = newDataType==='timestamp' ? this.dataValue.toUTCString() : this.dataValue.trim();
       if (!newDataValue) {
-        console.log(this.dataValue);
+        console.log(this.dataValue)
         return;
       }
       this.data.push({
@@ -82,6 +67,7 @@ export default {
         type: newDataType,
         value: newDataValue
       });
+      alert("追加するよ!");
       this.dataName = " ";
       this.dataType = " ";
       this.dataValue = " ";
@@ -94,7 +80,7 @@ export default {
       };
       console.log(data);
 
-      Axios.put("/api/v1/mono/"+this.$route.params.id, data, {
+      Axios.post("/api/v1/mono/new", data, {
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",

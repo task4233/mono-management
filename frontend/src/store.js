@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+import Axios from 'axios'
+
 const api_base = '/api/v1/'
 
 export default new Vuex.Store({
@@ -35,7 +37,7 @@ export default new Vuex.Store({
   },
   actions: {
     getMonoList({commit},tagId, name){
-      this.$axios.post(api_base + 'search/',{
+      Axios.post(api_base + 'search/',{
         name:name,
         tagId:tagId
       })
@@ -55,7 +57,7 @@ export default new Vuex.Store({
       })
     },
     getTagList({commit}){
-      this.$axios.get(api_base + 'tag/')
+      Axios.get(api_base + 'tag/')
       .then(function(response){
         if(response.status){
           commit('setTagList',response.tags)

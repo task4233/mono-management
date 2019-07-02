@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Index from './views/Index.vue'
 import EditMono from './views/EditMono.vue'
-import ShowMono from './views/ShowMono.vue'
+import CreateMono from './views/CreateMono.vue'
 
 Vue.use(Router)
 
@@ -24,14 +24,14 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
     {
-      path: '/mono/:id',
-      name: 'editmono',
-      component: EditMono
+      path: '/mono/new',
+      name: 'createmono',
+      component: CreateMono
     },
     {
       path: '/mono/:id',
-      name: 'showmono',
-      component: ShowMono
+      name: 'editmono',
+      component: EditMono
     },
   ]
 })
