@@ -34,6 +34,7 @@ func Create() *gin.Engine {
 				// CRUD
 				mono.GET("/", internal.GetMonos)
 				mono.POST("/new", internal.CreateMono)
+				mono.GET("/:monoId", internal.GetMonoData)
 				mono.PUT("/:monoId", internal.UpdateMonos)
 				mono.DELETE("/:monoId", internal.DeleteMono)
 			}
@@ -43,9 +44,9 @@ func Create() *gin.Engine {
 				user.GET("/info", internal.GetInfo)
 				user.POST("/login", internal.Login)
 				user.POST("/logout", internal.Logout)
-				user.POST("new", internal.CreateAccount)
-				user.PUT("update", internal.UpdateAccount)
-				user.DELETE("delete", internal.DeleteAccount)
+				user.POST("/new", internal.CreateAccount)
+				user.PUT("/update", internal.UpdateAccount)
+				user.DELETE("/delete", internal.DeleteAccount)
 			}
 			// tag
 			tag := v1.Group("tag")
