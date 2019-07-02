@@ -5,6 +5,11 @@ import store from './store'
 import axios from 'axios'
 require('./assets/sass/style.scss') // グローバルに展開する
 
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+Vue.use(BootstrapVuew)
+
 Vue.config.productionTip = false
 
 Vue.prototype.$axios = axios

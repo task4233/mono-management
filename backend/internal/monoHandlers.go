@@ -17,14 +17,40 @@ Endpoints
 	[GET]	/api/v1/mono
 */
 func GetMonos(c *gin.Context) {
-	// Monoデータをitemsテーブルから取得する
 
-	// itemsテーブルの全てのデータを持ってくる
-
-	// これ無し
+	// [TODO]
 	// itemsテーブルのidごとに, itemdatasテーブルで該当するデータをくっつける
+	// エラー処理はあとで実装
+	/*
+		{
+			SendDefaultHeader(c, "GET")
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"status":  false,
+				"message": "JSONの作成に失敗しました.",
+			})
+			panic(err)
+		}
+	*/
 
-	c.JSON(http.StatusOK, "get monos")
+	SendDefaultHeader(c, "GET")
+	resItems := []Item{}
+	db := GetDB().Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			db.Rollback()
+		}
+	}()
+
+	if err := db.Find(&resItems).Error; err != nil {
+		db.Rollback()
+		c.JSON(http.StatusNotFound, gin.H{
+			"status":  false,
+			"message": "データが存在しません",
+		})
+		return
+	}
+	ms := ResItems{true, resItems}
+	c.JSON(http.StatusOK, ms)
 }
 
 /*
@@ -38,12 +64,23 @@ Endpoints
 	[POST]   /api/v1/mono/new
 */
 func CreateMono(c *gin.Context) {
-	// リクエストに含まれる情報のうち, name, userId, tagIdをitemsテーブルに追加
+	SendDefaultHeader(c, "POST")
 
-	// リクエストに含まれる情報のうち, datasに含まれるデータ群を1つずつに対して以下の処理を行う
-	// + type(primary data), name(データ名)をdatasテーブルに追加する
-	// + そのdataId, itemId, 型に該当する値をitemdatasテーブルに追加する
-	c.JSON(http.StatusOK, "create mono")
+	var reqItem ReqItem
+	if err := c.BindJSON(&reqItem); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  false,
+			"message": "不正なリクエストボディです",
+		})
+		return
+	}
+
+	if err := CreateDatasByRequest(c, reqItem); err != nil {
+		return
+	}
+
+	ReturnStatusOKWithStrMessage(c, "作成完了しました")
+
 }
 
 /*
@@ -58,12 +95,16 @@ Endpoints
 */
 func UpdateMonos(c *gin.Context) {
 	// パスの{:monoId}を用いてデータをitemsテーブルから持ってくる
+	SendDefaultHeader(c, "PUT")
 
-	// itemdatasテーブルから{:monoId}を含むデータを全て引き出す
-	// リクエストに含まれる情報のうち,
-	// keyが, dataIdから取得したdatasテーブルのnameと一致するように
-	// itemdatasテーブルのデータを更新する
-	c.JSON(http.StatusOK, "update mono")
+	var reqItem ReqItem
+	c.BindJSON(&reqItem)
+	itemID := c.Param("monoId")
+
+	if err := UpdateDatasByRequestAndStrID(c, reqItem, itemID); err != nil {
+		return
+	}
+	ReturnStatusOKWithStrMessage(c, "更新完了しました")
 }
 
 /*
@@ -79,6 +120,11 @@ Endpoints
 func DeleteMono(c *gin.Context) {
 	// パスの{:monoId}を用いてデータをitemsテーブルから削除する
 	// 関連するデータ群はまとめて削除される
+	SendDefaultHeader(c, "DELETE")
+	itemID := c.Param("monoId")
 
-	c.JSON(http.StatusOK, "delete mono")
+	if err := DeleteDatasByStrID(c, itemID); err != nil {
+		return
+	}
+	ReturnStatusOKWithStrMessage(c, "削除完了しました")
 }
