@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './components/login.vue'
+import Login from './components/login.vue'
 import SignUp from './components/signup.vue'
 import Header from './components/HelloWorld.vue'
 
@@ -12,9 +12,9 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
+      path: '/login',
       name: 'login',
-      component: Home
+      component: Login
     },
     {
       path: '/signup',

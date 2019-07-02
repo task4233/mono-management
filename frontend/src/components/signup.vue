@@ -43,7 +43,7 @@ export default {
     }
   },
   watch : {
-    flag: function (value) {
+    flag: function () {
       this.error = ''; // errorの初期化
       if (this.signupId === '') {
         this.error = this.error + 'ユーザ名が入力されていません。'
