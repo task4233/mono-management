@@ -119,7 +119,7 @@ func UpdateTagHandler(c *gin.Context) {
 	}
 	updTag.ID = tagid
 	updTag.UserID = user.ID
-	updedTag, err := UpdateTag(updTag)
+	updedTag, err := UpdateTag(Tag{ ID: tagid, UserID: user.ID }, updTag)
 	if err != nil {
 		if gorm.IsRecordNotFoundError(err) {
 			c.JSON(http.StatusNotFound, gin.H{
@@ -167,7 +167,7 @@ func DeleteTagHandler(c *gin.Context) {
 	}
 	delTag.ID = tagid
 	delTag.UserID = user.ID
-	deltedTag, err := DeleteTag(delTag)
+	deltedTag, err := DeleteTag(Tag{ ID: tagid, UserID: user.ID }, delTag)
 
 	if err != nil {
 		if gorm.IsRecordNotFoundError(err) {

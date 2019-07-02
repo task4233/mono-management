@@ -20,12 +20,12 @@ func CreateTag(tag Tag) (Tag, error) {
 	return tag, err
 }
 
-func UpdateTag(tag Tag) (Tag, error) {
-	err := GetDB().Model(&tag).Update(tag).Error
-	return tag, err
+func UpdateTag(target Tag, upd Tag) (Tag, error) {
+	err := GetDB().Model(&upd).Where(&target).Update(upd).Error
+	return upd, err
 }
 
-func DeleteTag(tag Tag) (Tag, error) {
-	err := GetDB().Delete(&tag).Error
-	return tag, err
+func DeleteTag(target Tag, del Tag) (Tag, error) {
+	err := GetDB().Where(&target).Delete(&del).Error
+	return del, err
 }
