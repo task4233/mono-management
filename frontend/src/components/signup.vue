@@ -33,6 +33,7 @@ export default {
       signupPass: '',
       error : '',
       flag : 0, //  flag変数をloginされるたびに変えて、watchを呼び出す。
+      server : 0
     }
   },
   watch : {
@@ -50,7 +51,7 @@ export default {
       if (this.signupPass.length > 64) {
         this.error = this.error + 'サインアップPASSの文字数が長すぎます。'
       }
-      if (value === 404) {
+      if (this.server === 1) {
         this.error = this.error + 'サーバに接続できませんでした。'
       }
     }
@@ -66,7 +67,8 @@ export default {
             console.log('body:', response.data);
           }).catch(function(error) {
             console.log(error);
-            self.flag = 404;
+            self.server = 1;
+            self.flag = 0;
           });
       }
     }

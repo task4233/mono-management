@@ -34,6 +34,7 @@ export default {
       loginPass: '',
       error : '',
       flag : 0, //  flag変数をloginされるたびに変えて、watchを呼び出す。
+      server : 0
     }
   },
   watch : {
@@ -51,8 +52,9 @@ export default {
       if (this.loginPass.length > 64) {
         this.error = this.error + 'ログインPASSの文字数が長すぎます。'
       }
-      if (value === 404) {
+      if (this.server === 1) {
         this.error = this.error + 'サーバに接続できませんでした。'
+        this.server = 0;
       }
     }
   },
@@ -67,7 +69,8 @@ export default {
             console.log('body:', response.data); // サーバに送信したデータをコンソールに表示
           }).catch(function(error) {
             console.log(error); // 通信エラーをコンソールに表示
-            self.flag = 404; // Vueの中にaxiosが入れ子になっているため、参照できない => thisを変数selfにする
+            self.server = 1; // Vueの中にaxiosが入れ子になっているため、参照できない => thisを変数selfにする
+            self.flag = 0;
           });
       }
     },
