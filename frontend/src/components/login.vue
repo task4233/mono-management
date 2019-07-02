@@ -37,7 +37,7 @@ export default {
     }
   },
   watch : {
-    flag: function (value) {
+    flag: function (value) {// 文字制限64
       this.error = ''; // errorの初期化
       if (this.loginId === '') {
         this.error = this.error + 'ログインIDが入力されていません。'
