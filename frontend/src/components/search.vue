@@ -3,7 +3,7 @@
     <div v-on:click="search">search</div>
     <div v-if = "searchMode">
       <form>
-        <input type="text" name="" value="">
+        <input type="text" maxlength="64">
       </form>
       <div v-on:click="exitSearch">x</div>
     </div>
