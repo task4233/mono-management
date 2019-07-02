@@ -3,7 +3,7 @@
     <div v-on:click="search">search</div>
     <div v-if = "searchMode">
       <form>
-        <input type="text" maxlength="64">
+        <input type="text" v-model="words" maxlength="64">
       </form>
       <div v-on:click="exitSearch">x</div>
     </div>
@@ -21,7 +21,9 @@ export default {
   methods:{
     search:function(){
       if(this.searchMode){
-        this.$store.dispatch('getMonoList', null, this.words)
+        console.log(this.words)
+        const mname = this.words
+        this.$store.dispatch('getMonoList', 1, mname)
       }else{
         this.searchMode = true
       }

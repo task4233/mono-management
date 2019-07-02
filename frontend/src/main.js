@@ -5,10 +5,12 @@ import store from './store'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-Vue.use(BootstrapVue)
-
 import axios from 'axios'
+
+Vue.use(BootstrapVue)
 Vue.prototype.$axios = axios
+
+require('./assets/sass/style.scss') // グローバルに展開する
 
 Vue.config.productionTip = false
 

@@ -36,16 +36,20 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    getMonoList({commit},tagId, name){
-      Axios.post(api_base + 'search/',{
-        name:name,
-        tagId:tagId
-      })
+    getMonoList({commit},mtagId, mname){
+      console.log(mname)
+      const data = {
+        name: mname,
+        tagId: mtagId
+      }
+      console.log(data)
+      Axios.post(api_base + 'search/', data)
       .then(function(response){
-        if(response.status){
-          commit('setMonoList',response.monoList)
+        if(response.data.Status){
+          console.log(response.data.Data)
+          commit('setMonoList',response.data.Data)
         }else{
-          commit('setModalMessage',response.msg)
+          commit('setModalMessage',response.data.message)
         }
       })
       .catch(function(error){

@@ -14,7 +14,7 @@ export default {
     };
   },
   computed: {
-    headLabel() {
+    headLabels() {
       return this.$store.tag_list;
     }
   },

@@ -1,6 +1,9 @@
 <template lang="html">
   <table>
-    <monoItem v-for="item in list" mono="item" :key="item.id"></monoItem>
+    <!-- <monoItem v-for="item in list" item="item" :key="item.Id"></monoItem> -->
+    <tr v-for="item in list" :key="item.Id">
+      <td>{{ item.name }}</td>
+      </tr>
   </table>
 </template>
 
@@ -10,7 +13,8 @@ import monoItem from './mono-item.vue'
 export default {
   computed:{
     list(){
-      return this.$store.state.monoList
+      console.log(this.$store.state.mono_list)
+      return this.$store.state.mono_list
     }
   },
   mounted:function(){

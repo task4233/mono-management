@@ -1,12 +1,16 @@
 <template lang="html">
-  <tr><td>{{mono.name}}</td></tr>
+<script>
+  console.log(item)
+  console.log(list)
+  </script>
+  <tr><td>{{ item.name }}</td></tr>
 </template>
 
 <script>
 export default {
   name:'monoItem',
   props:{
-    mono : null
+    item : ''
   }
 }
 </script>
