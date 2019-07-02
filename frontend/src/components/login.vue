@@ -34,10 +34,11 @@ export default {
       loginPass: '',
       error : '',
       flag : 0, //  flag変数をloginされるたびに変えて、watchを呼び出す。
+      server : 0
     }
   },
   watch : {
-    flag: function (value) {
+    flag: function (value) {// 文字制限64
       this.error = ''; // errorの初期化
       if (this.loginId === '') {
         this.error = this.error + 'ユーザ名が入力されていません。'
@@ -51,8 +52,9 @@ export default {
       if (this.loginPass.length > 64) {
         this.error = this.error + 'パスワードが長すぎます。'
       }
-      if (value === 404) {
+      if (this.server === 1) {
         this.error = this.error + 'サーバに接続できませんでした。'
+        this.server = 0;
       }
     }
   },
@@ -60,14 +62,15 @@ export default {
     login: function() {
       var self = this;
       this.flag++;
-      if (this.loginId !== '' && this.loginPass !== '' && this.loginId.length <= 255 && this.loginPass.length <= 255) {
+      if (this.loginId !== '' && this.loginPass !== '' && this.loginId.length <= 64 && this.loginPass.length <= 64) {
         var data = {name : this.loginId, password : this.loginPass };
         axios.post('/api/v1/user/login', data)
           .then(response => {
             console.log('body:', response.data); // サーバに送信したデータをコンソールに表示
           }).catch(function(error) {
             console.log(error); // 通信エラーをコンソールに表示
-            self.flag = 404; // Vueの中にaxiosが入れ子になっているため、参照できない => thisを変数selfにする
+            self.server = 1; // Vueの中にaxiosが入れ子になっているため、参照できない => thisを変数selfにする
+            self.flag = 0;
           });
       }
     },

@@ -39,6 +39,7 @@ export default {
       signupPassRetype: '',
       error : '',
       flag : 0, //  flag変数をloginされるたびに変えて、watchを呼び出す。
+      server : 0
     }
   },
   watch : {
@@ -59,7 +60,7 @@ export default {
       if (this.signupPass.length > 64) {
         this.error = this.error + 'パスワードが長すぎます。'
       }
-      if (value === 404) {
+      if (this.server === 1) {
         this.error = this.error + 'サーバに接続できませんでした。'
       }
     }
@@ -68,14 +69,15 @@ export default {
     signup: function() {
       var self = this;
       this.flag++;
-      if (this.signupId !== null && this.signupPass !== null) {
+      if (this.signupId !== '' && this.signupPass !== '' && this.signupId.length <= 64 && this.signupPass.length <= 64) {
         var data = {name : this.signupId, password : this.signupPass };
         axios.post('/api/v1/user/new', data)
           .then(response => {
             console.log('body:', response.data);
           }).catch(function(error) {
             console.log(error);
-            self.flag = 404;
+            self.server = 1;
+            self.flag = 0;
           });
       }
     }
