@@ -294,6 +294,10 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 }
 
 func DeleteDatasByStrID(c *gin.Context, itemID string) error {
+	reqUser, err := CheckLogin(c)
+	if err != nil {
+		return errors.New("Login error")
+	}
 	delItem := Item{}
 	if delItem.ID, err = strconv.Atoi(itemID); err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
@@ -302,6 +306,7 @@ func DeleteDatasByStrID(c *gin.Context, itemID string) error {
 		})
 		return err
 	}
+	delItem.UserID = reqUser.ID
 	// fmt.Printf("%+v\n", delItem) // for debug
 
 	db := GetDB().Begin()
