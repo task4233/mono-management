@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+import Index from './views/Index.vue'
 import EditMono from './views/EditMono.vue'
 import ShowMono from './views/ShowMono.vue'
 
@@ -13,7 +13,7 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Index
     },
     {
       path: '/about',
@@ -32,6 +32,6 @@ export default new Router({
       path: '/mono/:id',
       name: 'showmono',
       component: ShowMono
-    }
+    },
   ]
 })
