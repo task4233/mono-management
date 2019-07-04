@@ -8,8 +8,6 @@
 </template>
 
 <script>
-import monoItem from './mono-item.vue'
-
 export default {
   computed:{
     list(){
@@ -19,9 +17,6 @@ export default {
   },
   mounted:function(){
     this.$store.dispatch('getMonoList', null, null)
-  },
-  components:{
-    monoItem
   }
 }
 </script>
