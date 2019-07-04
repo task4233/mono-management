@@ -11,7 +11,7 @@
 export default {
   data: function() {
     return {
-      selected: null
+      selected: 0
     }
   },
   computed: {
@@ -20,11 +20,12 @@ export default {
     }
   },
   mounted: function() {
-    this.$store.dispatch("getTagList");
+    this.$store.dispatch("getTagList")
+    this.$store.dispatch("tagSelect", 0)
   },
   watch: {
     selected() {
-      console.log(this.selected)
+      this.$store.dispatch("tagSelect", this.selected)
       this.$store.dispatch("getMonoList", {name:null, tagId:this.selected})
     }
   }

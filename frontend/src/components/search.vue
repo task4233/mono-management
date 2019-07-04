@@ -2,11 +2,12 @@
   <div>
     <div v-on:click="search">search</div>
     <div v-if = "searchMode">
-      <form>
+      <form v-on:keyup.enter="search" v-on:keyup.esc="exitSearch">
         <input type="text" v-model="keyword" maxlength="64">
       </form>
       <div v-on:click="exitSearch">x</div>
     </div>
+
   </div>
 </template>
 
@@ -21,10 +22,9 @@ export default {
   methods:{
     search:function(){
       if(this.searchMode){
-        console.log(this.keyword)
         const searchdata = {
           name:this.keyword,
-          tagId:1
+          tagId:this.$store.state.select_tag
         }
         this.$store.dispatch('getMonoList', searchdata)
       }else{

@@ -13,6 +13,7 @@ export default new Vuex.Store({
     tag_list:null,
     mono_list:null,
     mono_data:null,
+    select_tag:null,
     modal_message:''
   },
   mutations: {
@@ -28,12 +29,18 @@ export default new Vuex.Store({
     setModalMessage:function(state, msg){
       state.modal_message = msg
     },
+    setSelectTag:function(state, tagId){
+      console.log("mutation:setSelectTag," + tagId)
+      state.select_tag = tagId
+      console.log(state.select_tag)
+    },
     resetMonoData:function(state){
       state.mono_data = null
     },
     resetUserData:function(state){
       state.tag_list = null
       state.mono_list = null
+      state.select_tag = null
     }
   },
   actions: {
@@ -70,7 +77,10 @@ export default new Vuex.Store({
           Router.push({path:'/login'})
         }
       })
+    },
+    tagSelect({commit}, tagId){
+      console.log("tagSelect:" + tagId)
+      commit("setSelectTag", tagId)
     }
-
   }
 })
