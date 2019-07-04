@@ -22,8 +22,11 @@ export default {
     search:function(){
       if(this.searchMode){
         console.log(this.words)
-        const mname = this.words
-        this.$store.dispatch('getMonoList', 1, mname)
+        const searchdata = {
+          name:this.word,
+          tagId:1
+        }
+        this.$store.dispatch('getMonoList', searchdata)
       }else{
         this.searchMode = true
       }

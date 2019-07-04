@@ -37,14 +37,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    getMonoList({commit},mtagId, mname){
-      console.log(mname)
-      const data = {
-        name: mname,
-        tagId: mtagId
-      }
-      console.log(data)
-      Axios.post(api_base + 'search/', data)
+    getMonoList({commit},searchdata){
+      console.log(searchdata)
+      Axios.post(api_base + 'search/',searchdata)
       .then(function(response){
         if(response.data.Status){
           console.log(response.data.Data)
