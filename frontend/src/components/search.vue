@@ -3,7 +3,7 @@
     <div v-on:click="search">search</div>
     <div v-if = "searchMode">
       <form>
-        <input type="text" v-model="words" maxlength="64">
+        <input type="text" v-model="keyword" maxlength="64">
       </form>
       <div v-on:click="exitSearch">x</div>
     </div>
@@ -15,15 +15,15 @@ export default {
   data:function(){
     return{
       searchMode:false,
-      words:''
+      keyword:''
     }
   },
   methods:{
     search:function(){
       if(this.searchMode){
-        console.log(this.words)
+        console.log(this.keyword)
         const searchdata = {
-          name:this.word,
+          name:this.keyword,
           tagId:1
         }
         this.$store.dispatch('getMonoList', searchdata)

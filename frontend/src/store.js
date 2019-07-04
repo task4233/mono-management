@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 import Axios from 'axios'
-import router from './router'
+import Router from './router'
 
 const api_base = '/api/v1/'
 
@@ -52,7 +52,7 @@ export default new Vuex.Store({
         if(error.response.status == 401){
           commit('resetUserData')
           //loginページへジャンプ
-          router.push({path:'/login'})
+          Router.push({path:'/login'})
         }
       })
     },
@@ -67,7 +67,7 @@ export default new Vuex.Store({
         if(error.response.status == 401){
           commit('resetUserData')
           //loginページへジャンプ
-          router.push({path:'/login'})
+          Router.push({path:'/login'})
         }
       })
     }
