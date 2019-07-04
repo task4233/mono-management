@@ -1,10 +1,5 @@
 *~
 
-
-# frontend
-frontend/node_modules
-frontend/public
-
 # backend
 backend/repos
 backend/docker
@@ -13,23 +8,19 @@ backend/test
 backend/.*
 
 # frontend
-frontend/node_modules
 frontend/public/
+frontend/html/
+frontend/node_modules
 frontend/npm-debug.log
 frontend/yarn-error.log
-
 frontend/.DS_Store
-frontend/node_modules
-
 frontend/.env.local
 frontend/.env.*.local
-frontend/html/yarn-debug.log*
-frontend/html/yarn-error.log*
-frontend/public
+
 sample/
 gh-pages/
 
-
+#vscode?
 .idea
 .vscode
 *.suo
@@ -41,4 +32,3 @@ gh-pages/
 # docker
 .docker-sync
 docker/db/data
-
