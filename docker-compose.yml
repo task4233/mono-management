@@ -29,7 +29,7 @@ services:
     - ./docker/db/data:/var/lib/mysql
     - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
     - ./docker/db/sql:/docker-entrypoint-initdb.d
-    - ./docker/db/entrypoint.sh:/entrypoint.sh
+    - ./docker/db/entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
     expose:
     - 3306
   # nginx
