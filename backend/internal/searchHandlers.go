@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -31,13 +32,14 @@ func SearchMonos(c *gin.Context) {
 		})
 		return
 	}
+	fmt.Println(reqSearch)
 
-    likeStr := "%" + reqSearch.Name + "%"
+	likeStr := "%" + reqSearch.Name + "%"
 
 	resItems := []Item{}
 
-    // ここでLIKE検索をしたい
-    // Itemテーブルに対してLIKE検索
+	// ここでLIKE検索をしたい
+	// Itemテーブルに対してLIKE検索
 	if err := GetDB().Where(&Item{TagID: reqSearch.TagID, UserID: user.ID}).Where("name LIKE ?", likeStr).Find(&resItems).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"status":  false,

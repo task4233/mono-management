@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Index from './views/Index.vue'
+import EditMono from './views/EditMono.vue'
+import CreateMono from './views/CreateMono.vue'
 import Login from './components/login.vue'
 import SignUp from './components/signup.vue'
 
@@ -9,6 +12,11 @@ export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: Index
+    },
     {
       path: '/login',
       name: 'login',
@@ -23,14 +31,14 @@ export default new Router({
       component: SignUp
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    },
-    {
       path: '/mono/new',
       name: 'createmono',
-      component: () => import('@/views/CreateMono.vue')
-    }
+      component: CreateMono
+    },
+    {
+      path: '/mono/:id',
+      name: 'editmono',
+      component: EditMono
+    },
   ]
 })

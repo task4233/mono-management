@@ -67,6 +67,7 @@ export default {
         axios.post('/api/v1/user/login', data)
           .then(response => {
             console.log('body:', response.data); // サーバに送信したデータをコンソールに表示
+            this.$router.push('/')
           }).catch(function(error) {
             console.log(error); // 通信エラーをコンソールに表示
             self.server = 1; // Vueの中にaxiosが入れ子になっているため、参照できない => thisを変数selfにする

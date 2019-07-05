@@ -74,6 +74,7 @@ export default {
         axios.post('/api/v1/user/new', data)
           .then(response => {
             console.log('body:', response.data);
+            this.$router.push('/')
           }).catch(function(error) {
             console.log(error);
             self.server = 1;
