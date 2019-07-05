@@ -2,17 +2,17 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import axios from 'axios'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-require('./assets/sass/style.scss') // グローバルに展開する
+import axios from 'axios'
 
 Vue.use(BootstrapVue)
+Vue.prototype.$axios = axios
+
+require('./assets/sass/style.scss') // グローバルに展開する
 
 Vue.config.productionTip = false
-
-Vue.prototype.$axios = axios
 
 new Vue({
   router,
