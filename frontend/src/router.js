@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from './components/login.vue'
 import SignUp from './components/signup.vue'
-import Header from './components/HelloWorld.vue'
 import Home from './views/Home.vue'
 
 Vue.use(Router)
@@ -25,9 +24,8 @@ export default new Router({
       component: SignUp
     },
     {
-      path: '/header',
-      name: 'header',
-      component: Header
+      path: '/about',
+      name: 'about',
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
     {
