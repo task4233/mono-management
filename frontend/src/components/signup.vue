@@ -61,7 +61,7 @@ export default {
         this.error = this.error + 'パスワードが長すぎます。'
       }
       if (this.server === 1) {
-        this.error = this.error + 'サーバに接続できませんでした。'
+        this.error = this.error + '認証エラーです。'
       }
     }
   },
