@@ -43,7 +43,7 @@ func Create() *gin.Engine {
 			{
 				user.GET("/info", internal.GetInfo)
 				user.POST("/login", internal.Login)
-				user.POST("/logout", internal.Logout)
+				user.DELETE("/logout", internal.Logout)
 				user.POST("/new", internal.CreateAccount)
 				user.PUT("/update", internal.UpdateAccount)
 				user.DELETE("/delete", internal.DeleteAccount)
