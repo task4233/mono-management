@@ -47,7 +47,7 @@ export default new Vuex.Store({
     getMonoList({commit},searchdata){
       console.log(searchdata)
       // searchdataがnullの時はデータを整形する
-      if (searchdata == null) {
+      if (!searchdata) {
         searchdata = {
           name: ''
         }
