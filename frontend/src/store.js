@@ -46,6 +46,12 @@ export default new Vuex.Store({
   actions: {
     getMonoList({commit},searchdata){
       console.log(searchdata)
+      // searchdataがnullの時はデータを整形する
+      if (!searchdata) {
+        searchdata = {
+          name: ''
+        }
+      }
       Axios.post(api_base + 'search/',searchdata)
       .then(function(response){
         if(response.data.Status){
