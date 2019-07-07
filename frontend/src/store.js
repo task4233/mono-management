@@ -87,6 +87,41 @@ export default new Vuex.Store({
     tagSelect({commit}, tagId){
       console.log("tagSelect:" + tagId)
       commit("setSelectTag", tagId)
+    },
+    updateTag({dispatch}, tagData){
+      if(tagData.Id == null){
+        Axios.post(api_base + 'tag/new', tagData)
+        .then(function(response){
+          if(response.data.Status){
+
+          }else{
+
+          }
+        })
+        .catch(function(error){
+          if(error.response.status == 401){
+            commit('resetUserData')
+            //loginページへジャンプ
+            Router.push({path:'/login'})
+          }
+        })
+      }else{
+        Axios.put(api_base + 'tag/:'+ tagData.Id , tagData)
+        .then(function(response){
+          if(response.data.Status){
+
+          }else{
+
+          }
+        })
+        .catch(function(error){
+          if(error.response.status == 401){
+            commit('resetUserData')
+            //loginページへジャンプ
+            Router.push({path:'/login'})
+          }
+        })
+      }
     }
   }
 })
