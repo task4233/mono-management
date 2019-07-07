@@ -93,9 +93,9 @@ export default new Vuex.Store({
         Axios.post(api_base + 'tag/new', tagData)
         .then(function(response){
           if(response.data.Status){
-
+            dispatch(getTagList)
           }else{
-
+            
           }
         })
         .catch(function(error){
@@ -109,7 +109,7 @@ export default new Vuex.Store({
         Axios.put(api_base + 'tag/:'+ tagData.Id , tagData)
         .then(function(response){
           if(response.data.Status){
-
+            dispath(getTagList)
           }else{
 
           }

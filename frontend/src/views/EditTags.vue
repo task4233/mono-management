@@ -1,12 +1,13 @@
 <template lang="html">
   <div>
     <ol>
-      <li v-for="tag in tags" :key="tag.id" v-b-modal.editTag v-on:click="modalName='タグを編集'">
+      <li v-for="tag in tags" :key="tag.id" v-b-modal.editTag @click="editMode(tag)">
         {{tag.name}}
       </li>
     </ol>
-    <b-button v-b-modal.editTag v-on:click="modalName='タグを追加'">+</b-button>
-    <b-modal id="editTag" v-bind:title="this.modalName">
+    <b-button v-b-modal.editTag @click="modalName='タグを追加'">+</b-button>
+    <b-modal id="editTag" v-bind:title="this.modalName" @ok="updateTag">
+      <!--https://bootstrap-vue.js.org/docs/components/modal/#prevent-closing-->
       <form class="">
         タグ名
         <b-form-input type="text" placeholder="タグ名" v-model="tagName"/>
@@ -30,7 +31,7 @@ export default {
       modalName:'hoge',
       tagId:null,
       tagName:null,
-      parent:null,
+      //parent:null
     }
   },
   computed:{
@@ -40,8 +41,13 @@ export default {
   },
   method:{
     updateTag(){
-      if()
-    }
+      this.$store.dispatch('updateTag', {name:this.tagName, tagId:this.tagId})
+    },
+    editMode(tag){
+      this.modalName='タグを編集',
+      this.tagId = tag.tagId
+      this.tagName = tag.tagName
+    },
   },
   mounted:function(){
     this.$store.dispatch("getTagList")
