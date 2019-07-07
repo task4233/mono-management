@@ -105,7 +105,7 @@ export default {
         return;
       }
       if (newDataType=="num") {
-        const pattern = /^[-]?([1-9]\d*|0)(\.\d+)?$/;
+        const pattern = /^[-]?([1-9]\d*)(\.\d+)?$/;
         if (!pattern.test(newDataValue)) {
           this.error = "数値を入力してください"
           return
