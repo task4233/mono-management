@@ -1,27 +1,29 @@
 <template lang="html">
   <select v-model="selected">
     <option value="0">全てのタグ</option>
-    <option v-for="option in headLabels" v-bind:value="option.id" :key="option.id">
-      {{ option.name}}
+    <option v-for="option in headLabels"
+      v-bind:value="option.Id"
+      v-bind:key="option.Id">
+      {{ option.name }}
     </option>
   </select>
 </template>
 
 <script>
 export default {
-  data: function() {
+  data() {
     return {
-      selected: 0
+      selected: ""
     }
   },
   computed: {
-    headLabels() {
-      return this.$store.tag_list;
+    headLabels(){
+      return this.$store.state.tag_list;
     }
   },
   mounted: function() {
     this.$store.dispatch("getTagList")
-    this.$store.dispatch("tagSelect", 0)
+    this.$store.dispatch("tagSelect", this.selected)
   },
   watch: {
     selected() {

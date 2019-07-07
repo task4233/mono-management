@@ -73,7 +73,7 @@ export default new Vuex.Store({
       Axios.get(api_base + 'tag/')
       .then(function(response){
         if(response.status){
-          commit('setTagList',response.tags)
+          commit('setTagList',response.data.tags)
         }
       })
       .catch(function(error){

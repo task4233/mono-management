@@ -3,7 +3,7 @@
     <h1>新規作成</h1>
     <p>
       <input type="text" placeholder="名前" v-model="name" />
-      <input type="text" placeholder="タグ" v-model="tagId" />
+      <tagList ></tagList>
     </p>
 
     <div class="dynamic">
@@ -32,11 +32,13 @@
 <script>
 import Axios from "axios";
 import Datepicker from "vuejs-datepicker"
+import tagList from "../components/tag-list.vue"
 
 export default {
   name: "CreateMono",
   data() {
     return {
+      tagId: "",
       dataName: "",
       dataValue: "",
       dataType: "",
@@ -45,7 +47,8 @@ export default {
     };
   },
   components: {
-    Datepicker
+    Datepicker,
+    tagList
   },
   methods: {
     addData: function() {
@@ -75,7 +78,7 @@ export default {
     create: function() {
       const data = {
         name: String(this.name),
-        tagId: Number(this.tagId),
+        tagId:Number(this.$store.state.select_tag),
         data: this.data
       };
       console.log(data);
