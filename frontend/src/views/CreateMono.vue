@@ -62,12 +62,12 @@ export default {
     addData: function() {
       const newDataName = this.dataName.trim();
       if (!newDataName) {
-        this.error = "データ名が入力されていません。"
+        this.error = "データ名が入力されていません。";
         return;
       }
       const newDataType = this.dataType.trim();
       if (!newDataType) {
-        this.error = "データの型が選択されていません。"
+        this.error = "データの型が選択されていません。";
         return;
       }
       const newDataValue =
@@ -76,9 +76,18 @@ export default {
           : this.dataValue.trim();
       if (!newDataValue) {
         console.log(this.dataValue);
-        this.error = "データの値が入力されていません。"
+        this.error = "データの値が入力されていません。";
         return;
       }
+      if (newDataType=="num") {
+        const pattern = /^[-]?([1-9]\d*|0)(\.\d+)?$/;
+        if (!pattern.test(newDataValue)) {
+          this.error = "数値を入力してください"
+          return
+        }
+      }
+
+
       this.data.push({
         name: newDataName,
         type: newDataType,
@@ -91,20 +100,20 @@ export default {
     },
     create: function() {
       const data = {
-        name: String(this.name.trim()),
+        name: String(this.name),
         tagId: Number(this.$store.state.select_tag),
         data: this.data
       };
       console.log(data);
 
-      if (!data.name) {
-        this.error = "mono名が入力されていません。"
-        return
+      if (!data.name.trim()) {
+        this.error = "mono名が入力されていません。";
+        return;
       }
 
       if (tagId === 0) {
-        this.error = "tagが選択されていません。"
-        return
+        this.error = "tagが選択されていません。";
+        return;
       }
 
       Axios.post("/api/v1/mono/new", data, {

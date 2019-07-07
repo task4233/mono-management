@@ -2,37 +2,44 @@
   <div class="edit">
     <h1>編集画面</h1>
     <p>
-      <input type="text" placeholder="名前" v-model="name" />
+      <b-form-input type="text" placeholder="名前" v-model="name" />
       <tagList></tagList>
     </p>
 
-    <div class="dynamic">
+    <b-form-group class="dynamic">
       <p v-for="dat in data" :key="dat.name">
         {{ dat.name }}
         {{ dat.type }}
         {{ dat.value }}
       </p>
       <p>
-        <input type="text" placeholder="新しい要素名を追加！" v-model="dataName" />
-        <select v-model="dataType">
+        <b-form-input type="text" placeholder="新しい要素名を追加！" v-model="dataName" />
+        <b-form-select v-model="dataType">
           <option disabled value>型を選んでね</option>
           <option>num</option>
           <option>str</option>
           <option>timestamp</option>
-        </select>
+        </b-form-select>
         <datepicker v-if="dataType=='timestamp'" v-model="dataValue" :format="DatePickerFormat"></datepicker>
-        <input v-else type="text" placeholder="新しい要素の値を追加！" v-model="dataValue" />
+        <b-form-input v-else type="text" placeholder="新しい要素の値を追加！" v-model="dataValue" />
       </p>
-    </div>
-    <button @click="addData" class="btn btn-primary btn-sm">+</button>
-    <button @click="create">保存する</button>
+    </b-form-group>
+    <b-form-group>
+      <b-button @click="addData" variant="outline-primary" pill>+</b-button>
+    </b-form-group>
+    <b-form-group>
+      <b-button @click="create" variant="primary">保存する</b-button>
+    </b-form-group>
+    <b-row class="errorForm">
+      <p v-if="error" class="mx-auto">{{ error }}</p>
+    </b-row>
   </div>
 </template>
 
 <script>
 import Axios from "axios";
 import Datepicker from "vuejs-datepicker";
-import tagList from "../components/tag-list.vue"
+import tagList from "../components/tag-list.vue";
 
 export default {
   name: "CreateMono",
@@ -43,7 +50,7 @@ export default {
       dataType: "",
       DatePickerFormat: "yyyy-MM-dd",
       data: [],
-      itemdatas: [],
+      itemdatas: []
     };
   },
   components: {
@@ -66,7 +73,7 @@ export default {
             this.itemdatas.push({
               id: mid,
               name: mname,
-              tagId:Number(this.$store.state.select_tag),
+              tagId: Number(this.$store.state.select_tag),
               userId: muserId
             });
           }
@@ -80,10 +87,12 @@ export default {
     addData: function() {
       const newDataName = this.dataName.trim();
       if (!newDataName) {
+        this.error = "データ名が入力されていません。";
         return;
       }
       const newDataType = this.dataType.trim();
       if (!newDataType) {
+        this.error = "データの型が選択されていません。";
         return;
       }
       const newDataValue =
@@ -92,7 +101,15 @@ export default {
           : this.dataValue.trim();
       if (!newDataValue) {
         console.log(this.dataValue);
+        this.error = "データの値が入力されていません。";
         return;
+      }
+      if (newDataType=="num") {
+        const pattern = /^[-]?([1-9]\d*|0)(\.\d+)?$/;
+        if (!pattern.test(newDataValue)) {
+          this.error = "数値を入力してください"
+          return
+        }
       }
       this.data.push({
         name: newDataName,
@@ -111,7 +128,17 @@ export default {
       };
       console.log(data);
 
-      Axios.put("/api/v1/mono/"+this.$route.params.id,data, {
+      if (!data.name.trim()) {
+        this.error = "mono名が入力されていません。";
+        return;
+      }
+
+      if (tagId === 0) {
+        this.error = "tagが選択されていません。";
+        return;
+      }
+
+      Axios.put("/api/v1/mono/" + this.$route.params.id, data, {
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
