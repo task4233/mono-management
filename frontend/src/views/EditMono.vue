@@ -3,10 +3,7 @@
     <h1>編集画面</h1>
     <p>
       <input type="text" placeholder="名前" v-model="name" />
-      <b-form-select placeholder="タグ" v-model="tagId">
-        <option :value="null">タグを選択</option>
-        <option v-for="tag in tags" value="tag.tagId">{{tag.name}}</option>
-      </b-form-select>
+      <tagList></tagList>
     </p>
 
     <div class="dynamic">
@@ -35,6 +32,7 @@
 <script>
 import Axios from "axios";
 import Datepicker from "vuejs-datepicker";
+import tagList from "../components/tag-list.vue"
 
 export default {
   name: "CreateMono",
@@ -51,7 +49,8 @@ export default {
     };
   },
   components: {
-    Datepicker
+    Datepicker,
+    tagList
   },
   created: function() {
     Axios.get("/api/v1/mono/")
@@ -65,18 +64,11 @@ export default {
           for (let i = 0; i < datas.length; ++i) {
             const mid = datas[i].Id;
             const mname = datas[i].name;
-            const mtagId = datas[i].tagId;
             const muserId = datas[i].userId;
-            console.log({
-              id: mid,
-              name: mname,
-              tagId: mtagId,
-              userId: muserId
-            });
             this.itemdatas.push({
               id: mid,
               name: mname,
-              tagId: mtagId,
+              tagId:Number(this.$store.state.select_tag),
               userId: muserId
             });
           }
