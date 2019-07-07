@@ -6,11 +6,10 @@
       </li>
     </ol>
     <b-button v-b-modal.editTag @click="modalName='タグを追加'">+</b-button>
-    <b-modal id="editTag" v-bind:title="this.modalName" @ok="updateTag">
+    <b-modal id="editTag" v-bind:title="this.modalName" ref="modal" @hidden="resetModal" @ok="updateTag">
       <!--https://bootstrap-vue.js.org/docs/components/modal/#prevent-closing-->
       <form class="">
-        タグ名
-        <b-form-input type="text" placeholder="タグ名" v-model="tagName"/>
+        <b-form-input type="text" label="タグ名" v-model="tagName"/>
         <!--親タグ
         <b-form-select v-model="parent">
           <option value ="0"></option>
@@ -36,18 +35,27 @@ export default {
   },
   computed:{
     tags(){
-      this.$store.state.tag_list
+      return this.$store.state.tag_list
     }
   },
   method:{
     updateTag(){
-      this.$store.dispatch('updateTag', {name:this.tagName, tagId:this.tagId})
+      if(this.tagId == null){
+        this.$store.dispatch('createTag', {name:this.tagName, tagId:this.tagId})
+      }
+      else{
+        this.$store.dispatch('chengeTagData', {name:this.tagName, tagId:this.tagId})
+      }
     },
     editMode(tag){
       this.modalName='タグを編集',
       this.tagId = tag.tagId
       this.tagName = tag.tagName
     },
+    resetModal(){
+      this.tagId = null,
+      this.tagName = null
+    }
   },
   mounted:function(){
     this.$store.dispatch("getTagList")

@@ -88,40 +88,40 @@ export default new Vuex.Store({
       console.log("tagSelect:" + tagId)
       commit("setSelectTag", tagId)
     },
-    updateTag({dispatch}, tagData){
-      if(tagData.Id == null){
-        Axios.post(api_base + 'tag/new', tagData)
-        .then(function(response){
-          if(response.data.Status){
-            dispatch(getTagList)
-          }else{
-            
-          }
-        })
-        .catch(function(error){
-          if(error.response.status == 401){
-            commit('resetUserData')
-            //loginページへジャンプ
-            Router.push({path:'/login'})
-          }
-        })
-      }else{
-        Axios.put(api_base + 'tag/:'+ tagData.Id , tagData)
-        .then(function(response){
-          if(response.data.Status){
-            dispath(getTagList)
-          }else{
+    createTag({commit, dispatch}, tagData){
+      Axios.post(api_base + 'tag/new', tagData)
+      .then(function(response){
+        if(response.data.Status){
+          dispatch('getTagList')
+        }else{
+          //エラーメッセージを表示
+        }
+      })
+      .catch(function(error){
+        if(error.response.status == 401){
+          commit('resetUserData')
+          //loginページへジャンプ
+          Router.push({path:'/login'})
+        }
+      })
+    },
+    changeTagData({commit, dispatch}, tagData){
+      Axios.put(api_base + 'tag/:'+ tagData.Id , tagData)
+      .then(function(response){
+        if(response.data.Status){
+          dispatch('getTagList')
+        }else{
+          //エラーメッセージを表示
 
-          }
-        })
-        .catch(function(error){
-          if(error.response.status == 401){
-            commit('resetUserData')
-            //loginページへジャンプ
-            Router.push({path:'/login'})
-          }
-        })
-      }
+        }
+      })
+      .catch(function(error){
+        if(error.response.status == 401){
+          commit('resetUserData')
+          //loginページへジャンプ
+          Router.push({path:'/login'})
+        }
+      })
     }
   }
 })
