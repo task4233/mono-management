@@ -82,6 +82,14 @@ export default {
           });
       }
     }
+  },
+  created:function(){
+    this.$axios.get('/api/v1/user/info')
+    .then(function(response){
+      if(response.status == true){
+        this.$router.push('/')
+      }
+    })
   }
 }
 </script>
