@@ -1,6 +1,8 @@
 <template lang="html">
   <div>
-    <li v-for="tag in tags" :key="tag.id" v-on:click="">
+    <ol>
+      <li v-for="tag in tags" :key="tag.id" v-on:click=""></li>
+    </ol>
   </div>
 </template>
 
@@ -12,7 +14,7 @@ export default {
     }
   },
   method:{
-    
+
   }
 }
 </script>
