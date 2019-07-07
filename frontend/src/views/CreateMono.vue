@@ -2,30 +2,34 @@
   <div class="signup">
     <h1>新規作成</h1>
     <p>
-      <input type="text" placeholder="名前" v-model="name" />
+      <b-form-input type="text" placeholder="名前" v-model="name" />
       <tagList ></tagList>
     </p>
 
-    <div class="dynamic">
+    <b-form-group class="dynamic">
       <p v-for="dat in data" :key="dat.name">
         {{ dat.name }}
         {{ dat.type }}
         {{ dat.value }}
       </p>
       <p>
-        <input type="text" placeholder="新しい要素名を追加！" v-model="dataName" />
-        <select v-model="dataType">
+        <b-form-input type="text" placeholder="新しい要素名を追加！" v-model="dataName" />
+        <b-form-select v-model="dataType">
           <option disabled value>型を選んでね</option>
           <option>num</option>
           <option>str</option>
           <option>timestamp</option>
-        </select>
+        </b-form-select>
         <datepicker v-if="dataType=='timestamp'" v-model="dataValue" :format="DatePickerFormat"></datepicker>
-        <input v-else type="text" placeholder="新しい要素の値を追加！" v-model="dataValue" />
+        <b-form-input v-else type="text" placeholder="新しい要素の値を追加！" v-model="dataValue" />
       </p>
-    </div>
-    <button @click="addData" class="btn btn-primary btn-sm">+</button>
-    <button @click="create">保存する</button>
+    </b-form-group>
+    <b-form-group>
+      <b-button @click="addData" variant="outline-primary" pill>+</b-button>
+    </b-form-group>
+    <b-form-group>
+      <b-button @click="create" variant="primary">保存する</b-button>
+    </b-form-group>
   </div>
 </template>
 
