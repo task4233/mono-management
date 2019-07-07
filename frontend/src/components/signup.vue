@@ -60,8 +60,8 @@ export default {
       if (this.signupPass.length > 64) {
         this.error = this.error + 'パスワードが長すぎます。'
       }
-      if (this.server === 1) {
-        this.error = this.error + '認証エラーです。'
+      if (this.server) {
+        this.error = this.error + this.server
       }
     }
   },
@@ -73,11 +73,16 @@ export default {
         var data = {name : this.signupId, password : this.signupPass };
         axios.post('/api/v1/user/new', data)
           .then(response => {
-            console.log('body:', response.data);
-            this.$router.push('/')
+            if (response.data.Status) {
+              console.log('body:', response.data);
+              this.$router.push('/')
+            } else {
+              self.server = response.message
+              self.flag = 0
+            }
           }).catch(function(error) {
             console.log(error);
-            self.server = 1;
+            self.server = error.response.data.message
             self.flag = 0;
           });
       }

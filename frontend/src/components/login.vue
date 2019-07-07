@@ -52,8 +52,8 @@ export default {
       if (this.loginPass.length > 64) {
         this.error = this.error + 'パスワードが長すぎます。'
       }
-      if (this.server === 1) {
-        this.error = this.error + '認証エラーです。'
+      if (this.server) {
+        this.error = this.error + this.server
         this.server = 0;
       }
     }
@@ -70,8 +70,9 @@ export default {
             this.$router.push('/')
           }).catch(function(error) {
             console.log(error); // 通信エラーをコンソールに表示
-            self.server = 1; // Vueの中にaxiosが入れ子になっているため、参照できない => thisを変数selfにする
+            self.server = error.response.data.message; // Vueの中にaxiosが入れ子になっているため、参照できない => thisを変数selfにする
             self.flag = 0;
+            console.log(error.response.data.message)
           });
       }
     },
