@@ -29,7 +29,7 @@ services:
     - ./docker/db/data:/var/lib/mysql
     - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
     - ./docker/db/sql:/docker-entrypoint-initdb.d
-    - ./docker/db/entrypoint.sh:/entrypoint.sh
+    - ./docker/db/entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
     expose:
     - 3306
   # nginx
@@ -39,9 +39,19 @@ services:
     volumes:
     - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
-    - ./frontend/html:/usr/share/nginx/html:ro
+    - ./frontend:/usr/share/nginx:ro
     links:
     - api
     ports:
     - 80:80
-
+  # node
+  htmlBuilder:
+    image: node:12
+    container_name: node_host
+    volumes:
+    - ./frontend:/scripts
+    command: >
+      /bin/bash -c "
+      cd /scripts &&
+      npm clean-install &&
+      npm run build"
