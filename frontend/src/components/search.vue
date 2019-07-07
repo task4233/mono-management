@@ -1,11 +1,17 @@
 <template lang="html">
   <div>
-    <div v-on:click="search">search</div>
+    <div @click="search">search</div>
     <div v-if = "searchMode">
-      <form v-on:keyup.enter="search" v-on:keyup.esc="exitSearch">
-        <input type="text" v-model="keyword" maxlength="64">
+      <form @submit.prevent="dummy">
+        <input
+        type="text"
+        v-model="keyword"
+        maxlength="64"
+        @keyup.enter="search"
+        @keyup.esc="exitSearch"
+        >
       </form>
-      <div v-on:click="exitSearch">x</div>
+      <div @click="exitSearch">x</div>
     </div>
 
   </div>
@@ -20,7 +26,11 @@ export default {
     }
   },
   methods:{
-    search:function(){
+    dummy() {
+      // dummy
+      // inputでenterを押した時のリロードを抑止する役割
+    },
+    search(){
       if(this.searchMode){
         const searchdata = {
           name:this.keyword,
@@ -31,7 +41,7 @@ export default {
         this.searchMode = true
       }
     },
-    exitSearch:function(){
+    exitSearch(){
       this.searchMode = false
       this.words=''
 

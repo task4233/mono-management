@@ -13,7 +13,7 @@
 export default {
   data() {
     return {
-      selected: ""
+      selected: 0
     }
   },
   computed: {
@@ -24,6 +24,7 @@ export default {
   mounted: function() {
     this.$store.dispatch("getTagList")
     this.$store.dispatch("tagSelect", this.selected)
+    this.selected = this.$store.state.select_tag
   },
   watch: {
     selected() {
