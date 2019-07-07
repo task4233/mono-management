@@ -31,8 +31,7 @@ export default new Vuex.Store({
     },
     setSelectTag:function(state, tagId){
       console.log("mutation:setSelectTag," + tagId)
-      state.select_tag = tagId
-      console.log(state.select_tag)
+      state.select_tag = Number(tagId)
     },
     resetMonoData:function(state){
       state.mono_data = null

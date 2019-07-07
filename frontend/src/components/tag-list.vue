@@ -1,6 +1,6 @@
 <template lang="html">
   <select v-model="selected">
-    <option value="0">全てのタグ</option>
+    <option v-bind:value="0">全てのタグ</option>
     <option v-for="option in headLabels"
       v-bind:value="option.Id"
       v-bind:key="option.Id">
@@ -18,7 +18,7 @@ export default {
   },
   computed: {
     headLabels(){
-      return this.$store.state.tag_list;
+      return this.$store.state.tag_list
     }
   },
   mounted: function() {
