@@ -3,7 +3,10 @@
     <h1>新規作成</h1>
     <p>
       <b-form-input type="text" placeholder="名前" v-model="name" />
-      <b-form-input type="text" placeholder="タグ" v-model="tagId" />
+      <b-form-select placeholder="タグ" v-model="tagId">
+        <option :value="null">タグを選択</option>
+        <option v-for="tag in tags" value="tag.tagId">{{tag.name}}</option>
+      </b-form-select>
     </p>
 
     <b-form-group class="dynamic">
@@ -45,7 +48,9 @@ export default {
       dataValue: "",
       dataType: "",
       DatePickerFormat: 'yyyy-MM-dd',
-      data: []
+      data: [],
+      tagId:null,
+      name:""
     };
   },
   components: {
@@ -104,7 +109,16 @@ export default {
           console.log(err.response);
         });
     }
+  },
+  computed:{
+    tags(){
+      return this.$store.state.tag_list
+    }
+  },
+  created(){
+    this.$store.dispatch("getTagList")
   }
+
 };
 </script>
 

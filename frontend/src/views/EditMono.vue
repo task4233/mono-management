@@ -3,7 +3,10 @@
     <h1>編集画面</h1>
     <p>
       <input type="text" placeholder="名前" v-model="name" />
-      <input type="text" placeholder="タグ" v-model="tagId" />
+      <b-form-select placeholder="タグ" v-model="tagId">
+        <option :value="null">タグを選択</option>
+        <option v-for="tag in tags" value="tag.tagId">{{tag.name}}</option>
+      </b-form-select>
     </p>
 
     <div class="dynamic">
@@ -43,6 +46,8 @@ export default {
       DatePickerFormat: "yyyy-MM-dd",
       data: [],
       itemdatas: [],
+      tagId:null,
+      name:"",
     };
   },
   components: {
@@ -136,7 +141,17 @@ export default {
           console.log(err.response);
         });
     }
+  },
+  computed:{
+    tags(){
+      return this.$store.state.tag_list
+    }
+  },
+  created(){
+    this.$store.dispatch("getTagList")
   }
+
+
 };
 </script>
 
