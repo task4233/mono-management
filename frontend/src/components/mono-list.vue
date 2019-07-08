@@ -1,7 +1,8 @@
 <template lang="html">
   <div>
-    <b-table :items="list" :fields="fields" striped>
+    <b-table :items="list" :fields="fields" striped @click="editMono(list)">
     </b-table>
+    <b-button @click="createMono">+</b-button>
   </div>
 </template>
 
@@ -18,8 +19,17 @@ export default {
       return this.$store.state.mono_list
     }
   },
-  mounted:function(){	
+  mounted:function(){
     this.$store.dispatch("getMonoList", {name:null, tagId:0})
+  },
+  methods:{
+    createMono(){
+      this.$router.push({path:'/mono/new'})
+    },
+    editMono(list){
+      const path = '/mono/' + String(list.Id)
+      this.$router.push({path:path})
+    }
   }
 }
 </script>
