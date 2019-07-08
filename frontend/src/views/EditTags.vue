@@ -1,18 +1,25 @@
 <template lang="html">
   <div>
+    <div class="header">
+      タグ編集
+    </div>
     <ol>
       <li v-for="tag in tags" :key="tag.id" v-b-modal.editTag @click="editMode(tag)">
         {{tag.name}}
       </li>
     </ol>
     <b-button v-b-modal.editTag @click="modalName='タグを追加'">+</b-button>
-    <b-modal id="editTag" v-bind:title="this.modalName" ref="modal" @hidden="resetModal" @ok="updateTag">
+    <b-modal
+    id="editTag"
+    v-bind:title="this.modalName"
+    ref="modal"
+    @hidden="resetModal"
+    @ok="handleOK">
       <!--https://bootstrap-vue.js.org/docs/components/modal/#prevent-closing-->
       <form class="">
         タグ名<b-form-input type="text" label="タグ名" v-model="tagName"/>
         親タグ<tagList></tagList>
       </form>
-
     </b-modal>
   </div>
 </template>
@@ -53,6 +60,10 @@ export default {
     resetModal(){
       this.tagId = null,
       this.tagName = null
+    },
+    handleOK(bvModalEvt){
+      bvModalEvt.preventDefault()
+      this.updateTag()
     }
   },
   mounted:function(){

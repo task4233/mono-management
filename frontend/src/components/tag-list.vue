@@ -1,5 +1,5 @@
 <template lang="html">
-  <select v-model="selected">
+  <b-form-select v-model="selected">
     <option v-bind:value="0">全てのタグ</option>
     <option v-for="option in headLabels"
       v-bind:value="option.Id"
