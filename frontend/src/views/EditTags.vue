@@ -1,7 +1,11 @@
 <template lang="html">
   <div>
     <div class="header">
-      タグ編集
+      <div class="sm-col-1" @click="back">
+        ←
+      </div>
+      <div class ="sm-col-8">タグ編集</div>
+      <div class = "sm-col-1"></div>
     </div>
     <ol>
       <li v-for="tag in tags" :key="tag.id" v-b-modal.editTag @click="editMode(tag)">
@@ -80,6 +84,9 @@ export default {
     handleOK(bvModalEvt){
       bvModalEvt.preventDefault()
       this.updateTag()
+    },
+    back(){
+      this.$router.push({path:'/'})
     }
   },
   mounted:function(){
