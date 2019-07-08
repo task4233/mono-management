@@ -18,7 +18,8 @@
     @ok="handleOK">
       <!--https://bootstrap-vue.js.org/docs/components/modal/#prevent-closing-->
       <b-form-group>
-        タグ名<b-form-input type="text" v-model="tagName" require/>
+        タグ名<b-form-input type="text" v-model="tagName" :state="this.isMatchedName"/>
+
         親タグ<tagList></tagList>
         <span class="errmsg" v-if="isTagLoop">このタグを親タグにすることはできません！</span>
       </b-form-group>
@@ -33,7 +34,7 @@ export default {
     return{
       modalName:'hoge',
       tagId:0,
-      tagName:null,
+      tagName:'',
 
     }
   },
@@ -45,19 +46,26 @@ export default {
       return this.$store.state.tag_list
     },
     isTagLoop(){
-      return (this.tagId != 0 && this.$store.state.tag_list == this.tagId) ? true : true
+      return (this.tagId != 0 && this.$store.state.tag_list == this.tagId) ? true : false
+    },
+    isMatchedName(){
+      return (0 < this.tagName.length && this.tagName.length < 64) ? true : false
     }
   },
   methods:{
     updateTag(){
+      if(!this.isMatchedName || this.isTagLoop){
+        return
+      }
       if(this.tagId == 0){
         this.$store.dispatch('createTag', {name:this.tagName, Id:0, parentId:this.$store.state.select_tag})
       }
       else{
-        if(!this.isTagLoop){
-          this.$store.dispatch('changeTagData', {name:this.tagName, Id:this.tagId, parentId:this.$store.state.select_tag})
-        }
+        this.$store.dispatch('changeTagData', {name:this.tagName, Id:this.tagId, parentId:this.$store.state.select_tag})
       }
+      this.$nextTick(()=>{
+        this.$refs.modal.hide()
+      })
     },
     editMode(tag){
       this.modalName='タグを編集',
@@ -67,7 +75,7 @@ export default {
     },
     resetModal(){
       this.tagId = 0,
-      this.tagName = null
+      this.tagName = ''
     },
     handleOK(bvModalEvt){
       bvModalEvt.preventDefault()
