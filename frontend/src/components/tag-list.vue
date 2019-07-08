@@ -1,10 +1,10 @@
 <template lang="html">
-  <select v-model="selected">
-    <option value="0">全てのタグ</option>
+  <b-form-select v-model="selected">
+    <option value="0">タグを選択</option>
     <option v-for="option in headLabels" v-bind:value="option.id" :key="option.id">
       {{ option.name}}
     </option>
-  </select>
+  </b-form-select>
 </template>
 
 <script>

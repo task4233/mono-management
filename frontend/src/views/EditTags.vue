@@ -9,13 +9,8 @@
     <b-modal id="editTag" v-bind:title="this.modalName" ref="modal" @hidden="resetModal" @ok="updateTag">
       <!--https://bootstrap-vue.js.org/docs/components/modal/#prevent-closing-->
       <form class="">
-        <b-form-input type="text" label="タグ名" v-model="tagName"/>
-        <!--親タグ
-        <b-form-select v-model="parent">
-          <option value ="0"></option>
-          <option v-for="tag in tags" :key="tag.id">{{tag.name}}</option>
-        </b-form-select>
-      -->
+        タグ名<b-form-input type="text" label="タグ名" v-model="tagName"/>
+        親タグ<tagList></tagList>
       </form>
 
     </b-modal>
@@ -23,7 +18,7 @@
 </template>
 
 <script>
-//import TagList from '../components/tag_list.vue'
+import tagList from '../components/tag-list.vue'
 export default {
   data:function(){
     return{
@@ -33,6 +28,9 @@ export default {
       //parent:null
     }
   },
+  components:{
+    tagList
+  },
   computed:{
     tags(){
       return this.$store.state.tag_list
@@ -41,10 +39,10 @@ export default {
   method:{
     updateTag(){
       if(this.tagId == null){
-        this.$store.dispatch('createTag', {name:this.tagName, tagId:this.tagId})
+        this.$store.dispatch('createTag', {name:this.tagName, tagId:this.tagId, parent:this.$store.state.select_tag})
       }
       else{
-        this.$store.dispatch('chengeTagData', {name:this.tagName, tagId:this.tagId})
+        this.$store.dispatch('chengeTagData', {name:this.tagName, tagId:this.tagId, parent:this.$store.state.select_tag})
       }
     },
     editMode(tag){
