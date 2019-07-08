@@ -62,6 +62,7 @@ export default {
     login: function() {
       var self = this;
       this.flag++;
+      this.server = "";
       if (this.loginId !== '' && this.loginPass !== '' && this.loginId.length <= 64 && this.loginPass.length <= 64) {
         var data = {name : this.loginId, password : this.loginPass };
         axios.post('/api/v1/user/login', data)
