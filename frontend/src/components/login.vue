@@ -25,6 +25,7 @@
 
 <script>
 import axios from 'axios'
+import router from '../router'
 
 export default {
   name: 'login',
@@ -67,7 +68,7 @@ export default {
         axios.post('/api/v1/user/login', data)
           .then(function(response){
             console.log('body:', response.data); // サーバに送信したデータをコンソールに表示
-            this.$router.push('/')
+            router.push('/')
           }).catch(function(error) {
             console.log(error); // 通信エラーをコンソールに表示
             self.server = error.response.data.message; // Vueの中にaxiosが入れ子になっているため、参照できない => thisを変数selfにする
