@@ -43,13 +43,13 @@ export default {
       return this.$store.state.tag_list
     }
   },
-  method:{
+  methods:{
     updateTag(){
       if(this.tagId == null){
-        this.$store.dispatch('createTag', {name:this.tagName, tagId:this.tagId, parent:this.$store.state.select_tag})
+        this.$store.dispatch('createTag', {name:this.tagName, Id:0, parentId:this.$store.state.select_tag})
       }
       else{
-        this.$store.dispatch('chengeTagData', {name:this.tagName, tagId:this.tagId, parent:this.$store.state.select_tag})
+        this.$store.dispatch('chengeTagData', {name:this.tagName, Id:this.tagId, parentId:this.$store.state.select_tag})
       }
     },
     editMode(tag){
