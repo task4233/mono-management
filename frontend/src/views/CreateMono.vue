@@ -3,7 +3,7 @@
     <h1>新規作成</h1>
     <p>
       <b-form-input type="text" placeholder="名前" v-model="name" />
-      <tagList ></tagList>
+      <tagList></tagList>
     </p>
 
     <b-form-group class="dynamic">
@@ -30,13 +30,16 @@
     <b-form-group>
       <b-button @click="create" variant="primary">保存する</b-button>
     </b-form-group>
+    <b-row class="errorForm">
+      <p v-if="error" class="mx-auto">{{ error }}</p>
+    </b-row>
   </div>
 </template>
 
 <script>
 import Axios from "axios";
-import Datepicker from "vuejs-datepicker"
-import tagList from "../components/tag-list.vue"
+import Datepicker from "vuejs-datepicker";
+import tagList from "../components/tag-list.vue";
 
 export default {
   name: "CreateMono",
@@ -46,8 +49,9 @@ export default {
       dataName: "",
       dataValue: "",
       dataType: "",
-      DatePickerFormat: 'yyyy-MM-dd',
-      data: []
+      DatePickerFormat: "yyyy-MM-dd",
+      data: [],
+      error: ""
     };
   },
   components: {
@@ -58,23 +62,38 @@ export default {
     addData: function() {
       const newDataName = this.dataName.trim();
       if (!newDataName) {
+        this.error = "データ名が入力されていません。";
         return;
       }
       const newDataType = this.dataType.trim();
       if (!newDataType) {
+        this.error = "データの型が選択されていません。";
         return;
       }
-      const newDataValue = newDataType==='timestamp' ? this.dataValue.toUTCString() : this.dataValue.trim();
+      const newDataValue =
+        newDataType === "timestamp"
+          ? this.dataValue.toUTCString()
+          : this.dataValue.trim();
       if (!newDataValue) {
-        console.log(this.dataValue)
+        console.log(this.dataValue);
+        this.error = "データの値が入力されていません。";
         return;
       }
+      if (newDataType=="num") {
+        const pattern = /^[-]?(\d+)(\.\d+)?$/;
+        if (!pattern.test(newDataValue)) {
+          this.error = "数値を入力してください"
+          return
+        }
+      }
+
+
       this.data.push({
         name: newDataName,
         type: newDataType,
         value: newDataValue
       });
-      alert("追加するよ!");
+      alert("追加するよ");
       this.dataName = " ";
       this.dataType = " ";
       this.dataValue = " ";
@@ -82,10 +101,20 @@ export default {
     create: function() {
       const data = {
         name: String(this.name),
-        tagId:Number(this.$store.state.select_tag),
+        tagId: Number(this.$store.state.select_tag),
         data: this.data
       };
       console.log(data);
+
+      if (!data.name.trim()) {
+        this.error = "mono名が入力されていません。";
+        return;
+      }
+
+      if (!tagId) {
+        this.error = "tagが選択されていません。";
+        return;
+      }
 
       Axios.post("/api/v1/mono/new", data, {
         headers: {
@@ -137,5 +166,11 @@ a {
 input {
   margin: 10px 0;
   padding: 10px;
+}
+.errorForm {
+  /*margin: 0 auto;
+  width: 250px;
+  height: 200px;
+  background-color: #f0f0f0;*/
 }
 </style>
