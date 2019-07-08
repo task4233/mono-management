@@ -80,7 +80,7 @@ export default {
         return;
       }
       if (newDataType=="num") {
-        const pattern = /^[-]?([1-9]\d*)(\.\d+)?$/;
+        const pattern = /^[-]?(\d+)(\.\d+)?$/;
         if (!pattern.test(newDataValue)) {
           this.error = "数値を入力してください"
           return
@@ -111,7 +111,7 @@ export default {
         return;
       }
 
-      if (tagId === 0) {
+      if (!tagId) {
         this.error = "tagが選択されていません。";
         return;
       }
