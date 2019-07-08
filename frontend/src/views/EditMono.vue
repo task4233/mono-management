@@ -58,6 +58,7 @@ export default {
     tagList
   },
   created: function() {
+    this.$store.dispatch("getTagList")
     Axios.get("/api/v1/mono/")
       .then(response => {
         console.log(response);
@@ -133,7 +134,7 @@ export default {
         return;
       }
 
-      if (!tagId) {
+      if (!data.tagId) {
         this.error = "tagが選択されていません。";
         return;
       }
@@ -163,9 +164,6 @@ export default {
     tags(){
       return this.$store.state.tag_list
     }
-  },
-  created(){
-    this.$store.dispatch("getTagList")
   }
 
 
