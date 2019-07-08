@@ -141,7 +141,7 @@ export default {
         return;
       }
 
-      if (!tagId) {
+      if (!data.tagId) {
         this.error = "tagが選択されていません。";
         return;
       }

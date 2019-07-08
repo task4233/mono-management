@@ -66,12 +66,13 @@ export default {
         return;
       }
       if (newDataName.length > 64) {
-        this.error = this.error + 'ユーザ名が長すぎます。'
+        this.error = this.error + 'データ名が長すぎます。'
+        return
       }
       const newDataType = this.dataType.trim();
       if (!newDataType) {
         this.error = "データの型が選択されていません。";
-        return;
+        return
       }
       const newDataValue =
         newDataType === "timestamp"
@@ -84,6 +85,7 @@ export default {
       }
       if (newDataValue.length > 64) {
         this.error = this.error + 'データの値が長すぎます。'
+        return
       }
       if (newDataType=="num") {
         const pattern = /^[-]?(\d+)(\.\d+)?$/;
@@ -92,7 +94,6 @@ export default {
           return
         }
       }
-
 
       this.data.push({
         name: newDataName,
@@ -117,7 +118,7 @@ export default {
         return;
       }
 
-      if (!tagId) {
+      if (!data.tagId) {
         this.error = "tagが選択されていません。";
         return;
       }
