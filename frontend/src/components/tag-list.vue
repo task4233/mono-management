@@ -1,7 +1,7 @@
 <template lang="html">
   <b-form-select v-model="selected">
     <option value="0">タグを選択</option>
-    <option v-for="option in headLabels" v-bind:value="option.id" :key="option.id">
+    <option v-for="option in headLabels" v-bind:value="option.Id" :key="option.Id">
       {{ option.name}}
     </option>
   </b-form-select>
@@ -16,7 +16,7 @@ export default {
   },
   computed: {
     headLabels() {
-      return this.$store.tag_list;
+      return this.$store.state.tag_list;
     }
   },
   mounted: function() {

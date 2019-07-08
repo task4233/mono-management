@@ -79,7 +79,7 @@ export default {
   created:function(){
     this.$axios.get('/api/v1/user/info')
     .then(function(response){
-      if(response.status == true){
+      if(response.data.status){
         this.$router.push('/')
       }
     })
