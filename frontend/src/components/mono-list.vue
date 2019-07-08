@@ -1,22 +1,25 @@
 <template lang="html">
-  <table>
-    <!-- <monoItem v-for="item in list" item="item" :key="item.Id"></monoItem> -->
-    <tr v-for="item in list" :key="item.Id">
-      <td>{{ item.name }}</td>
-      </tr>
-  </table>
+  <div>
+    <b-table :items="list" :fields="fields" striped>
+    </b-table>
+  </div>
 </template>
 
 <script>
 export default {
-  computed:{
-    list(){
+  data (){
+    return {
+      fields: ['name']
+    }
+  },
+  computed: {
+    list() {
       console.log(this.$store.state.mono_list)
       return this.$store.state.mono_list
     }
   },
-  mounted:function(){
-    this.$store.dispatch('getMonoList', null, null)
+  mounted:function(){	
+    this.$store.dispatch("getMonoList", {name:null, tagId:0})
   }
 }
 </script>
