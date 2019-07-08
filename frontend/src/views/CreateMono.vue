@@ -65,6 +65,9 @@ export default {
         this.error = "データ名が入力されていません。";
         return;
       }
+      if (newDataName.length > 64) {
+        this.error = this.error + 'ユーザ名が長すぎます。'
+      }
       const newDataType = this.dataType.trim();
       if (!newDataType) {
         this.error = "データの型が選択されていません。";
@@ -78,6 +81,9 @@ export default {
         console.log(this.dataValue);
         this.error = "データの値が入力されていません。";
         return;
+      }
+      if (newDataValue.length > 64) {
+        this.error = this.error + 'データの値が長すぎます。'
       }
       if (newDataType=="num") {
         const pattern = /^[-]?(\d+)(\.\d+)?$/;
