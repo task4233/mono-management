@@ -69,7 +69,9 @@ export default {
     signup: function() {
       var self = this;
       this.flag++;
-      if (this.signupId !== '' && this.signupPass !== '' && this.signupId.length <= 64 && this.signupPass.length <= 64) {
+      this.server = "";
+      if (this.signupId !== '' && this.signupPass !== '' && this.signupId.length <= 64 && this.signupPass.length <= 64 &&
+          this.signupPass == this.signupPassRetype) {
         var data = {name : this.signupId, password : this.signupPass };
         axios.post('/api/v1/user/new', data)
           .then(response => {
