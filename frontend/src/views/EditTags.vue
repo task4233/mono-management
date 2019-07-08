@@ -80,6 +80,7 @@ export default {
     resetModal(){
       this.tagId = 0,
       this.tagName = ''
+      this.$store.dispatch('tagSelect', 0)
     },
     handleOK(bvModalEvt){
       bvModalEvt.preventDefault()
