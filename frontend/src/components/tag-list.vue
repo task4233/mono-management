@@ -1,7 +1,7 @@
 <template lang="html">
   <b-form-select v-model="selected">
-    <option v-bind:value="0">全てのタグ</option>
-    <option v-for="option in headLabels"
+    <option v-bind:value="0">タグを選択</option>
+    <option v-for="option in tags"
       v-bind:value="option.Id"
       v-bind:key="option.Id">
       {{ option.name }}
@@ -17,19 +17,22 @@ export default {
     }
   },
   computed: {
-    headLabels(){
+    tags(){
       return this.$store.state.tag_list
     }
   },
   mounted: function() {
-    this.$store.dispatch("getTagList")
-    this.$store.dispatch("tagSelect", this.selected)
+    this.$store.dispatch('getTagList')
     this.selected = this.$store.state.select_tag
+    if(this.selected == null){
+      this.selected = 0
+      this.$store.dispatch('tagSelect', 0)
+    }
   },
   watch: {
     selected() {
-      this.$store.dispatch("tagSelect", this.selected)
-      this.$store.dispatch("getMonoList", {name:null, tagId:this.selected})
+      this.$store.dispatch('tagSelect', this.selected)
+      this.$store.dispatch('getMonoList', {name:null, tagId:this.selected})
     }
   }
 }
