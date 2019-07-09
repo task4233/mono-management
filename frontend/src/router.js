@@ -6,7 +6,7 @@ import CreateMono from './views/CreateMono.vue'
 import Login from './components/login.vue'
 import SignUp from './components/signup.vue'
 import EditTags from './views/EditTags.vue'
-
+import NotFound from './views/404Page.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -45,6 +45,11 @@ export default new Router({
       path:'/EditTags',
       name:'EditTags',
       component: EditTags
+    },
+    {
+      path:'*',
+      name:'NotFound',
+      component: NotFound
     }
   ]
 })
