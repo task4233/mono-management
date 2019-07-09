@@ -5,6 +5,7 @@ import EditMono from './views/EditMono.vue'
 import CreateMono from './views/CreateMono.vue'
 import Login from './components/login.vue'
 import SignUp from './components/signup.vue'
+import EditTags from './views/EditTags.vue'
 
 Vue.use(Router)
 
@@ -40,5 +41,10 @@ export default new Router({
       name: 'editmono',
       component: EditMono
     },
+    {
+      path:'/EditTags',
+      name:'EditTags',
+      component: EditTags
+    }
   ]
 })
