@@ -30,6 +30,7 @@
 
 <script>
 import axios from 'axios'
+import router from '../router'
 export default {
   name: 'signup',
   data: function() {
@@ -75,9 +76,10 @@ export default {
         var data = {name : this.signupId, password : this.signupPass };
         axios.post('/api/v1/user/new', data)
           .then(response => {
-            if (response.data.Status) {
+            console.log(response)
+            if (response.data.status) {
               console.log('body:', response.data);
-              this.$router.push('/')
+              router.push('/')
             } else {
               self.server = response.message
               self.flag = 0
@@ -89,6 +91,14 @@ export default {
           });
       }
     }
+  },
+  created:function(){
+    this.$axios.get('/api/v1/user/info')
+    .then(function(response){
+      if(response.data.status){
+        router.push('/')
+      }
+    })
   }
 }
 </script>

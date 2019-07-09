@@ -45,7 +45,7 @@ export default {
   name: "CreateMono",
   data() {
     return {
-      tagId: "",
+      name:"",
       dataName: "",
       dataValue: "",
       dataType: "",
@@ -143,7 +143,16 @@ export default {
           console.log(err.response);
         });
     }
+  },
+  computed:{
+    tags(){
+      return this.$store.state.tag_list
+    }
+  },
+  created(){
+    this.$store.dispatch("getTagList")
   }
+
 };
 </script>
 
