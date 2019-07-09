@@ -24,7 +24,7 @@
       <b-form-group>
         タグ名<b-form-input type="text" v-model="tagName" :state="this.isMatchedName"/>
 
-        親タグ<tagList v-bind:selected="parentId"></tagList>
+        親タグ<tagList></tagList>
         <span class="errmsg" v-if="isTagLoop">このタグを親タグにすることはできません！</span>
       </b-form-group>
     </b-modal>
@@ -39,7 +39,7 @@ export default {
       modalName:'hoge',
       tagId:0,
       tagName:'',
-      parentId:0
+
     }
   },
   components:{
@@ -54,7 +54,7 @@ export default {
     },
     isMatchedName(){
       return (0 < this.tagName.length && this.tagName.length < 64) ? true : false
-    },
+    }
   },
   methods:{
     updateTag(){
@@ -92,7 +92,6 @@ export default {
   },
   mounted:function(){
     this.$store.dispatch("getTagList")
-    this.parentId = this.$store.state.tag_list
   }
 }
 </script>
