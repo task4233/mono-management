@@ -1,10 +1,12 @@
 <template lang="html">
   <div>
-    <b-table :items="list" :fields="fields" striped>
-      <template slot="row-details" slot-scope="row">
-        <span @click="editMono({{row.Id}})"></span>
-      </template>
-    </b-table>
+    <table striped>
+      <tr v-for="item in list" :key="item.Id", @click="editMono(item.Id)">
+        <td>
+          {{item.name}}
+        </td>
+      </tr>
+    </table>
     <b-button @click="createMono">+</b-button>
   </div>
 </template>
@@ -31,7 +33,7 @@ export default {
       this.$router.push({path:'/mono/new'})
     },
     editMono(Id){
-      const path = '/mono/' + String(Id)
+      const path = '/mono/' + Id
       this.$router.push({path:path})
     }
   }
