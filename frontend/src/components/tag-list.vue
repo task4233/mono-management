@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  data() {
+  data: function() {
     return {
       selected: 0
     }

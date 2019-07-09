@@ -25,6 +25,7 @@
 
 <script>
 import axios from 'axios'
+import router from '../router'
 
 export default {
   name: 'login',
@@ -52,9 +53,9 @@ export default {
       if (this.loginPass.length > 64) {
         this.error = this.error + 'パスワードが長すぎます。'
       }
-      if (this.server) {
+      if (this.flag === -1) {
         this.error = this.error + this.server
-        this.server = 0;
+        this.server = '';
       }
     }
   },
@@ -66,17 +67,26 @@ export default {
       if (this.loginId !== '' && this.loginPass !== '' && this.loginId.length <= 64 && this.loginPass.length <= 64) {
         var data = {name : this.loginId, password : this.loginPass };
         axios.post('/api/v1/user/login', data)
-          .then(response => {
+          .then(function(response){
             console.log('body:', response.data); // サーバに送信したデータをコンソールに表示
-            this.$router.push('/')
+            router.push('/')
           }).catch(function(error) {
             console.log(error); // 通信エラーをコンソールに表示
-            self.server = error.response.data.message; // Vueの中にaxiosが入れ子になっているため、参照できない => thisを変数selfにする
-            self.flag = 0;
+            self.server = error.response.status; // Vueの中にaxiosが入れ子になっているため、参照できない => thisを変数selfにする
+            if (self.server === 404) self.server = 'サーバとの接続が確立できませんでした。'
+            self.flag  = -1;
             console.log(error.response.data.message)
           });
       }
     },
+  },
+  created:function(){
+    this.$axios.get('/api/v1/user/info')
+    .then(function(response){
+      if(response.data.status){
+        this.$router.push('/')
+      }
+    })
   }
 }
 </script>

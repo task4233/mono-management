@@ -4,7 +4,6 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/mono/new">Create</router-link> |
-      <router-link to="/login">Login</router-link>|
       <router-link to="/EditTags">EditTags</router-link>
     </div>
     <router-view/>
