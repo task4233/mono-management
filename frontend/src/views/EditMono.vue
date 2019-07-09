@@ -89,7 +89,11 @@ export default {
       const newDataName = this.dataName.trim();
       if (!newDataName) {
         this.error = "データ名が入力されていません。";
-        return;
+        return
+      }
+      if (newDataName.length > 64) {
+        this.error = this.error + 'データ名が長すぎます。'
+        return
       }
       const newDataType = this.dataType.trim();
       if (!newDataType) {
@@ -103,7 +107,11 @@ export default {
       if (!newDataValue) {
         console.log(this.dataValue);
         this.error = "データの値が入力されていません。";
-        return;
+        return
+      }
+      if (newDataValue.length > 64) {
+        this.error = this.error + 'データの値が長すぎます。'
+        return
       }
       if (newDataType=="num") {
         const pattern = /^[-]?(\d+)(\.\d+)?$/;

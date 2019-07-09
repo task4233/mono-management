@@ -2,6 +2,7 @@
   <div>
     <div v-if="menuMode">
       <div v-on:click="changeView">×</div><br>
+      <span v-on:click="jumpEditTags">タグ編集</span><br>
       <span v-on:click="logout">ログアウト</span><br>
       <a href="https://hackmd.io/giR3aLTXSH6VUQigiqEK0A"><span>このソフトについて</span><br></a>
     </div>
@@ -26,6 +27,9 @@ export default {
     },
     changeView:function(){
       this.menuMode = !this.menuMode
+    },
+    jumpEditTags(){
+      this.$router.push({path:'/EditTags'})
     }
   }
 }
