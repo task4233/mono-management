@@ -1,6 +1,9 @@
 <template lang="html">
   <div>
-    <b-table :items="list" :fields="fields" striped @click="editMono(list)">
+    <b-table :items="list" :fields="fields" striped>
+      <template slot="row-details" slot-scope="row">
+        <span @click="editMono({{row.Id}})"></span>
+      </template>
     </b-table>
     <b-button @click="createMono">+</b-button>
   </div>
@@ -10,7 +13,8 @@
 export default {
   data (){
     return {
-      fields: ['name']
+      fields: ['name'],
+      monoId:0
     }
   },
   computed: {
@@ -26,8 +30,8 @@ export default {
     createMono(){
       this.$router.push({path:'/mono/new'})
     },
-    editMono(list){
-      const path = '/mono/' + String(list.Id)
+    editMono(Id){
+      const path = '/mono/' + String(Id)
       this.$router.push({path:path})
     }
   }
