@@ -1,7 +1,7 @@
 <template lang="html">
   <div>
     <table striped>
-      <tr v-for="item in list" :key="item.Id", @click="editMono(item.Id)">
+      <tr v-for="item in list" :key="item.Id" @click="editMono(item.Id)">
         <td>
           {{item.name}}
         </td>
