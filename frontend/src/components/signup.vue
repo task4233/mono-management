@@ -60,8 +60,9 @@ export default {
       if (this.signupPass.length > 64) {
         this.error = this.error + 'パスワードが長すぎます。'
       }
-      if (this.server) {
+      if (this.flag === -1) {
         this.error = this.error + this.server
+        this.server = '';
       }
     }
   },
@@ -70,8 +71,9 @@ export default {
       var self = this;
       this.flag++;
       this.server = "";
-      if (this.signupId !== '' && this.signupPass !== '' && this.signupId.length <= 64 && this.signupPass.length <= 64 &&
-          this.signupPass == this.signupPassRetype) {
+      if (this.signupId !== '' && this.signupPass !== '' && this.signupPassRetype !== ''
+      && this.signupId.length <= 64 && this.signupPass.length <= 64
+      &&this.signupPass === this.signupPassRetype) {
         var data = {name : this.signupId, password : this.signupPass };
         axios.post('/api/v1/user/new', data)
           .then(response => {
@@ -80,12 +82,14 @@ export default {
               this.$router.push('/')
             } else {
               self.server = response.message
-              self.flag = 0
+              self.flag = -1
             }
           }).catch(function(error) {
             console.log(error);
-            self.server = error.response.data.message
-            self.flag = 0;
+            self.server = error.response.status; // Vueの中にaxiosが入れ子になっているため、参照できない => thisを変数selfにする
+            if (self.server === 404) self.server = 'サーバとの接続が確立できませんでした。'
+            self.flag  = -1;
+            console.log(error.response.data.message)
           });
       }
     }

@@ -55,7 +55,7 @@ export default {
       }
       if (this.flag === -1) {
         this.error = this.error + this.server
-        this.server = 0;
+        this.server = '';
       }
     }
   },
