@@ -105,7 +105,7 @@ export default new Vuex.Store({
       })
     },
     changeTagData({commit, dispatch}, tagData){
-      Axios.put(api_base + 'tag/:'+ tagData.Id , tagData)
+      Axios.put(api_base + 'tag/'+ tagData.Id , tagData)
       .then(function(response){
         if(response.data.Status){
           dispatch('getTagList')
