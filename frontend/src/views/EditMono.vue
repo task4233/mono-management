@@ -58,6 +58,7 @@ export default {
     tagList
   },
   created: function() {
+    this.$store.dispatch("getTagList")
     Axios.get("/api/v1/mono/")
       .then(response => {
         console.log(response);
@@ -166,7 +167,14 @@ export default {
           console.log(err.response);
         });
     }
+  },
+  computed:{
+    tags(){
+      return this.$store.state.tag_list
+    }
   }
+
+
 };
 </script>
 

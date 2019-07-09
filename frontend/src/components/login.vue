@@ -25,6 +25,7 @@
 
 <script>
 import axios from 'axios'
+import router from '../router'
 
 export default {
   name: 'login',
@@ -66,9 +67,9 @@ export default {
       if (this.loginId !== '' && this.loginPass !== '' && this.loginId.length <= 64 && this.loginPass.length <= 64) {
         var data = {name : this.loginId, password : this.loginPass };
         axios.post('/api/v1/user/login', data)
-          .then(response => {
+          .then(function(response){
             console.log('body:', response.data); // サーバに送信したデータをコンソールに表示
-            this.$router.push('/')
+            router.push('/')
           }).catch(function(error) {
             console.log(error); // 通信エラーをコンソールに表示
             self.server = error.response.data.message; // Vueの中にaxiosが入れ子になっているため、参照できない => thisを変数selfにする
@@ -77,6 +78,14 @@ export default {
           });
       }
     },
+  },
+  created:function(){
+    this.$axios.get('/api/v1/user/info')
+    .then(function(response){
+      if(response.data.status){
+        this.$router.push('/')
+      }
+    })
   }
 }
 </script>
