@@ -1,5 +1,9 @@
 package internal
 
+import(
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
+)
 
 /*
 GetTags はタグIDとユーザIDを引数にとり、tagsテーブルから該当するタグのスライスを取得する関数です。
@@ -21,8 +25,27 @@ func CreateTag(tag Tag) (Tag, error) {
 }
 
 func UpdateTag(target Tag, upd Tag) (Tag, error) {
-	err := GetDB().Model(&upd).Where(&target).Update(upd).Error
-	return upd, err
+	tx := GetDB().Begin()
+	if err := tx.Error; err != nil {
+		return upd, err
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+	targetRec := tx.Model(&upd).Where(&target)
+	if err := targetRec.Update(upd).Error; err != nil {
+		tx.Rollback()
+		return upd, err
+	}
+	if upd.ParentID < 1 {
+		if err := targetRec.Update("parentId", gorm.Expr("NULL")).Error; err != nil {
+			tx.Rollback()
+			return upd, err
+		}
+	}
+	return upd, tx.Commit().Error
 }
 
 func DeleteTag(target Tag, del Tag) (Tag, error) {
