@@ -40,13 +40,35 @@ func SearchMonos(c *gin.Context) {
 
 	// ここでLIKE検索をしたい
 	// Itemテーブルに対してLIKE検索
-	if err := GetDB().Where(&Item{TagID: reqSearch.TagID, UserID: user.ID}).Where("name LIKE ?", likeStr).Find(&resItems).Error; err != nil {
+	if err := GetDB().Where(&Item{ UserID: user.ID }).Where("name LIKE ?", likeStr).Find(&resItems).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"status":  false,
 			"message": "データが存在しません",
 		})
 		return
 	}
+
+	// tag search (include tag children)
+	if 0 < reqSearch.TagID {
+		var tagItems []Item
+		tagChildren, err := GetTagChildren(Tag{ ID: reqSearch.TagID, UserID: user.ID })
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"status":  false,
+				"message": err.Error(),
+			})
+			return
+		}
+		for _, v := range tagChildren {
+			for _, w := range resItems {
+				if (v.ID == w.TagID) {
+					tagItems = append(tagItems, w)
+				}
+			}
+		}
+		resItems = tagItems
+	}
+
 	ms := ResItems{true, resItems}
 	c.JSON(http.StatusOK, ms)
 }
