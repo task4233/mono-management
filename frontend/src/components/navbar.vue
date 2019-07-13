@@ -42,7 +42,7 @@ export default {
       // inputでenterを押した時のリロードを抑止する役割
     },
     search(){
-      router.push("/")
+      this.$router.push("/")
       const searchdata = {
         name:this.keyword,
         tagId:0
