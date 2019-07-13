@@ -67,13 +67,20 @@ export default {
       if (this.loginId !== '' && this.loginPass !== '' && this.loginId.length <= 64 && this.loginPass.length <= 64) {
         var data = {name : this.loginId, password : this.loginPass };
         axios.post('/api/v1/user/login', data)
-          .then(function(response){
-            console.log('body:', response.data); // サーバに送信したデータをコンソールに表示
-            router.push('/')
+          .then(response => {
+            console.log(response)
+            if (response.data.status) {
+              console.log('body:', response.data);
+              router.push('/')
+            } else {
+              self.server = response.message
+              self.flag = -1
+            }
           }).catch(function(error) {
             console.log(error); // 通信エラーをコンソールに表示
             self.server = error.response.status; // Vueの中にaxiosが入れ子になっているため、参照できない => thisを変数selfにする
             if (self.server === 404) self.server = 'サーバとの接続が確立できませんでした。'
+            else self.server = error;
             self.flag  = -1;
             console.log(error.response.data.message)
           });
