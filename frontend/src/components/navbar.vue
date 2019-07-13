@@ -42,12 +42,12 @@ export default {
       // inputでenterを押した時のリロードを抑止する役割
     },
     search(){
+      router.push("/")
       const searchdata = {
         name:this.keyword,
         tagId:0
       }
       this.$store.dispatch('getMonoList', searchdata)
-      this.$router.push("/")
     },
     exitSearch(){
       this.keyword=''
