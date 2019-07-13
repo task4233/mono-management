@@ -50,32 +50,50 @@ export default {
       return this.$store.state.tag_list
     },
     isTagLoop(){
-      return (this.tagId != 0 && this.$store.state.tag_list == this.tagId) ? true : false
+      // statusがtrueなら問題ないので, !演算子でひっくり返しています
+      return !this.$store.state.modal_status
     },
     isMatchedName(){
       return (0 < this.tagName.length && this.tagName.length < 64) ? true : false
     }
   },
   methods:{
-    updateTag(){
-      if(!this.isMatchedName || this.isTagLoop){
-        return
-      }
+    updateTag: async function (){
+      console.log("updateTag called!")
       if(this.tagId == 0){
-        this.$store.dispatch('createTag', {name:this.tagName, Id:0, parentId:this.$store.state.select_tag})
+        await this.$store.dispatch('createTag', {name:this.tagName, Id:0, parentId:this.$store.state.select_tag})
       }
       else{
-        this.$store.dispatch('changeTagData', {name:this.tagName, Id:this.tagId, parentId:this.$store.state.select_tag})
+        await this.$store.dispatch('changeTagData', {name:this.tagName, Id:this.tagId, parentId:this.$store.state.select_tag})
       }
+      
+      // changeTagDataが実行されたのちにstateが更新されるので
+      // ループ判定は後にするべき
+      if(!this.isMatchedName || this.isTagLoop){
+        console.log(this.tagName)
+        console.log("tagLoop Occured!")
+        return
+      }
+
       this.$nextTick(()=>{
         this.$refs.modal.hide()
       })
+
+      console.log(this.tags)
+      
+      console.log("updateTag end!")
     },
     editMode(tag){
+      console.log("editMode called!")
+      // ここでModalの状態を直接trueに初期化
+      // actionsを飛ばしているので, ダメだったらactionsに何か挟んで
+      this.$store.commit('setModalStatus', true)
+
       this.modalName='タグを編集',
       this.tagId = tag.Id
       this.tagName = tag.name
       this.$store.dispatch('tagSelect', tag.parentId)
+      console.log("editMode end!")
     },
     resetModal(){
       this.tagId = 0,
@@ -90,7 +108,7 @@ export default {
       this.$router.push({path:'/'})
     }
   },
-  mounted:function(){
+  mounted:function(){    
     this.$store.dispatch("getTagList")
   }
 }
