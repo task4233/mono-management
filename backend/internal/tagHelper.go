@@ -29,3 +29,33 @@ func DeleteTag(target Tag, del Tag) (Tag, error) {
 	err := GetDB().Where(&target).Delete(&del).Error
 	return del, err
 }
+
+func CheckTagRefLoop(child Tag) (bool, error) {
+	if child.ParentID < 1 {
+		return true, nil
+	}
+	var checkedTags []Tag
+	checkedTags = append(checkedTags, child)
+	var allTags []Tag
+	err := GetDB().Where(&Tag{ UserID: child.UserID }).Find(&allTags).Error
+	if err != nil {
+		return false, err
+	}
+	for i := 0; i < 1000; i++ {
+		nextId := checkedTags[len(checkedTags) - 1].ParentID
+		if nextId < 1 {
+			return true, nil
+		}
+		for _, v := range allTags {
+			if nextId == v.ID {
+				for _, w := range checkedTags {
+					if v.ID == w.ID {
+						return false, nil
+					}
+				}
+				checkedTags = append(checkedTags, v)
+			}
+		}
+	}
+	return false, nil
+}
