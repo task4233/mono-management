@@ -75,7 +75,7 @@ export default {
       this.modalName='タグを編集',
       this.tagId = tag.Id
       this.tagName = tag.name
-      this.$store.dispatch('tagSelet', tag.parentId)
+      this.$store.dispatch('tagSelect', tag.parentId)
     },
     resetModal(){
       this.tagId = 0,
