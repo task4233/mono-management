@@ -119,10 +119,10 @@ func UpdateTagHandler(c *gin.Context) {
 	}
 	updTag.ID = tagid
 	updTag.UserID = user.ID
-	if isNotLoop, err := CheckTagRefLoop(updTag); !isNotLoop || err != nil {
+	if _, err := GetTagParents(updTag); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": false,
-			"message": "タグの親子関係が循環しています",
+			"message": err.Error(),
 		})
 		return
 	}
