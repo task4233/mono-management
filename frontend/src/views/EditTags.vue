@@ -59,6 +59,8 @@ export default {
   methods:{
     updateTag: async function (){
       console.log("updateTag called!")
+      // 一応ここでもcommitしとく
+      this.$store.commit('setModalStatus', true)
       if(this.tagId == 0){
         await this.$store.dispatch('createTag', {name:this.tagName, Id:0, parentId:this.$store.state.select_tag})
       }
@@ -84,9 +86,6 @@ export default {
     },
     editMode(tag){
       console.log("editMode called!")
-      // ここでModalの状態を直接trueに初期化
-      // actionsを飛ばしているので, ダメだったらactionsに何か挟んで
-      this.$store.commit('setModalStatus', true)
 
       this.modalName='タグを編集',
       this.tagId = tag.Id
@@ -95,6 +94,10 @@ export default {
       console.log("editMode end!")
     },
     resetModal(){
+      // 処理的にここで呼ぶべきだったっぽい
+      // ここでModalの状態を直接trueに初期化
+      // actionsを飛ばしているので, ダメだったらactionsに何か挟んで
+      this.$store.commit('setModalStatus', true)
       this.tagId = 0,
       this.tagName = ''
       this.$store.dispatch('tagSelect', 0)
