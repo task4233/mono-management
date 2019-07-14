@@ -1,17 +1,16 @@
 <template lang="html">
   <div>
     <div class="header">
-      <div class="sm-col-1" @click="back">
-        ←
-      </div>
       <div class ="sm-col-8">タグ編集</div>
       <div class = "sm-col-1"></div>
     </div>
-    <ol>
-      <li v-for="tag in tags" :key="tag.id" v-b-modal.editTag @click="editMode(tag)">
-        {{tag.name}}
-      </li>
-    </ol>
+    <table striped>
+      <tr v-for="tag in tags" :key="tag.id" v-b-modal.editTag @click="editMode(tag)">
+        <td>
+          {{ tag.name}}
+        </td>
+      </tr>
+    </table>
     <b-button v-b-modal.editTag @click="modalName='タグを追加'">+</b-button>
     <!--以下，モーダルウィンドウ-->
     <b-modal
@@ -103,9 +102,6 @@ export default {
     handleOK(bvModalEvt){
       bvModalEvt.preventDefault()
       this.updateTag()
-    },
-    back(){
-      this.$router.push({path:'/'})
     }
   },
   mounted:function(){    
@@ -114,5 +110,8 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
+table {
+  margin: auto;
+}
 </style>
