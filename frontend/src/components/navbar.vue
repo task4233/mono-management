@@ -8,7 +8,7 @@
         <b-navbar-nav>
           <b-nav-item to="/">Home</b-nav-item>
           <b-nav-item to="/EditTags">Tags</b-nav-item>
-          <b-nav-item @click="logout">Logout</b-nav-item>
+          <b-nav-item v-b-modal.logoutCheck>Logout</b-nav-item>
           <b-nav-item href="https://hackmd.io/giR3aLTXSH6VUQigiqEK0A" target="_blank">How to use</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
@@ -25,6 +25,10 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
+
+    <b-modal id="logoutCheck" title="確認" @hidden="modal" @ok="logout">
+      ログアウトしますか？
+    </b-modal>
   </div>
 </template>
 <script>
