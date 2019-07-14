@@ -1,8 +1,12 @@
 <template lang="html">
-  <div class="index">
-    <tagList></tagList>
-    <monoList></monoList>
-  </div>
+  <b-container class="index">
+    <b-form-group>
+      <tagList></tagList>
+    </b-form-group>
+    <b-form-group>
+      <monoList></monoList>
+    </b-form-group>
+  </b-container>
 </template>
 
 <script>
