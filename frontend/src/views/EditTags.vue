@@ -1,9 +1,6 @@
 <template lang="html">
   <div>
     <div class="header">
-      <div class="sm-col-1" @click="back">
-        ←
-      </div>
       <div class ="sm-col-8">タグ編集</div>
       <div class = "sm-col-1"></div>
     </div>
@@ -85,9 +82,6 @@ export default {
     handleOK(bvModalEvt){
       bvModalEvt.preventDefault()
       this.updateTag()
-    },
-    back(){
-      this.$router.push({path:'/'})
     }
   },
   mounted:function(){
