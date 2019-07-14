@@ -1,6 +1,7 @@
 package internal
 
 import(
+	"errors"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
@@ -53,32 +54,66 @@ func DeleteTag(target Tag, del Tag) (Tag, error) {
 	return del, err
 }
 
-func CheckTagRefLoop(child Tag) (bool, error) {
-	if child.ParentID < 1 {
-		return true, nil
-	}
+func GetTagParents(child Tag) ([]Tag, error) {
 	var checkedTags []Tag
 	checkedTags = append(checkedTags, child)
+	if child.ParentID < 1 {
+		return checkedTags, nil
+	}
 	var allTags []Tag
 	err := GetDB().Where(&Tag{ UserID: child.UserID }).Find(&allTags).Error
 	if err != nil {
-		return false, err
+		if gorm.IsRecordNotFoundError(err) {
+			return checkedTags, nil
+		} else {
+			return checkedTags, err
+		}
 	}
-	for i := 0; i < 1000; i++ {
+	for i := 0; i < len(checkedTags); i++ {
 		nextId := checkedTags[len(checkedTags) - 1].ParentID
 		if nextId < 1 {
-			return true, nil
+			return checkedTags, nil
 		}
 		for _, v := range allTags {
 			if nextId == v.ID {
 				for _, w := range checkedTags {
 					if v.ID == w.ID {
-						return false, nil
+						return checkedTags, errors.New("タグの親子関係が循環しています")
 					}
 				}
 				checkedTags = append(checkedTags, v)
+				break
 			}
 		}
 	}
-	return false, nil
+	return checkedTags, errors.New("指定された親タグが見つかりませんでした")
+}
+
+func GetTagChildren(parent Tag) ([]Tag, error) {
+	var children []Tag
+	children = append(children, parent)
+	var queue []int
+	queue = append(queue, parent.ID)
+	var allTags []Tag
+	if err := GetDB().Where(&Tag{ UserID: parent.UserID }).Find(&allTags).Error; err != nil {
+		if gorm.IsRecordNotFoundError(err) {
+			return children, nil
+		} else {
+			return children, err
+		}
+	}
+	for {
+		appendId := queue[0]
+		queue = queue[1:]
+		for _, v := range allTags {
+			if (appendId == v.ParentID) {
+				children = append(children, v)
+				queue = append(queue, v.ID)
+			}
+		}
+		if len(queue) == 0 {
+			break
+		}
+	}
+	return children, err
 }
