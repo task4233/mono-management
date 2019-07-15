@@ -2,14 +2,18 @@
   <div id="app">
     <navbar v-if="isLogin"></navbar>
     <router-view/>
+    <errorModal></errorModal>
+    <!--<button @click="showError">showErrortest</button>-->
   </div>
 </template>
 
 <script>
+import errorModal from './components/errorModal.vue'
 import navbar from './components/navbar.vue'
 export default{
   components: {
-    navbar
+    navbar,
+    errorModal
   },
   computed:{
     isLogin(){
@@ -17,6 +21,14 @@ export default{
       if(name !== 'login' && name !== 'signup' && name !== 'NotFound') return true
       else return false
     }
+  },
+  methods:{
+    /*テスト用
+    showError(){
+      this.$store.commit('setErrorMessage', 'showErrorTest')
+      this.$store.commit('setErrorModalStatus', true)
+    }
+    */
   }
 }
 </script>
