@@ -14,7 +14,8 @@ export default new Vuex.Store({
     mono_list: null,
     mono_data: null,
     select_tag: null,
-    modal_message: '',
+    error_message: '',
+    error_show:false,
     modal_status: true
   },
   mutations: {
@@ -27,8 +28,13 @@ export default new Vuex.Store({
     setMonoData: function (state, data) {
       state.mono_data = data
     },
-    setModalMessage: function (state, msg) {
-      state.modal_message = msg
+    showError:function(state, msg){
+      state.error_message = msg
+      state.error_show = true
+    },
+    hideError:function(state){
+      state.error_show = false
+      state.error_message = ''
     },
     setModalStatus: function (state, modal_status) {
       state.modal_status = modal_status

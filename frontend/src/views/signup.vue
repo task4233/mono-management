@@ -2,7 +2,7 @@
   <b-container class="signup">
     <h1>mono management</h1>
     <b-form-group>
-      <b-button variant="outline-success" class="mx-auto" href="/">login</b-button>
+      <b-button variant="outline-success" class="mx-auto" href="/login">login</b-button>
     </b-form-group>
     <b-form-group>
       <div class="signupId">
