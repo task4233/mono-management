@@ -115,9 +115,8 @@ export default new Vuex.Store({
       console.log("createTag called!")
       await Axios.post(api_base + 'tag/new', tagData)
         .then(function (response) {
-          if (response.data.Status) {
+          if (response.data.status) {
             dispatch('getTagList')
-            commit('setModalStatus', true)
           } else {
             //エラーメッセージを表示
           }
@@ -146,7 +145,6 @@ export default new Vuex.Store({
         .then(function (response) {
           if (response.data.status) {
             dispatch('getTagList')
-            commit('setModalStatus', true)
           } else {
             //エラーメッセージを表示
             console.log("error occured! in changeTagData")

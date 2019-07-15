@@ -1,17 +1,16 @@
 <template lang="html">
   <div>
     <div class="header">
-      <div class="sm-col-1" @click="back">
-        ←
-      </div>
       <div class ="sm-col-8">タグ編集</div>
       <div class = "sm-col-1"></div>
     </div>
-    <ol>
-      <li v-for="tag in tags" :key="tag.id" v-b-modal.editTag @click="editMode(tag)">
-        {{tag.name}}
-      </li>
-    </ol>
+    <table striped>
+      <tr v-for="tag in tags" :key="tag.id" v-b-modal.editTag @click="editMode(tag)">
+        <td>
+          {{ tag.name}}
+        </td>
+      </tr>
+    </table>
     <b-button v-b-modal.editTag @click="modalName='タグを追加'">+</b-button>
     <!--以下，モーダルウィンドウ-->
     <b-modal
@@ -60,6 +59,8 @@ export default {
   methods:{
     updateTag: async function (){
       console.log("updateTag called!")
+      // 一応ここでもcommitしとく
+      this.$store.commit('setModalStatus', true)
       if(this.tagId == 0){
         await this.$store.dispatch('createTag', {name:this.tagName, Id:0, parentId:this.$store.state.select_tag})
       }
@@ -85,9 +86,6 @@ export default {
     },
     editMode(tag){
       console.log("editMode called!")
-      // ここでModalの状態を直接trueに初期化
-      // actionsを飛ばしているので, ダメだったらactionsに何か挟んで
-      this.$store.commit('setModalStatus', true)
 
       this.modalName='タグを編集',
       this.tagId = tag.Id
@@ -96,6 +94,10 @@ export default {
       console.log("editMode end!")
     },
     resetModal(){
+      // 処理的にここで呼ぶべきだったっぽい
+      // ここでModalの状態を直接trueに初期化
+      // actionsを飛ばしているので, ダメだったらactionsに何か挟んで
+      this.$store.commit('setModalStatus', true)
       this.tagId = 0,
       this.tagName = ''
       this.$store.dispatch('tagSelect', 0)
@@ -103,9 +105,6 @@ export default {
     handleOK(bvModalEvt){
       bvModalEvt.preventDefault()
       this.updateTag()
-    },
-    back(){
-      this.$router.push({path:'/'})
     }
   },
   mounted:function(){    
@@ -114,5 +113,8 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
+table {
+  margin: auto;
+}
 </style>

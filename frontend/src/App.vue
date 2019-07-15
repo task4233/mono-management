@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <navbar></navbar>
+    <navbar v-if="isLogin"></navbar>
     <router-view/>
   </div>
 </template>
@@ -10,6 +10,13 @@ import navbar from './components/navbar.vue'
 export default{
   components: {
     navbar
+  },
+  computed:{
+    isLogin(){
+      const name = this.$route.name
+      if(name !== 'login' && name !== 'signup' && name !== 'NotFound') return true
+      else return false
+    }
   }
 }
 </script>
