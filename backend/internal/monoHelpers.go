@@ -188,13 +188,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 		})
 		return err
 	}
-	if editItem.TagID == 0 {
-		c.JSON(http.StatusNotFound, gin.H{
-			"status":  false,
-			"message": "不正なtagIDです",
-		})
-		return err
-	}
+
 	editItem.UserID = reqUser.ID
 
 	db := GetDB().Begin()

@@ -131,9 +131,9 @@ export default {
         type: newDataType,
         value: newDataValue
       });
-      this.dataName = " ";
-      this.dataType = " ";
-      this.dataValue = " ";
+      this.dataName = "";
+      this.dataType = "";
+      this.dataValue = "";
     },
     create: function() {
       const data = {
@@ -157,8 +157,10 @@ export default {
       }
 
       if (this.dataName.trim() || this.dataValue) {
-        this.error = "+ボタンを押して情報を追加してください。"
-        return;
+        if (!(!this.dataName.trim() && this.dataType==="timestamp")) {
+          this.error = "+ボタンを押して情報を追加してください。"
+          return;
+        }
       }
 
       Axios.put("/api/v1/mono/" + this.$route.params.id, data, {
