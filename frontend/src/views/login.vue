@@ -17,9 +17,18 @@
     <b-form-group>
       <b-button v-on:click="login" variant="primary" class="mx-auto">ログイン</b-button>
     </b-form-group>
-    <b-row class="errorForm">
+    <div>
+      <b-modal ref="err-modal" hide-footer title="Error Message">
+        <div class="d-block text-center">
+          <h3>Error</h3>
+          <p>{{error}}</p>
+        </div>
+        <b-button class="mt-3" variant="outline-danger" block @click="hideModal">OK</b-button>
+      </b-modal>
+    </div>
+    <!-- <b-row class="errorForm">
       <p v-if="error" class="mx-auto">{{ error }}</p>
-    </b-row>
+    </b-row> -->
   </b-container>
 </template>
 
@@ -57,9 +66,16 @@ export default {
         this.error = this.error + this.server
         this.server = '';
       }
+      this.showModal()
     }
   },
   methods: {
+    showModal() {
+      this.$refs['err-modal'].show()
+    },
+    hideModal() {
+      this.$refs['err-modal'].hide()
+    },
     login: function() {
       var self = this;
       this.flag++;
