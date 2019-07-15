@@ -19,6 +19,11 @@ export default {
   components:{
     monoList,
     tagList,
+  },
+  methods: {
+    createMono() {
+      this.$router.push({path:'/mono/new'})
+    }
   }
 }
 </script>

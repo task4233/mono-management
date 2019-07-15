@@ -21,7 +21,7 @@
           <td>{{ data.type == "num" ? data.num : (data.type == "str" ? data.str : data.timestamp) }}</td>
         </tr>
       </table>
-    </b-modalid="showMonoData">
+    </b-modal>
   </div>
 
 
