@@ -98,6 +98,7 @@ func GetMonoData(c *gin.Context) {
 	if err != nil {
 		return
 	}
+
 	monoId, err := strconv.Atoi(c.Param("monoId"))
 	if err != nil || monoId < 1 {
 		c.JSON(http.StatusBadRequest, gin.H{
