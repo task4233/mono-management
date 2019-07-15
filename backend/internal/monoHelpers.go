@@ -179,10 +179,6 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 	if err != nil {
 		return errors.New("Login error")
 	}
-	// fmt.Printf("%+v\n", reqUser) // for debug
-
-	// fmt.Printf("%+v\n", reqItem) // for debug
-	// fmt.Printf("%+v\n", newItem)  // for debug
 
 	editItem := Item{}
 	if editItem.ID, err = strconv.Atoi(itemID); err != nil {
@@ -192,6 +188,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 		})
 		return err
 	}
+
 	editItem.UserID = reqUser.ID
 
 	db := GetDB().Begin()
@@ -201,6 +198,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 		}
 	}()
 
+	fmt.Printf("ok")
 	if err := db.Where(&editItem).First(&editItem).Error; err != nil {
 		db.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -209,7 +207,8 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 		})
 		return err
 	}
-	if err := db.Model(&editItem).Where(&editItem).Updates(Item{Name: reqItem.Name, UserID: reqUser.ID, TagID: reqItem.TagID}).Error; err != nil {
+	fmt.Printf("ok2")
+	if err := db.Model(&editItem).Updates(Item{Name: reqItem.Name, UserID: reqUser.ID, TagID: reqItem.TagID}).Error; err != nil {
 		db.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
@@ -218,6 +217,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 		return err
 	}
 
+	fmt.Printf("ok3")
 	editItemDatas := []Itemdata{}
 	if err := db.Where(&Itemdata{ItemID: editItem.ID}).Find(&editItemDatas).Error; err != nil {
 		db.Rollback()
@@ -228,6 +228,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 		return err
 	}
 
+	fmt.Printf("ok4")
 	for _, editItemData := range editItemDatas {
 		// fmt.Printf("[%d]%+v\n", index, delItemdata) // for debug
 
@@ -300,6 +301,7 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 			}
 		}
 	}
+	fmt.Printf("ok6")
 	if err := db.Commit().Error; err != nil {
 		db.Rollback()
 		c.JSON(http.StatusInternalServerError, gin.H{
