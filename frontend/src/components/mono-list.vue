@@ -11,10 +11,10 @@
     <b-modal
     id="showMonoData"
     scrollable
-    v-bind:title="this.modalName"
+    v-bind:title="this.monoName"
     ref="modal"
     @hidden="resetModal"
-    @ok="editMono(this.monoId)">
+    @ok="handleOK">
       <table striped>
         <tr v-for="data in datas" :key="data.id">
           <td>{{ data.name }}</td>
@@ -41,12 +41,12 @@ export default {
       return this.$store.state.mono_list
     },
     items() {
-      console.log(this.$store.state.item_list)
-      return this.$store.state.item_list
+      console.log(this.$store.state.item_data)
+      return this.$store.state.item_data
     },
     datas() {
-      console.log(this.$store.state.data_list)
-      return this.$store.state.data_list
+      console.log(this.$store.state.mono_data)
+      return this.$store.state.mono_data
     }
   },
   mounted:function(){
@@ -55,15 +55,16 @@ export default {
   methods:{
     async showModal(item) {
       console.log("showmodal is called!")
+      await this.$store.dispatch("getMonoData", item.Id)
       this.monoId = item.Id
       this.monoName = item.name + "編集"
       console.log(this.monoId)
-      await this.$store.dispatch("getMonoData", this.monoId)
     },
     createMono(){
       this.$router.push({path:'/mono/new'})
     },
     editMono(Id){
+      console.log(Id)
       const path = '/mono/' + Id
       this.$router.push({path:path})
     },
@@ -72,6 +73,7 @@ export default {
       this.monoName = ''
     },
     handleOK(bvModalEvt){
+      console.log(this.monoId)
       bvModalEvt.preventDefault()
       this.editMono(this.monoId)
     }
