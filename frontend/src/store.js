@@ -15,7 +15,8 @@ export default new Vuex.Store({
     mono_data: null,
     select_tag: null,
     modal_message: '',
-    modal_status: true
+    modal_status: true,
+    user_name:''
   },
   mutations: {
     setTagList: function (state, tags) {
@@ -47,6 +48,10 @@ export default new Vuex.Store({
       state.tag_list = null
       state.mono_list = null
       state.select_tag = null
+      state.user_name =''
+    },
+    setUserName:function(state, name){
+      state.user_name = name
     }
   },
   actions: {
@@ -166,6 +171,22 @@ export default new Vuex.Store({
           }
         })
       console.log("changeTagData end!")
+    },
+    getUserName(commit){
+      Axios.get('/api/v1/user/info')
+      .then(function(response){
+        if(response.data.status){
+          commit("setUserName", response.data.name)
+        }else{
+          Router.push('/login')
+        }
+      }).catch(function(error){
+        if(error.response.status == 401){
+          commit('resetUserData')
+          Router.push({path:'/login'})
+        }
+      })
+
     }
   }
 })

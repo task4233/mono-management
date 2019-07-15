@@ -9,7 +9,9 @@
           <b-navbar-nav>
             <b-nav-item to="/">Home</b-nav-item>
             <b-nav-item to="/EditTags">Tags</b-nav-item>
-            <b-nav-item v-b-modal.logoutCheck>Logout</b-nav-item>
+            <b-nav-item-dropdown v-bind:text="this.accountView">
+              <b-dropdown-item v-b-modal.logoutCheck>Logout</b-dropdown-item>
+            </b-nav-item-dropdown>
             <b-nav-item href="https://hackmd.io/giR3aLTXSH6VUQigiqEK0A" target="_blank">How to use</b-nav-item>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
@@ -63,9 +65,14 @@ export default {
       this.$axios.delete('api/v1/user/logout')
       this.$store.commit('resetUserData')
       this.$router.push({path:'/login'})
-    },
+    }
 
-
+  },
+  computed:{
+    accountView(){
+      return 'Account:' + this.$store.state.user_name
+    }
   }
+
 }
 </script>
