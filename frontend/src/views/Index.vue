@@ -5,6 +5,7 @@
     </b-form-group>
     <b-form-group>
       <monoList></monoList>
+      <b-button @click="createMono">+</b-button>
     </b-form-group>
   </b-container>
 </template>
