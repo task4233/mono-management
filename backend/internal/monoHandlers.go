@@ -101,23 +101,23 @@ func GetMonoData(c *gin.Context) {
 	monoId, err := strconv.Atoi(c.Param("monoId"))
 	if err != nil || monoId < 1 {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"status": false,
+			"status":  false,
 			"message": "リクエストエラー",
 		})
 		return
 	}
 	db := GetDB()
-	mono := Item{ ID: monoId, UserID: user.ID }
+	mono := Item{ID: monoId, UserID: user.ID}
 	if err := db.Where(&mono).First(&mono).Error; err != nil {
 		if gorm.IsRecordNotFoundError(err) {
 			c.JSON(http.StatusNotFound, gin.H{
-				"status": false,
+				"status":  false,
 				"message": "指定されたmonoが見つかりませんでした",
 			})
 			return
 		}
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"status": false,
+			"status":  false,
 			"message": "不明なエラー",
 		})
 		return
@@ -132,7 +132,7 @@ func GetMonoData(c *gin.Context) {
 	var jid []JoinedItemData
 	if err := GetJoinedItemData().Where("itemId = ?", mono.ID).Find(&jid).Error; err != nil && !gorm.IsRecordNotFoundError(err) {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"status": false,
+			"status":  false,
 			"message": "不明なエラー",
 		})
 		return
@@ -141,14 +141,15 @@ func GetMonoData(c *gin.Context) {
 	for _, v := range jid {
 		retData[v.Name] = v
 	}
-	
+
 	c.JSON(http.StatusOK, gin.H{
 		"status": true,
-		"item": mono,
-		"data": retData,
+		"item":   mono,
+		"data":   retData,
 	})
 	return
 }
+
 /*
 UpdateMonos は, リクエストに該当するitemsテーブルの情報をまとめて更新するメソッドです.
 途中でエラーが発生した場合の挙動はwikiを参照してください.

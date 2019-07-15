@@ -25,7 +25,7 @@
       </p>
     </b-form-group>
     <b-form-group>
-      <b-button @click="addData" variant="outline-primary" pill>+</b-button>
+      <b-button @click="addData" variant="outline-primary" pill>要素を追加</b-button>
     </b-form-group>
     <b-form-group>
       <b-button @click="create" variant="primary">保存する</b-button>
@@ -101,9 +101,9 @@ export default {
         value: newDataValue
       });
       alert("追加するよ");
-      this.dataName = " ";
-      this.dataType = " ";
-      this.dataValue = " ";
+      this.dataName = "";
+      this.dataType = "";
+      this.dataValue = "";
     },
     create: function() {
       const data = {
@@ -121,6 +121,13 @@ export default {
       if (!data.tagId) {
         this.error = "tagが選択されていません。";
         return;
+      }
+
+      if (this.dataName.trim() || this.dataValue) {
+        if (!(!this.dataName.trim() && this.dataType==="timestamp")) {
+          this.error = "+ボタンを押して情報を追加してください。"
+          return;
+        }
       }
 
       Axios.post("/api/v1/mono/new", data, {
