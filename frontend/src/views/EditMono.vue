@@ -42,7 +42,7 @@ import Datepicker from "vuejs-datepicker";
 import tagList from "../components/tag-list.vue";
 
 export default {
-  name: "CreateMono",
+  name: "EditMono",
   data() {
     return {
       dataName: "",
@@ -50,7 +50,8 @@ export default {
       dataType: "",
       DatePickerFormat: "yyyy-MM-dd",
       data: [],
-      itemdatas: []
+      itemdatas: [],
+      error: ""
     };
   },
   components: {
@@ -83,6 +84,11 @@ export default {
       .catch(err => {
         console.log(err.response);
       });
+  },
+  computed:{
+    tags(){
+      return this.$store.state.tag_list
+    }
   },
   methods: {
     addData: function() {
@@ -138,12 +144,15 @@ export default {
       console.log(data);
 
       if (!data.name.trim()) {
+        console.log(data.name)
         this.error = "mono名が入力されていません。";
         return;
       }
 
       if (!data.tagId) {
+        console.log(data.tagId)
         this.error = "tagが選択されていません。";
+        console.log(this.error)
         return;
       }
 
@@ -166,11 +175,6 @@ export default {
         .catch(err => {
           console.log(err.response);
         });
-    }
-  },
-  computed:{
-    tags(){
-      return this.$store.state.tag_list
     }
   }
 

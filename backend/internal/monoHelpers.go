@@ -179,16 +179,19 @@ func UpdateDatasByRequestAndStrID(c *gin.Context, reqItem ReqItem, itemID string
 	if err != nil {
 		return errors.New("Login error")
 	}
-	// fmt.Printf("%+v\n", reqUser) // for debug
-
-	// fmt.Printf("%+v\n", reqItem) // for debug
-	// fmt.Printf("%+v\n", newItem)  // for debug
 
 	editItem := Item{}
 	if editItem.ID, err = strconv.Atoi(itemID); err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"status":  false,
 			"message": "不正なIDです",
+		})
+		return err
+	}
+	if editItem.TagID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"status":  false,
+			"message": "不正なtagIDです",
 		})
 		return err
 	}
