@@ -4,26 +4,12 @@
     <b-form-group>
       <b-button variant="outline-success" class="mx-auto" href="/">login</b-button>
     </b-form-group>
-    <b-form-group>
-      <div class="signupId">
-        <b-form-input type="text" placeholder="ユーザ名" v-model="signupId"></b-form-input>
-      </div>
-    </b-form-group>
-    <b-form-group>
-      <div class="signupPass">
-        <b-form-input type="password" placeholder="パスワード" v-model="signupPass"></b-form-input>
-      </div>
-    </b-form-group>
-    <b-form-group>
-      <div class="signupPassRetype">
-        <b-form-input type="password" placeholder="パスワード再入力" v-model="signupPassRetype"></b-form-input>
-      </div>
-    </b-form-group>
+    <accountForm v-on:formInput="formInput" password-required="1" request-retype="1"></accountForm>
     <b-form-group>
       <b-button v-on:click="signup" variant="primary" class="mx-auto">サインアップ</b-button>
     </b-form-group>
     <b-row class="errorForm">
-      <p v-if="error" class="mx-auto">{{ error }}</p>
+      <p v-if="error" v-html="error" class="mx-auto"></p>
     </b-row>
   </b-container>
 </template>
@@ -31,50 +17,32 @@
 <script>
 import axios from 'axios'
 import router from '../router'
+import accountForm from '../components/accountForm.vue'
 export default {
   name: 'signup',
+  components: {
+    accountForm
+  },
   data: function() {
     return {
       signupId: '',
       signupPass: '',
       signupPassRetype: '',
-      error : '',
-      flag : 0, //  flag変数をloginされるたびに変えて、watchを呼び出す。
-      server : 0
-    }
-  },
-  watch : {
-    flag: function () {
-      this.error = ''; // errorの初期化
-      if (this.signupId === '') {
-        this.error = this.error + 'ユーザ名が入力されていません。'
-      }
-      if (this.signupId.length > 64) {
-        this.error = this.error + 'ユーザ名が長すぎます。'
-      }
-      if (this.signupPass === '') {
-        this.error = this.error + 'パスワードが入力されていません。'
-      }
-      if (this.signupPass !== this.signupPassRetype) {
-        this.error = this.error + 'パスワード再入力が一致していません。'
-      }
-      if (this.signupPass.length > 64) {
-        this.error = this.error + 'パスワードが長すぎます。'
-      }
-      if (this.flag === -1) {
-        this.error = this.error + this.server
-        this.server = '';
-      }
+      formError: '何も入力されていません',
+      error : ''
     }
   },
   methods: {
+    formInput: function(v) {
+      this.signupId = v.userId
+      this.signupPass = v.userPass
+      this.signupPassRetype = v.userPassRetype
+      this.formError = v.error
+    },
     signup: function() {
       var self = this;
-      this.flag++;
-      this.server = "";
-      if (this.signupId !== '' && this.signupPass !== '' && this.signupPassRetype !== ''
-      && this.signupId.length <= 64 && this.signupPass.length <= 64
-      &&this.signupPass === this.signupPassRetype) {
+      this.error = this.formError;
+      if (this.error === '') {
         var data = {name : this.signupId, password : this.signupPass };
         axios.post('/api/v1/user/new', data)
           .then(response => {
@@ -83,14 +51,12 @@ export default {
               console.log('body:', response.data);
               router.push('/')
             } else {
-              self.server = response.message
-              self.flag = -1
+              self.error = response.message
             }
           }).catch(function(error) {
             console.log(error);
-            self.server = error.response.status; // Vueの中にaxiosが入れ子になっているため、参照できない => thisを変数selfにする
-            if (self.server === 404) self.server = 'サーバとの接続が確立できませんでした。'
-            self.flag  = -1;
+            self.error = String(error.response.status); // Vueの中にaxiosが入れ子になっているため、参照できない => thisを変数selfにする
+            if (self.error === '404') self.error = 'サーバとの接続が確立できませんでした。'
             console.log(error.response.data.message)
           });
       }
@@ -112,10 +78,4 @@ export default {
   font-family: 'Makinas-4-Square';
 }
 
-.errorform {
-  /*margin: 0 auto;
-  width: 250px;
-  height: 200px;
-  background-color: #f0f0f0;*/
-}
 </style>
