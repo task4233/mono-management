@@ -66,16 +66,9 @@ export default {
         this.error = this.error + this.server
         this.server = '';
       }
-      this.showModal()
     }
   },
   methods: {
-    showModal() {
-      this.$refs['err-modal'].show()
-    },
-    hideModal() {
-      this.$refs['err-modal'].hide()
-    },
     login: function() {
       var self = this;
       this.flag++;
@@ -107,7 +100,7 @@ export default {
     this.$axios.get('/api/v1/user/info')
     .then(function(response){
       if(response.data.status){
-        this.$router.push('/')
+        router.push('/')
       }
     })
   }
