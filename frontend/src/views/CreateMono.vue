@@ -123,6 +123,11 @@ export default {
         return;
       }
 
+      if (this.dataName.trim() || this.dataValue) {
+        this.error = "+ボタンを押して情報を追加してください。"
+        return;
+      }
+
       Axios.post("/api/v1/mono/new", data, {
         headers: {
           "Content-Type": "application/json",
