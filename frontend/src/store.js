@@ -28,11 +28,13 @@ export default new Vuex.Store({
     setMonoData: function (state, data) {
       state.mono_data = data
     },
-    setErrorMessage: function (state, msg) {
+    showError:function(state, msg){
       state.error_message = msg
+      state.error_show = true
     },
-    setErrorModalStatus:function(state, status){
-      state.error_show = status
+    hideError:function(state){
+      state.error_show = false
+      state.error_message = ''
     },
     setModalStatus: function (state, modal_status) {
       state.modal_status = modal_status

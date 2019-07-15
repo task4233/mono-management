@@ -21,8 +21,7 @@
     },
     methods: {
       checked() {
-        this.$store.commit('setErrorModalStatus', false)
-        this.$store.commit('setErrorMessage', '')
+        this.$store.commit('hideError')
       }
     },
     mounted:function(){

@@ -23,10 +23,9 @@ export default{
     }
   },
   methods:{
-    /*テスト用
+    /*
     showError(){
-      this.$store.commit('setErrorMessage', 'showErrorTest')
-      this.$store.commit('setErrorModalStatus', true)
+      this.$store.commit('showError', 'showErrorTest')
     }
     */
   }
