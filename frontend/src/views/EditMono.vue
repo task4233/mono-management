@@ -132,7 +132,7 @@ export default {
     create: function() {
       const data = {
         name: String(this.name),
-        tagId: Number(this.tagId),
+        tagId: Number(this.$store.state.select_tag),
         data: this.data
       };
       console.log(data);
