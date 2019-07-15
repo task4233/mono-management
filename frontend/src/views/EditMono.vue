@@ -156,6 +156,11 @@ export default {
         return;
       }
 
+      if (this.dataName.trim() || this.dataValue) {
+        this.error = "+ボタンを押して情報を追加してください。"
+        return;
+      }
+
       Axios.put("/api/v1/mono/" + this.$route.params.id, data, {
         headers: {
           "Content-Type": "application/json",
