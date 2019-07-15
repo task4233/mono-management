@@ -38,7 +38,6 @@ export default {
       modalName:'hoge',
       tagId:0,
       tagName:'',
-
     }
   },
   components:{

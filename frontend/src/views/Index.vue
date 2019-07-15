@@ -5,6 +5,7 @@
     </b-form-group>
     <b-form-group>
       <monoList></monoList>
+      <b-button @click="createMono">+</b-button>
     </b-form-group>
   </b-container>
 </template>
@@ -18,6 +19,11 @@ export default {
   components:{
     monoList,
     tagList,
+  },
+  methods: {
+    createMono() {
+      this.$router.push({path:'/mono/new'})
+    }
   }
 }
 </script>

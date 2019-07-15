@@ -13,6 +13,7 @@ export default new Vuex.Store({
     tag_list: null,
     mono_list: null,
     mono_data: null,
+    item_data: null,
     select_tag: null,
     error_message: '',
     error_show:false,
@@ -29,11 +30,14 @@ export default new Vuex.Store({
     setMonoData: function (state, data) {
       state.mono_data = data
     },
-    showError:function(state, msg){
+    setItemData: function (state, data) {
+      state.item_data = data
+    },
+    showError: function (state, msg) {
       state.error_message = msg
       state.error_show = true
     },
-    hideError:function(state){
+    hideError: function (state) {
       state.error_show = false
       state.error_message = ''
     },
@@ -61,6 +65,29 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async getMonoData({
+      commit
+    }, monoId) {
+      await Axios.get(api_base + 'mono/' + monoId)
+        .then(function (response) {
+          if (response.data.status) {
+            console.log(response.data)
+            commit('setMonoData', response.data.data)
+            commit('setItemData', response.data.item)
+          } else {
+            commit('showError', response.data.message)
+          }
+        })
+        .catch(function (error) {
+          if (error.response.status == 401) {
+            commit('resetUserData')
+            //loginページへジャンプ
+            Router.push({
+              path: '/login'
+            })
+          }
+        })
+    },
     getMonoList({
       commit
     }, searchdata) {
