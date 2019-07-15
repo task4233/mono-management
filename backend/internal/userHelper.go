@@ -63,7 +63,7 @@ func CheckLogin(c *gin.Context) (User, error) {
 			"message": err.Error(),
 		})
 	}
-	return user, err
+	return User{ ID: user.ID, Name: user.Name }, err
 }
 
 /*
