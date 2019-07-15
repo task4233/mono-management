@@ -49,6 +49,7 @@ export default {
             console.log(response)
             if (response.data.status) {
               console.log('body:', response.data);
+              this.$store.commit("setUserName", this.signupId)
               router.push('/')
             } else {
               self.error = response.message

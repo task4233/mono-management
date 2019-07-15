@@ -21,13 +21,6 @@ export default{
       if(name !== 'login' && name !== 'signup' && name !== 'NotFound') return true
       else return false
     }
-  },
-  methods:{
-    /*
-    showError(){
-      this.$store.commit('showError', 'showErrorTest')
-    }
-    */
   }
 }
 </script>
