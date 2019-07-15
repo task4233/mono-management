@@ -25,7 +25,7 @@
       </p>
     </b-form-group>
     <b-form-group>
-      <b-button @click="addData" variant="outline-primary" pill>+</b-button>
+      <b-button @click="addData" variant="outline-primary" pill>要素を追加</b-button>
     </b-form-group>
     <b-form-group>
       <b-button @click="create" variant="primary">保存する</b-button>
