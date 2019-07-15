@@ -41,9 +41,11 @@ export default {
       return this.$store.state.mono_list
     },
     items() {
+      console.log(this.$store.state.item_list)
       return this.$store.state.item_list
     },
     datas() {
+      console.log(this.$store.state.data_list)
       return this.$store.state.data_list
     }
   },
@@ -52,6 +54,7 @@ export default {
   },
   methods:{
     async showModal(item) {
+      console.log("showmodal is called!")
       this.monoId = item.Id
       this.monoName = item.name + "編集"
       console.log(this.monoId)
@@ -70,7 +73,7 @@ export default {
     },
     handleOK(bvModalEvt){
       bvModalEvt.preventDefault()
-      editMono(this.monoId)
+      this.editMono(this.monoId)
     }
   }
 }
