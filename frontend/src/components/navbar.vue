@@ -72,6 +72,9 @@ export default {
     accountView(){
       return 'Account:' + this.$store.state.user_name
     }
+  },
+  created:function(){
+    this.$store.commit('setUserName')
   }
 
 }

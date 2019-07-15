@@ -16,7 +16,8 @@ export default new Vuex.Store({
     select_tag: null,
     error_message: '',
     error_show:false,
-    modal_status: true
+    modal_status: true,
+    user_name:''
   },
   mutations: {
     setTagList: function (state, tags) {
@@ -181,7 +182,7 @@ export default new Vuex.Store({
       Axios.get('/api/v1/user/info')
       .then(function(response){
         if(response.data.status){
-          commit("setUserName", response.data.name)
+          commit('setUserName', response.data.user.name)
         }else{
           Router.push('/login')
         }

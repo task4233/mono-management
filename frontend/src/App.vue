@@ -21,9 +21,6 @@ export default{
       if(name !== 'login' && name !== 'signup' && name !== 'NotFound') return true
       else return false
     }
-  },
-  created(){
-    this.$axios.dispatch('getUserName')
   }
 }
 </script>
