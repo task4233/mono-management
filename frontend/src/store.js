@@ -179,10 +179,12 @@ export default new Vuex.Store({
       console.log("changeTagData end!")
     },
     getUserName(commit){
+      console.log('action:getUserName called')
       Axios.get('/api/v1/user/info')
       .then(function(response){
         if(response.data.status){
           commit('setUserName', response.data.user.name)
+
         }else{
           Router.push('/login')
         }

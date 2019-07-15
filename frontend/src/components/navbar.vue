@@ -30,7 +30,7 @@
       </b-container>
     </b-navbar>
 
-    <b-modal id="logoutCheck" title="確認" @hidden="modal" @ok="logout">
+    <b-modal id="logoutCheck" title="確認" @ok="logout">
       ログアウトしますか？
     </b-modal>
   </div>
@@ -73,8 +73,8 @@ export default {
       return 'Account:' + this.$store.state.user_name
     }
   },
-  created:function(){
-    this.$store.commit('setUserName')
+  mounted:function(){
+    this.$store.dispatch('getUserName')
   }
 
 }
