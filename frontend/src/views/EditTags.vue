@@ -24,6 +24,7 @@
         タグ名<b-form-input type="text" v-model="tagName" :state="this.isMatchedName"/>
 
         親タグ<tagList></tagList>
+        <b-button variant="danger" v-if="tagId" class="mt-3" @click="deleteTag">削除</b-button>
         <span class="errmsg" v-if="isTagLoop">このタグを親タグにすることはできません！</span>
       </b-form-group>
     </b-modal>
@@ -82,6 +83,15 @@ export default {
       console.log(this.tags)
       
       console.log("updateTag end!")
+    },
+    deleteTag: async function() {
+      if (this.tagId) {
+        await this.$store.dispatch('deleteTag', this.tagId)
+
+        this.$nextTick(()=>{
+          this.$refs.modal.hide()
+        })
+      }
     },
     editMode(tag){
       console.log("editMode called!")

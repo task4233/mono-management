@@ -205,6 +205,34 @@ export default new Vuex.Store({
         })
       console.log("changeTagData end!")
     },
+    async deleteTag({
+      commit,
+      dispatch
+    }, tagId) {
+      await Axios.delete(api_base + 'tag/' + tagId)
+        .then(function (response) {
+          if (response.data.status) {
+            dispatch('getTagList')
+          } else {
+            //エラーメッセージを表示
+            console.log("error occured! in changeTagData")
+            console.log(response)
+          }
+        })
+        .catch(function (error) {
+          console.log(error)
+          if (error.response.status == 401) {
+            commit('resetUserData')
+            //loginページへジャンプ
+            Router.push({
+              path: '/login'
+            })
+          } else if (error.response.status == 500) {
+            if (error.response.data.message)
+            alert(error.response.data.message)
+          }
+        })
+    },
     getUserName(commit){
       console.log('action:getUserName called')
       Axios.get('/api/v1/user/info')

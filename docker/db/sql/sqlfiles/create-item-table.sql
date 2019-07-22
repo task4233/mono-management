@@ -19,7 +19,7 @@ create table if not exists `items`
   constraint foreignKey_tagId_from_items_to_tags
     foreign key (`tagId`)
     references `tags` (`id`)
-    on delete cascade on update restrict,
+    on delete restrict on update restrict,
     primary key(`id`)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 

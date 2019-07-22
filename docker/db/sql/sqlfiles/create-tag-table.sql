@@ -15,7 +15,7 @@ create table if not exists `tags`
   constraint foreignKey_parentId_from_tags_to_tags
     foreign key (`parentId`)
     references `tags` (`id`)
-    on delete cascade on update restrict,
+    on delete restrict on update restrict,
   constraint foreignKey_userId_from_tags_to_users
     foreign key (`userId`)
     references `users` (`id`)

@@ -185,7 +185,7 @@ func DeleteTagHandler(c *gin.Context) {
 		} else {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"status": false,
-				"message": "何らかのエラーが発生しました。親タグを消すには、先に小タグを消去してください。",
+				"message": "何らかのエラーが発生しました。タグを消す前にこのタグがついた全てのmonoを消し、親タグを消すには、先に小タグを消去してください。",
 			})
 		}
 		return
