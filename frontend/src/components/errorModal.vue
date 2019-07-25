@@ -25,7 +25,7 @@
       }
     },
     mounted:function(){
-      this.$store.commit('setErrorModalStatus', false)
+      this.$store.commit('hideError')
     }
   }
 </script>
