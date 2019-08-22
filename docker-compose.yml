@@ -51,13 +51,10 @@ services:
     volumes:
       - ./frontend:/scripts
     command: >
-      /bin/bash -c "cd /scripts &&
-      rm -rf /scripts/src/assets/fonts/* &&
-      apt update -y && 
-      apt install -y wget unzip &&
-      wget https://moji-waku.com/download/makinas4.zip &&
-      unzip makinas4.zip &&
-      mv ./makinas4/Makinas-4-Square.otf /scripts/src/assets/fonts/Makinas-4-Square.otf &&
-      rm -rf makinas* &&
+      /bin/bash -c "rm -rf /scripts/src/assets/fonts/* &&
+      mkdir -p /scripts/src/assets/fronts &&
+      wget https://moji-waku.com/download/makinas4.zip > /tmp &&
+      unzip /tmp/makinas4.zip -d /tmp &&
+      mv /tmp/makinas4/Makinas-4-Square.otf /scripts/src/assets/fonts/Makinas-4-Square.otf &&
       npm clean-install &&
       npm run build"
