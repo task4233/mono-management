@@ -53,7 +53,7 @@ services:
     command: >
       /bin/bash -c "cd /scripts && 
       rm -rf /scripts/src/assets/fonts/* &&
-      mkdir -p /scripts/src/assets/fronts &&
+      mkdir -p /scripts/src/assets/fonts &&
       wget -P /tmp https://moji-waku.com/download/makinas4.zip &&
       unzip /tmp/makinas4.zip -d /tmp &&
       mv /tmp/makinas4/Makinas-4-Square.otf /scripts/src/assets/fonts/Makinas-4-Square.otf &&
