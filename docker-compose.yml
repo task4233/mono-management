@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   # Golang
@@ -6,52 +6,58 @@ services:
     image: golang:1.12.5
     container_name: goapi_host
     env_file:
-    - ./docker/mysql.env
+      - ./docker/mysql.env
     command: >
       /bin/bash -c "go get -u github.com/golang/dep/cmd/dep &&
       cd /go/src/app &&	
       dep ensure &&	
       go run ./main.go"
     volumes:
-    - ./backend:/go/src/app
+      - ./backend:/go/src/app
     links:
-    - db
+      - db
     expose:
-    - 8080
+      - 8080
   # MySQL
   db:
     image: mysql:8.0
     container_name: mysql_host
     env_file:
-    - ./docker/mysql.env
+      - ./docker/mysql.env
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
-    - ./docker/db/data:/var/lib/mysql
-    - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
-    - ./docker/db/sql:/docker-entrypoint-initdb.d
-    - ./docker/db/entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
+      - ./docker/db/data:/var/lib/mysql
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/db/sql:/docker-entrypoint-initdb.d
+      - ./docker/db/entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
     expose:
-    - 3306
+      - 3306
   # nginx
   nginx_host:
     image: nginx:1.17.0
     container_name: nginx_host
     volumes:
-    - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-    - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
-    - ./frontend:/usr/share/nginx:ro
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./frontend:/usr/share/nginx
     links:
-    - api
+      - api
     ports:
-    - 80:80
+      - 80:80
   # node
   htmlBuilder:
     image: node:12
     container_name: node_host
     volumes:
-    - ./frontend:/scripts
+      - ./frontend:/scripts
     command: >
-      /bin/bash -c "
-      cd /scripts &&
+      /bin/bash -c "cd /scripts && 
+      rm -rf /scripts/src/assets/fonts/* &&
+      mkdir -p /scripts/src/assets/fonts &&
+      wget -P /tmp https://moji-waku.com/download/makinas4.zip &&
+      unzip /tmp/makinas4.zip -d /tmp &&
+      mv /tmp/makinas4/Makinas-4-Square.otf /scripts/src/assets/fonts/Makinas-4-Square.otf &&
+      rm -rf /scripts/node_modules && 
       npm clean-install &&
+      pwd &&
       npm run build"
