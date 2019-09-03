@@ -1,0 +1,55 @@
+version: 2
+jobs:
+  buildGodoc:
+    branches:
+      only:
+        - add-ghpages-scripts
+    working_directory: /tmp
+    docker:
+      - image: golang:1.12.5
+    steps:
+      - checkout
+      - run:
+          name: Link directories
+          command: >
+            rm -rf /go/src/app &&
+            ln -s /tmp/backend /go/src/app &&
+            ln -s /tmp/gh-pages /gh-pages
+      - run:
+          name: Build documents
+          command: /gh-pages/buildGodoc.sh
+      - persist_to_workspace:
+          root: "/tmp/gh-pages"
+          paths:
+            - .
+  deployGhpages:
+    branches:
+      only:
+        - add-ghpages-scripts
+    docker:
+      - image: node:11
+    steps:
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          keys:
+            - npm-cache-ghpages-{{ checksum "package-lock.json" }}
+      - run:
+          name: Setup
+          command: npm install
+      - save_cache:
+          key: npm-cache-ghpages-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: "Deploy to gh-pages"
+          command: npm run deploy
+
+workflows:
+  version: 2
+  BuildDeployGhpages:
+    jobs:
+      - buildGodoc
+      - deployGhpages:
+          requires:
+            - buildGodoc
