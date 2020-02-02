@@ -1,34 +1,35 @@
-# Overview
- - `frontend`にはフロントのものを入れてください
- - `backend`にはバックのものを入れてください
+# mono-management
+モノの管理アプリケーションです。
+
+## Description
+ジャンルにとらわれることのないモノの管理アプリケーションです。
+Webアプリケーションなので, プラットフォームに依存しない利用が可能です。
+
+## Features
+ - frontend
+   - SPAを導入したラグの無いクエリ実行やページ遷移
+   - JavaScript(Vue.js)
+ - backend
+   - [gin](https://github.com/gin-gonic/gin)を用いたAPIサーバ
+   - [godoc(backend)](https://task4233.github.io/mono-management/)を用いた仕様の可視化
+   - Golang([gorm](https://github.com/jinzhu/gorm))
+   - MySQL
+
+## Requirement
+ - docker >= ver 19.03.5
+ - docker-compose >= ver 1.25.0
  
- # In Charge
- ## Webデザイナー
-  - mocchey (:vue:)
- ## フロントエンジニア(:vue:)
-  - MissionaryPS
-  - shirakawa36
- ## バックエンジニア(:gopher_dance:)
-  - cordx56
-  - task4233
-  - ka-tsu-mo
+## Installation
+1. git clone https://github.com/task4233/mono-management
+2. docker-compose up
 
-# Run
-## Mysql
-
-```bash
-$ docker-compose up -d
-
-# 外部からMySQLにつなぐ場合は以下の通り
-$  mysql --defaults-extra-file=./docker/db/my.cnf -h 0.0.0.0 -P 3306 --protocol=tcp monoDB
-
-# 直接MySQLをいじりたい場合は以下の通り
-$ docker ps
-CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES
-da1c2ef99131        mysql:8.0           "docker-entrypoint.s…"   3 seconds ago       Up 2 seconds        0.0.0.0:3306->3306/tcp, 33060/tcp   mysql_host
-$ docker exec -it da1 /bin/bash
-$ mysql --defaults-extra-file=/etc/mysql/my.cnf monoDB
-
-# 落とすとき
-$ docker-compose down
-```
+# Authors
+## Web Designer
+ - [mocchey (:vue:)](https://github.com/mocchey)
+## Front Engineer(:vue:)
+ - [MissionaryPS](https://github.com/MissionaryPS/)
+ - [shirakawa36](https://github.com/shirakawa36)
+## Back Engineer(:gopher_dance:)
+ - [cordx56](https://github.com/cordx56)
+ - [ka-tsu-mo](https://github.com/ka-tsu-mo)
+ - [task4233](https://github.com/task4233)
